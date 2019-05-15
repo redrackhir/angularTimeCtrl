@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../_services/login.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -33,8 +33,10 @@ export class LoginComponent implements OnInit {
       */
       res => {
         console.log('Valor retornado de PHP: ' + JSON.stringify(res));
-        if (res.success) {
-          localStorage.setItem('loggedUser', res.empleado);
+// tslint:disable-next-line: no-string-literal
+        if (res['success']) {
+// tslint:disable-next-line: no-string-literal
+          localStorage.setItem('user', res['empleado']);
         }
       },
       error => {
@@ -47,7 +49,7 @@ export class LoginComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/dashboard');
   }
 
   logout() {
