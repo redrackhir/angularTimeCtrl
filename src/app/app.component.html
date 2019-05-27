@@ -16,6 +16,9 @@
         <a *ngIf="isUserLogged" class="nav-link" routerLink="/dashboard">{{ userLoggedName }}</a>
       </li>
       <li class="nav-item">
+        <a *ngIf="isUserLogged" class="nav-link" routerLink="/checkin">Fichar</a>
+      </li>
+      <li class="nav-item">
         <a *ngIf="isUserLogged" class="nav-link" (click)="logout()">Logout</a>
       </li>
       <li *ngIf="isUserLogged" class="nav-item dropdown">
