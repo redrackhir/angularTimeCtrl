@@ -1,6 +1,7 @@
 export class User {
+  companyId: number;
   uid: number;
-  name: string;
-  accessLevel: string;
+  NombreEmpleado: string;
   ppin: string;
+  accessLevel: string;
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../_services/login.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,27 +11,41 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   isUserLogged = false;
-  userLogged = null;
+  userLoggedName = null;
+  private _router: Router;
+  loginService: LoginService;
 
-  constructor(
-    private router: Router) { }
+  constructor(private router: Router, loginService: LoginService) {
+    this.loginService = loginService;
+    this._router = router;
+  }
 
   ngOnInit() {
+    /*
     this.userLogged = localStorage.getItem('user');
     if (!this.userLogged) {
       this.isUserLogged = false;
     } else {
       this.isUserLogged = true;
     }
-    console.log('from dasboard.onInit(): ' + this.userLogged);
+    */
+    this.isUserLogged = this.loginService.isUserLogged();
+    if (this.isUserLogged) {
+      this.userLoggedName = this.loginService.getUserName();
+      console.log('this.userLoggedName = ' + this.userLoggedName);
+    }
+    console.log('from dasboard.onInit(): ' + this.userLoggedName);
   }
 
   logout() {
+    this.loginService.logout();
+    this._router.navigateByUrl('');
+    /*
     localStorage.removeItem('user');
     this.isUserLogged = false;
-    this.userLogged = null;
+    this.userLoggedName = null;
     // this.router.navigateByUrl('');
-    this.router.navigateByUrl('');
+    */
   }
 
 
