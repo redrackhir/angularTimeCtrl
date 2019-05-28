@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/_models/user.model';
+import { Empleado } from 'src/_models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class LoginService {
   PHP_API_SERVER = 'http://127.0.0.1';
   // private userLogged: User = null;
   private isUserLoggedIn = false;
-  private userLogged: User;
+  private userLogged: Empleado;
 
   constructor(private http: HttpClient) {
     this.loadUser();
@@ -19,19 +19,21 @@ export class LoginService {
     console.log(`....userLogged = ${JSON.stringify(this.userLogged)}`);
    }
 
-  readUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.PHP_API_SERVER}/api/read.php`);
+  readUsers(): Observable<Empleado[]> {
+    return this.http.get<Empleado[]>(`${this.PHP_API_SERVER}/api/read.php`);
   }
 
-  login(username: string, password: string) {
+  login(employeeId: string, password: string) {
     // tslint:disable-next-line: prefer-const
     this.http.post(`${this.PHP_API_SERVER}/api/readUser.php`, {
-      username,
+      employeeId,
       password
     }).subscribe(resp => {
       console.log('login.service: response = ' + JSON.stringify(resp));
+      // tslint:disable-next-line: no-string-literal
       if (resp['success']) {
         this.isUserLoggedIn = true;
+        // tslint:disable-next-line: no-string-literal
         this.userLogged = resp['user'];
         this.saveUser(this.userLogged);
         console.log('isUserLoggedIn = ' + this.isUserLoggedIn);
@@ -49,16 +51,18 @@ export class LoginService {
     });
   }
 
-  private saveUser(user: User) {
-    localStorage.setItem('user', JSON.stringify(user));
+  private saveUser(empleado: Empleado) {
+    localStorage.setItem('user', JSON.stringify(empleado));
   }
 
   private loadUser() {
     this.userLogged = JSON.parse(localStorage.getItem('user'));
-    if (this.userLogged.NombreEmpleado != null) {
+    if (this.userLogged != null) {
+      console.log('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
       this.isUserLoggedIn = true;
     } else {
-      this.isUserLoggedIn =false;
+      console.error('login.service: loadUser() = null!');
+      this.isUserLoggedIn = false;
     }
   }
 
@@ -67,6 +71,8 @@ export class LoginService {
   }
 
   isUserLogged(): boolean {
+    this.loadUser();
+    console.log(`login.service: isUserLogged() = ${this.isUserLoggedIn}`);
     return this.isUserLoggedIn;
     /*
     return new Promise<boolean>(resolve => {
@@ -81,8 +87,13 @@ export class LoginService {
   }
 
   getUserName() {
-    console.log(`login.service: userLogged = ${JSON.stringify(this.userLogged)}`);
-    return this.userLogged.NombreEmpleado;
+    if (this.userLogged != null ) {
+      console.log(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
+      return this.userLogged.nombreEmpleado;
+    } else {
+      console.log(`login.service: getUserName() = null`);
+      return null;
+    }
     /*
     return new Promise<string>(resolve => {
       if (this.isUserLogged()) {
@@ -100,8 +111,8 @@ export class LoginService {
     return this.userLogged;
   }
 
-  updateUser(user: User) {
-    return this.http.put<User>(`${this.PHP_API_SERVER}/api/update.php`, user);
+  updateUser(user: Empleado) {
+    return this.http.put<Empleado>(`${this.PHP_API_SERVER}/api/update.php`, user);
   }
 
   logout() {

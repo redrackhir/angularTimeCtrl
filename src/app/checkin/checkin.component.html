@@ -4,7 +4,12 @@
     <form class="form">
       <div class="form-group">
         <label for="instante">Fecha y hora registro</label>
-        <input type="text" #fechahora class="form-control" disabled />
+        <input  type="text"
+        name="registro"
+        class="form-control"
+        id="fechaHora"
+        disabled
+        value="{{ fechahora | date: 'EEEE, dd/MM/yy HH:mm:ss' }}" />
       </div>
       <div class="form-group">
         <button type="submit" (click)="checkIn(fechahora, $event)" id="check-button">Registrar</button>

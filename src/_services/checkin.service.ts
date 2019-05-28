@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { User } from 'src/_models/user.model';
+import { Empleado } from 'src/_models/user.model';
 import { Checkin } from 'src/_models/checkin.model';
 
 @Injectable({
@@ -41,7 +41,7 @@ export class CheckinService {
     });
   }
 
-  saveUser(user: User) {
+  saveUser(user: Empleado) {
     localStorage.setItem('user', JSON.stringify(user));
   }
 

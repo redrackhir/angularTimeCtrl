@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../_services/login.service';
-import { Router } from '@angular/router';
-import { User } from 'src/_models/user.model';
+import { Router, NavigationEnd } from '@angular/router';
+import { Empleado } from 'src/_models/user.model';
+import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'app-login',
@@ -11,55 +12,38 @@ import { User } from 'src/_models/user.model';
 export class LoginComponent implements OnInit {
 
   loading = false;
-  private userLogged: User;
+  private userLogged: Empleado;
   private isUserLoggedIn = false;
+  private _loginService: LoginService;
 
   constructor(
     private loginService: LoginService,
     private router: Router
-  ) { }
-
-  ngOnInit() {
-    this.loading = false;
-    this.userLogged = { companyId: 0, uid: 0, NombreEmpleado: '', ppin: '', accessLevel: '0' };
+  ) {
+    this._loginService = loginService;
+    console.log('login component (constructor): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
   }
 
-  logIn(username: string, password: string, event: Event) {
+  ngOnInit() {
+    console.log('login component (onInit): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
+    if (this._loginService.isUserLogged()) { this.router.navigateByUrl('/dashboard'); }
+    this.loading = false;
+    this.userLogged = this._loginService.getUser();
+    if (this.userLogged != null) { this.navigate(); }
+  }
+
+  logIn(employeeId: string, password: string, event: Event) {
     event.preventDefault(); // Avoid default action for the submit button of the login form
 
     this.loading = true;
 
-    this.loginService.login(username, password);
+    this.loginService.login(employeeId, password);
     console.log('Respuesta de loginService = ' + this.loginService.isUserLogged());
+
     this.loading = false;
     if (this.loginService.isUserLogged()) {
       this.navigate();
     }
-    // Calls service to login user to the api rest
-
-    /*
-    this.loginService.login(username, password).subscribe(
-      contentData = content.map(
-      (data) => data.name
-    )
-    */ /*
-      res => {
-        console.log('Valor retornado de PHP: ' + res);
-
-        if (res['success']) {
-          // tslint:disable-next-line: no-string-literal
-          this.userLogged = res['user'];
-          this.isUserLoggedIn = true;
-          localStorage.setItem('user', JSON.stringify(this.userLogged));
-        }
-      },
-      error => {
-        console.error(error);
-      },
-
-      () => this.navigate()
-      );
-      */
   }
 
   navigate() {
