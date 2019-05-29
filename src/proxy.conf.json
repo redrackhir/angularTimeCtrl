@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://cloudpcstime.pcserveis.com",
+    "secure": false
+  }
+}

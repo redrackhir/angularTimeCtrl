@@ -9,19 +9,26 @@ import { Router, NavigationStart } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 
+
 export class AppComponent {
   title = 'PC\'s\'Time';
   isUserLogged: boolean;
   userLoggedName: string;
   private _loginService: LoginService;
+  version = 'Beta version 1.0';
+  about = {title: 'PC Serveis', body: 'Dpto. programación\n'};
+  private _routerService: Router;
 
   constructor(private router: Router, loginService: LoginService) {
     this._loginService = loginService;
+    this._routerService = router;
     router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
-        console.log('route event = ' + event);
-        // Actualiza si está logeado
-        this.getLogged();
+      // console.log('route event = ' + event);
+        if (event.url != '/checkin') {
+          // Actualiza si está logeado
+          this.getLogged();
+        }
       }
       // NavigationEnd
       // NavigationCancel
@@ -38,18 +45,31 @@ export class AppComponent {
       this.isUserLogged = false;
     } else {
       this.isUserLogged = true;
-      console.log(this.userLoggedName);
+    // console.log(this.userLoggedName);
     }
     */
   }
 
   private async getLogged() {
     this.isUserLogged = await this._loginService.isUserLogged() as boolean;
-    this.userLoggedName = await this._loginService.getUserName() as string;
+    this.userLoggedName = await this._loginService.getEmployeeName() as string;
+    if (this.isUserLogged) {
+      this.navigate();
+    }
+  }
+  navigate() {
+    this.router.navigateByUrl('dashboard');
   }
 
   logout() {
-    localStorage.removeItem('user');
+    this._loginService.logout();
     this.isUserLogged = false;
+    this.userLoggedName = null;
+    this._routerService.navigateByUrl('/');
   }
+
+  showVersion() {
+
+  }
+
 }

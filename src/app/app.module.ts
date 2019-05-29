@@ -12,7 +12,7 @@ import { CheckinComponent } from './checkin/checkin.component';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    CheckinComponent
+    CheckinComponent,
   ],
   imports: [
     BrowserModule,

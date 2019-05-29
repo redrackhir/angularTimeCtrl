@@ -31,10 +31,10 @@ export class DashboardComponent implements OnInit {
     */
     this.isUserLogged = this.loginService.isUserLogged();
     if (this.isUserLogged) {
-      this.userLoggedName = this.loginService.getUserName();
-      console.log('this.userLoggedName = ' + this.userLoggedName);
+      this.userLoggedName = this.loginService.getEmployeeName();
+    // console.log('this.userLoggedName = ' + this.userLoggedName);
     }
-    console.log('from dasboard.onInit(): ' + this.userLoggedName);
+  // console.log('from dasboard.onInit(): ' + this.userLoggedName);
   }
 
   logout() {

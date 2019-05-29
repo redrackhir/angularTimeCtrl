@@ -1,19 +1,25 @@
 <div class="container md-4 text-center" style="margin-top: 10%">
+
+
   <h3>Fichar</h3>
-  <div class="row h-100 justify-content-center align-items-center">
-    <form class="form">
-      <div class="form-group">
-        <label for="instante">Fecha y hora registro</label>
-        <input  type="text"
-        name="registro"
-        class="form-control"
-        id="fechaHora"
-        disabled
-        value="{{ fechahora | date: 'EEEE, dd/MM/yy HH:mm:ss' }}" />
-      </div>
-      <div class="form-group">
-        <button type="submit" (click)="checkIn(fechahora, $event)" id="check-button">Registrar</button>
-      </div>
-    </form>
+  <div class="row">
+    <div class="col-sm"> </div>
+    <div class="col-sm">
+      <form class="form">
+        <div class="form-group">
+          <label for="instante">({{empresa}}); {{empleado}}</label>
+          <input type="text" name="registro" class="form-control text-center" id="fechaHora" disabled
+            value="{{ txtFechahora | date: 'EEEE, dd/MM/yy HH:mm:ss' }}" />
+        </div>
+        <div class="form-group">
+          <button type="button" (click)="checkIn($event)" #checkButton [disabled]="buttonDisabled">Registrar</button>
+          <p></p>
+          <div [ngClass]="alert.class" role="alert" *ngIf="alert.show">
+            {{alert.msg}}
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm"> </div>
   </div>
 </div>

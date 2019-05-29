@@ -1,48 +1,54 @@
-import { Injectable } from '@angular/core';
+import { Injectable, enableProdMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Empleado } from 'src/_models/user.model';
 import { Checkin } from 'src/_models/checkin.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckinService {
   // PHP_API_SERVER = 'https://82.223.84.132:8443';
-  PHP_API_SERVER = 'http://127.0.0.1';
+  private PHP_API_SERVER: string;
   // private userLogged: User = null;
-/*   private isUserLoggedIn = false;
+  /*   private isUserLoggedIn = false;
   private userLogged: User; */
+  private lastTransac: any;
 
   constructor(private http: HttpClient) {
-
-   }
+    this.lastTransac = { result: false, msg: 'nothing' };
+    if (environment.production) {
+      this.PHP_API_SERVER = '';
+    } else {
+      this.PHP_API_SERVER = 'http://127.0.0.1';
+    }
+  }
 
   readCheckins(): Observable<Checkin[]> {
     return this.http.get<Checkin[]>(`${this.PHP_API_SERVER}/api/readCheckins.php`);
   }
 
-  checkin(userId: number, fechahora: string) {
+  checkin(employeeId: number, dateAndTime: string) {
+    // event.preventDefault();
     // tslint:disable-next-line: prefer-const
-    this.http.post(`${this.PHP_API_SERVER}/api/insertCheckin.php`, {
-      userId,
-      fechahora
-    }).subscribe(resp => {
-      console.log('checkin.service: response = ' + JSON.stringify(resp));
-      if (resp['success']) {
-        return true;
-      } else {
-        console.error(`Error PHP/SQL: ${resp['msg']}`);
-        return false;
-      }
-    }, error => {
-      console.log('checkin.service: error = ' + JSON.stringify(error));
-      return false;
+    // console.log(`registering ${employeeId}, ${dateAndTime}`);
+    return this.http.post(`${this.PHP_API_SERVER}/api/insertCheckin.php`, {
+      employeeId,
+      dateAndTime
     });
   }
 
   saveUser(user: Empleado) {
     localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  public getLastTransacc() {
+    return this.lastTransac;
+  }
+
+  public setLastTransacc(value: boolean) {
+    this.lastTransac = value;
   }
 
   /* loadUser() {
@@ -60,42 +66,42 @@ export class CheckinService {
 
   isUserLogged(): boolean {
     return this.isUserLoggedIn; */
-    /*
-    return new Promise<boolean>(resolve => {
-      if (localStorage.getItem('user') != null) {
-        console.log('checkin.service: isUserLogged = ' + true);
-        return true;
-      } else {
-        return false;
-      }
-    });
-  }
-   */
+  /*
+  return new Promise<boolean>(resolve => {
+    if (localStorage.getItem('user') != null) {
+      // console.log('checkin.service: isUserLogged = ' + true);
+      return true;
+    } else {
+      return false;
+    }
+  });
+}
+ */
 
   /* getUserName() {
-    console.log(`checkin.service: userLogged = ${JSON.stringify(this.userLogged)}`);
+    // console.log(`checkin.service: userLogged = ${JSON.stringify(this.userLogged)}`);
     return this.userLogged.NombreEmpleado; */
-    /*
-    return new Promise<string>(resolve => {
-      if (this.isUserLogged()) {
-        const userName = JSON.parse(localStorage.getItem('user'))['NombreEmpleado'];
-        console.log('checkin.service: getUserName = ' + userName);
-        return userName;
-      } else {
-        return null;
-      }
-    })
-  }
-   */
+  /*
+  return new Promise<string>(resolve => {
+    if (this.isUserLogged()) {
+      const userName = JSON.parse(localStorage.getItem('user'))['NombreEmpleado'];
+      // console.log('checkin.service: getUserName = ' + userName);
+      return userName;
+    } else {
+      return null;
+    }
+  })
+}
+ */
 
   /* updateUser(user: User) {
     return this.http.put<User>(`${this.PHP_API_SERVER}/api/update.php`, user);
   }
  */
-/*   logout() {
-    // remove user from local storage to log user out
-    this.removeUser();
-    this.isUserLoggedIn = false;
-    this.userLogged = null;
-  } */
+  /*   logout() {
+      // remove user from local storage to log user out
+      this.removeUser();
+      this.isUserLoggedIn = false;
+      this.userLogged = null;
+    } */
 }
