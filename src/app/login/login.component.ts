@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
           this.userLogged = resp['user'];
           // console.log(`user & userLogged = ${this.userLogged} // ${this.isUserLoggedIn}`);
           this.saveUser(this.userLogged);
+          console.log('UserLogged =' + this.userLogged.permisos);
           this.navigate();
           this.loading = false;
         } else {

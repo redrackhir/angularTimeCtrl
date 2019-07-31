@@ -4,5 +4,5 @@ export class Empleado {
   codigoEmpleado: number;
   nombreEmpleado: string;
   password: string;
-  nivelAcceso: string;
+  permisos: string;
 }

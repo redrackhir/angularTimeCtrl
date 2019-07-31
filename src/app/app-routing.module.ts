@@ -4,22 +4,17 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckinComponent } from './checkin/checkin.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { EmployeesComponent } from './employees/employees.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: AppComponent },
   { path: 'checkin', component: CheckinComponent },
+  { path: 'companies', component: CompaniesComponent },
+  { path: 'employees', component: EmployeesComponent },
   { path: '', component: AppComponent },
-  /* {
-    path: 'heroes',
-    component: HeroListComponent,
-    data: { title: 'Heroes List' }
-  },
-  { path: '',
-    redirectTo: '/heroes',
-    pathMatch: 'full'
-  }, */
   { path: '**', component: AppComponent }
 ];
 

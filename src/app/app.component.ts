@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './login/login.component';
 import { LoginService } from 'src/_services';
 import { Router, NavigationStart } from '@angular/router';
 
@@ -13,6 +12,7 @@ import { Router, NavigationStart } from '@angular/router';
 export class AppComponent {
   title = 'PC\'s\'Time';
   isUserLogged: boolean;
+  isAdmin: boolean;
   userLoggedName: string;
   private _loginService: LoginService;
   version = 'Beta version 1.0';
@@ -25,7 +25,7 @@ export class AppComponent {
     router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
       // console.log('route event = ' + event);
-        if (event.url != '/checkin') {
+        if (event.url != '/checkin' && event.url != '/companies') {
           // Actualiza si está logeado
           this.getLogged();
         }
@@ -53,6 +53,7 @@ export class AppComponent {
   private async getLogged() {
     this.isUserLogged = await this._loginService.isUserLogged() as boolean;
     this.userLoggedName = await this._loginService.getEmployeeName() as string;
+    this.isAdmin = await this._loginService.isAdmin() as boolean;
     if (this.isUserLogged) {
       this.navigate();
     }

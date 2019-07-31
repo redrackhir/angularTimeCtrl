@@ -1,0 +1,37 @@
+<div>
+  <table class="table table-striped table-hover" style="width: 75%; margin: auto">
+    <thead class="btn-primary">
+      <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">CIF - DNI</th>
+        <th scope="col">Fecha Alta</th>
+        <th scope="col">Activa</th>
+        <th scope="col"> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let company of companies">
+        <td>{{company.codigoEmpresa == null ? 'Nueva' : company.codigoEmpresa}}</td>
+        <td>{{company.nombreEmpresa}}</td>
+        <td>{{company.CifDni}}</td>
+        <td>{{company.FechaAlta | date:'dd/MM/yyyy' }}</td>
+        <td>{{company.Activa ? 'Sí' : 'No'}}</td>
+        <td><button (click)="toggleActive(company.codigoEmpresa)">on/off</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+      <label>Nueva empresa:
+          <input #companyName />
+        </label>
+        <label>CIF/DNI empresa:
+            <input #cifDniCompany />
+          </label>
+        <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="add(companyName.value, cifDniCompany.value); companyName.value=''; cifDniCompany.value">
+        añadir
+      </button>
+    </div>
+
+</div>

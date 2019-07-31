@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
+
 export class LoginService {
   // PHP_API_SERVER = 'https://82.223.84.132:8443';
   private PHP_API_SERVER: string;
@@ -67,6 +68,14 @@ export class LoginService {
     localStorage.setItem('user', JSON.stringify(empleado));
   // console.log('login.service: user saved on local');
   } */
+  isAdmin(): boolean | PromiseLike<boolean> {
+    // throw new Error("Method not implemented.");
+    // tslint:disable-next-line: triple-equals
+    if (this.userLogged != null && this.userLogged.permisos == 'Administrador') {
+      return true;
+    }
+    return false;
+  }
 
   private loadUser() {
     this.userLogged = JSON.parse(localStorage.getItem('user'));

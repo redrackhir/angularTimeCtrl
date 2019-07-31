@@ -6,6 +6,9 @@ import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckinComponent } from './checkin/checkin.component';
+import { CompaniesComponent } from './companies/companies.component';
+import { EmployeesComponent } from './employees/employees.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +16,9 @@ import { CheckinComponent } from './checkin/checkin.component';
     LoginComponent,
     DashboardComponent,
     CheckinComponent,
+    CompaniesComponent,
+    EmployeesComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,
