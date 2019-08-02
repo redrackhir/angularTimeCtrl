@@ -11,24 +11,13 @@ import { EmployeesComponent } from './employees/employees.component';
 import { MessagesComponent } from './messages/messages.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FilterPipe } from 'src/_pipes/filter.pipe';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    DashboardComponent,
-    CheckinComponent,
-    CompaniesComponent,
-    EmployeesComponent,
-    MessagesComponent,
-    CompanyDetailComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
+  declarations: [AppComponent, LoginComponent, DashboardComponent, CheckinComponent, CompaniesComponent,
+    EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterPipe],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent]
 })

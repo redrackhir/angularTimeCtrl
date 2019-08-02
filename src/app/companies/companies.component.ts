@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
 import { CompanyService } from 'src/_services/company.service';
 import { Company } from 'src/_models/company.model';
 import { LoginService, Empleado } from 'src/_services';
@@ -21,8 +20,10 @@ export class CompaniesComponent implements OnInit {
 
   constructor(private router: Router, private loginService: LoginService, private companyService: CompanyService) {
     this.router.events.forEach((event) => {
-      if (event instanceof NavigationEnd) {
-          this.ngOnInit();
+      // console.log('route event...' + event);
+      if (event instanceof NavigationEnd && event.url == '/companies') {
+        this.ngOnInit();
+        // console.log('reloading data...' + event);
       }
     });
   }
@@ -31,7 +32,7 @@ export class CompaniesComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
     // this.checkinService.setLastTransacc(false);
-    console.log(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // console.log(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
     // this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
@@ -46,7 +47,7 @@ export class CompaniesComponent implements OnInit {
 
   companyDetail(id: number) {
     // Ir a la edición de empresa
-    this.router.navigateByUrl('/company' + id); //:id=' + id);
+    this.router.navigateByUrl('/company' + id); // :id=' + id);
   }
 
   add(nombreEmpresa: string, cifDni: string): void {

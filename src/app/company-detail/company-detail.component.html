@@ -1,10 +1,9 @@
 <div class="container" style="margin-top: 1%">
-  <form>
+  <form id="companyForm" name="companyForm">
     <div class="jumbotron" style="width: 50%; margin: auto">
       <h3 class="display-4">{{ company.nombreEmpresa }}</h3>
       <br />
-      <label class="w-100">Código empresa <input class="col-sm-4" type="text" disabled="disabled"
-          [value]="company.codigoEmpresa" />
+      <label class="w-100">Código empresa: {{company.codigoEmpresa}}
       </label>
 
       <label class="w-100">Empresa <input type="text" #nombreEmpresa name="nombreEmpresa" (keydown)="dataChanged()"
@@ -14,20 +13,22 @@
           [(ngModel)]="company.CifDni" />
       </label>
 
-      <label class="w-100">Fecha alta <input type="text" class="col" disabled="disabled" (value)="company.FechaAlta"
-          name="fechaAlta" />
+      <label class="w-100">Fecha alta: {{ company.FechaAlta | date: 'dd-MM-yyyy'}}
       </label>
 
-      <label class="w-100">Activa <input class="col" type="checkbox" [(checked)]="company.Activa"
-          (change)="activeChanged()" name="activa" />
+
+      <label class="w-100">Empresa {{ company.Activa == 1 ? 'activada':'desactivada'}}
+        <input type="checkbox" checked="{{ company.Activa == 1 ? 'checked':'' }}" />
       </label>
 
-      <div class="w-100">
-        <button class="w-40 btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"
-          style="text-align: center; margin: auto" disabled="{{!hasChanges ? 'disabled' : ''}}">Guardar</button>
-        <button class="w-40 btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(true)"
-          style="text-align: center; margin: auto" disabled="{{!hasChanges ? 'disabled' : ''}}">Guardar y salir</button>
+
+      <div class="btn-group">
+        <button type="button" class="btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"
+        style="text-align: center; margin: auto" (disabled)="companyForm.dirty">Guardar</button>
+        <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>
       </div>
+
+
     </div>
 
   </form>

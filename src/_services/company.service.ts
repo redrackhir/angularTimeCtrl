@@ -34,7 +34,7 @@ export class CompanyService {
     console.log(`calling ${url}...`);
     return this.http.get<Company[]>(this.PHP_API_SERVER + '/api/readCompanies.php')
       .pipe(
-        tap(_ => this.log('fetched Companies')),
+        tap(),
         catchError(this.handleError<Company[]>('getCompaniesList', []))
       );
   }
@@ -64,7 +64,7 @@ export class CompanyService {
   } */
 
   /* GET Companies whose name contains search term */
-  searchCompanies(term: string): Observable<Company[]> {
+  searchCompany(term: string): Observable<Company[]> {
     if (!term.trim()) {
       // if not search term, return empty Company array.
       return of([]);
