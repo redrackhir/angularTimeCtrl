@@ -14,19 +14,18 @@ export class AppComponent {
   isUserLogged: boolean;
   isAdmin: boolean;
   userLoggedName: string;
-  private _loginService: LoginService;
   version = 'Beta version 1.0';
   about = {title: 'PC Serveis', body: 'Dpto. programación\n'};
-  private _routerService: Router;
 
-  constructor(private router: Router, loginService: LoginService) {
-    this._loginService = loginService;
-    this._routerService = router;
-    router.events.forEach((event) => {
+  constructor(private router: Router, private loginService: LoginService) {
+    this.loginService = loginService;
+    this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
-      // console.log('route event = ' + event);
-        if (event.url != '/checkin' && event.url != '/companies') {
+        console.log('route event = ' + event);
+        console.log('event.url.substring(0, 7) = ' + event.url.substring(0, 7));
+        if (event.url != '/checkin' && event.url && event.url.substring(0, 7) != '/compan') {
           // Actualiza si está logeado
+          console.error('User not logged, please loggin. Redirect to home...');
           this.getLogged();
         }
       }
@@ -51,9 +50,9 @@ export class AppComponent {
   }
 
   private async getLogged() {
-    this.isUserLogged = await this._loginService.isUserLogged() as boolean;
-    this.userLoggedName = await this._loginService.getEmployeeName() as string;
-    this.isAdmin = await this._loginService.isAdmin() as boolean;
+    this.isUserLogged = await this.loginService.isUserLogged() as boolean;
+    this.userLoggedName = await this.loginService.getEmployeeName() as string;
+    this.isAdmin = await this.loginService.isAdmin() as boolean;
     if (this.isUserLogged) {
       this.navigate();
     }
@@ -63,10 +62,10 @@ export class AppComponent {
   }
 
   logout() {
-    this._loginService.logout();
+    this.loginService.logout();
     this.isUserLogged = false;
     this.userLoggedName = null;
-    this._routerService.navigateByUrl('/');
+    this.router.navigateByUrl('/');
   }
 
   showVersion() {
