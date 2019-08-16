@@ -15,18 +15,26 @@ export class AppComponent {
   isAdmin: boolean;
   userLoggedName: string;
   version = 'Beta version 1.0';
-  about = {title: 'PC Serveis', body: 'Dpto. programación\n'};
+  about = { title: 'PC Serveis', body: 'Dpto. programación\n' };
 
   constructor(private router: Router, private loginService: LoginService) {
     this.loginService = loginService;
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
+        this.getLogged();
         console.log('route event = ' + event);
-        console.log('event.url.substring(0, 7) = ' + event.url.substring(0, 7));
-        if (event.url != '/checkin' && event.url && event.url.substring(0, 7) != '/compan') {
-          // Actualiza si está logeado
+        console.log('User logged? ' + this.loginService.isUserLogged());
+        console.log('User isAdmin ' + this.loginService.isAdmin());
+        if (!this.loginService.isUserLogged) {
           console.error('User not logged, please loggin. Redirect to home...');
-          this.getLogged();
+          this.navigate();
+        }
+        // Permisos paginas protegidas
+        if (event.url == '/companies' || event.url == '/employees') {
+          if (!this.loginService.isAdmin()) {
+            console.error('You don\'t have access to security area. Redirect to home...');
+            this.navigate();
+          }
         }
       }
       // NavigationEnd
@@ -53,9 +61,6 @@ export class AppComponent {
     this.isUserLogged = await this.loginService.isUserLogged() as boolean;
     this.userLoggedName = await this.loginService.getEmployeeName() as string;
     this.isAdmin = await this.loginService.isAdmin() as boolean;
-    if (this.isUserLogged) {
-      this.navigate();
-    }
   }
   navigate() {
     this.router.navigateByUrl('dashboard');

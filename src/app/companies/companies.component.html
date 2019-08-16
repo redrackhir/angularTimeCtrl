@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let company of companies | filterByCompanyName: 'nombreEmpresa' : searchText">
+      <tr *ngFor="let company of companies | filterByName: 'nombreEmpresa' : searchText" [className]="company.Activa == 1 ? '' : 'text-muted'">
         <td>{{company.codigoEmpresa == null ? 'Nueva' : company.codigoEmpresa}}</td>
         <td>{{company.nombreEmpresa}}</td>
         <td>{{company.CifDni}}</td>

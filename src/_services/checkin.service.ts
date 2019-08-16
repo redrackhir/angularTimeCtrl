@@ -1,7 +1,7 @@
 import { Injectable, enableProdMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Empleado } from 'src/_models/user.model';
+import { Usuario } from 'src/_models/user.model';
 import { Checkin } from 'src/_models/checkin.model';
 import { environment } from 'src/environments/environment';
 
@@ -39,7 +39,7 @@ export class CheckinService {
     });
   }
 
-  saveUser(user: Empleado) {
+  saveUser(user: Usuario) {
     localStorage.setItem('user', JSON.stringify(user));
   }
 

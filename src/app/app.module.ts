@@ -13,10 +13,11 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterPipe } from 'src/_pipes/filter.pipe';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, CheckinComponent, CompaniesComponent,
-    EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterPipe],
+    EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterPipe, EmployeeDetailComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,38 @@
+<div class="container" style="margin-top: 1%">
+  <form #employeeForm name="employeeForm">
+    <div class="jumbotron" style="width: 50%; margin: auto">
+      <h3 class="display-4">{{ employee.nombreEmpleado }}</h3>
+      <br />
+      <label class="w-100 text-muted">Código empleado: <span class="text-dark">{{employee.codigoEmpleado}}</span>
+      </label>
+
+      <label class="w-100 text-muted">Nombre <input type="text" #nombreEmpleado name="nombreEmpleado" class="text-dark"
+          (keydown)="dataChanged()" class="col" [(ngModel)]="employee.nombreEmpleado" />
+      </label>
+      <label class="w-100 text-muted">D.N.I. <input type="text" class="col text-dark" name="nifDni"
+          (keydown)="dataChanged()" [(ngModel)]="employee.nifDni" />
+      </label>
+
+      <label class="w-100 text-muted">Fecha alta: <span
+          class="text-dark">{{ employee.fechaAlta | date: 'dd-MM-yyyy'}}</span>
+      </label>
+      <label class="w-100 text-muted">Empresa: <span class="text-dark">{{ employee.nombreEmpresa}}</span> </label>
+      <label class="w-100 text-muted">Permisos: <span class="text-dark">{{ employee.permisos}}</span> </label>
+
+
+      <label class="w-100">Empleado {{ employee.activo == -1 ? 'activo':'inactivo'}}
+        <input #activo type="checkbox" checked="{{ employee.activo == -1 ? 'checked':'' }}"
+          (click)="dataChanged(activo.checked)" />
+      </label>
+
+      <div class="btn-group">
+        <button type="button" class="btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"
+          style="text-align: center; margin: auto" (disabled)="employeeForm.dirty">Guardar</button>
+        <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>
+      </div>
+
+
+    </div>
+
+  </form>
+</div>

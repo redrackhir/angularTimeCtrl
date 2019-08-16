@@ -1,3 +1,45 @@
-<p>
-  employees works!
-</p>
+<div class="container">
+  <input style="text-align: center; margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre...">
+  <table class="table table-striped table-hover" style="width: 80%; margin: auto">
+    <thead class="btn-primary">
+      <tr>
+        <th scope="col">Empresa</th>
+        <th scope="col">Empleado</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Activo</th>
+        <td scope="col" colspan=2>Acciones</td>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of employees | filterByName: 'nombreEmpleado' : searchText" class="font-weight-light">
+        <td>
+          <span class="badge badge-info">{{employee.codigoEmpresa == null ? 'Nueva' : employee.codigoEmpresa}}</span>
+          {{employee.nombreEmpresa}}
+        </td>
+        <td>{{employee.codigoEmpleado}}</td>
+        <td class="text-capitalize">{{employee.nombreEmpleado}}</td>
+        <td>{{employee.activo == -1 ? 'Sí' : 'No'}}</td>
+        <td><a class="badge badge-info"
+            (click)="toggleActive(employee.codigoEmpleado)">{{ employee.activo == -1 ? 'desactivar' : 'activar' }}</a>
+        </td>
+        <td><a [routerLink]="['/employee', employee.codigoEmpleado]">Editar</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="width: 80%; margin: auto">
+    <label>Seleccione empresa&nbsp;
+      <select #companyCode aria-placeholder="Seleccione empresa">
+        <option *ngFor="let company of companies" [value]="company.codigoEmpresa">{{ company.nombreEmpresa }}</option>
+      </select>
+    </label>
+    <input #employeeName placeholder="Nombre empleado" />
+    <input #nifDniEmployee placeholder="Dni" />
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button
+      (click)="add(companyCode.value, employeeName.value, nifDniEmployee.value); companyCode.value=''; employeeName.value=''; nifDniEmployee.value = ''">
+      añadir empleado nuevo
+    </button>
+  </div>
+
+</div>

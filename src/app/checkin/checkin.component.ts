@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService, Empleado } from 'src/_services';
+import { LoginService, Usuario } from 'src/_services';
 import { CheckinService } from 'src/_services/checkin.service';
 import { interval } from 'rxjs';
 import { formatDate } from '@angular/common';
@@ -16,7 +16,7 @@ export class CheckinComponent implements OnInit {
 
   isUserLogged = false;
   userLoggedName = null;
-  loggedUser: Empleado;
+  loggedUser: Usuario;
   // tslint:disable-next-line: variable-name
   private _router: Router;
   // tslint:disable-next-line: variable-name

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../_services/login.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { Empleado } from 'src/_models/user.model';
+import { Usuario } from 'src/_models/user.model';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -13,7 +13,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class LoginComponent implements OnInit {
 
   loading = false;
-  private userLogged: Empleado;
+  private userLogged: Usuario;
   private isUserLoggedIn = false;
   private _loginService: LoginService;
   alert: any = { class: 'alert alert-primary', msg: 'nothing', show: false };
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
     // console.log('navigating to /dashboard...');
   }
 
-  saveUser(empleado: Empleado) {
+  saveUser(empleado: Usuario) {
     localStorage.setItem('user', JSON.stringify(empleado));
     // console.log('login.service: user saved on local');
   }

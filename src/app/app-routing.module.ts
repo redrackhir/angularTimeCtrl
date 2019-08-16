@@ -7,6 +7,7 @@ import { CheckinComponent } from './checkin/checkin.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { EmployeesComponent } from './employees/employees.component';
+import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'company', component: CompanyDetailComponent },
   { path: 'company/:id', component: CompanyDetailComponent },
   { path: 'employees', component: EmployeesComponent },
+  { path: 'employee/:id', component: EmployeeDetailComponent },
   { path: '', component: AppComponent },
   { path: '**', component: AppComponent }
 ];

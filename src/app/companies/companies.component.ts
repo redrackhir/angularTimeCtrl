@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from 'src/_services/company.service';
 import { Company } from 'src/_models/company.model';
-import { LoginService, Empleado } from 'src/_services';
+import { LoginService, Usuario } from 'src/_services';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 export class CompaniesComponent implements OnInit {
 
-  loggedUser: Empleado;
+  loggedUser: Usuario;
   empleado: string;
   isUserLogged = false;
   userLoggedName = null;

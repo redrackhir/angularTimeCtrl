@@ -18,9 +18,8 @@
 
 
       <label class="w-100">Empresa {{ company.Activa == 1 ? 'activada':'desactivada'}}
-        <input type="checkbox" checked="{{ company.Activa == 1 ? 'checked':'' }}" />
+        <input #activa type="checkbox" checked="{{ company.Activa == 1 ? 'checked':'' }}" (click)="dataChanged(activa.checked)" />
       </label>
-
 
       <div class="btn-group">
         <button type="button" class="btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"

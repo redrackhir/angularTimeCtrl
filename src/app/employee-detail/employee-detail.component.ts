@@ -1,69 +1,65 @@
 import { Component, OnInit } from '@angular/core';
-import { Company } from 'src/_models/company.model';
+import { Employee } from 'src/_models/employee.model';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { LoginService, Usuario } from 'src/_services';
-import { CompanyService } from 'src/_services/company.service';
+import { EmployeeService } from 'src/_services/employee.service';
 import { FormControl, FormsModule } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
 
 @Component({
-  selector: 'app-company-detail',
-  templateUrl: './company-detail.component.html',
-  styleUrls: ['./company-detail.component.scss']
+  selector: 'app-employee-detail',
+  templateUrl: './employee-detail.component.html',
+  styleUrls: ['./employee-detail.component.scss']
 })
-export class CompanyDetailComponent implements OnInit {
+export class EmployeeDetailComponent implements OnInit {
   loggedUser: Usuario;
   empleado: string;
   id: number;
-  company: Company = new Company('', '');
+  employee: Employee = new Employee(-1, '', '');
   hasChanges = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private loginService: LoginService,
-    private companyService: CompanyService) { }
+              private employeeService: EmployeeService) { }
 
   async ngOnInit() {
-    // get parameter of idCompany from listCompanies
+    // get parameter of idEmployee from listCompanies
     this.id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
 
-    this.getCompany();
+    this.getEmployee();
 
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
 
-    console.log(`company-detail|company = ${JSON.stringify(this.company)}`);
+    console.log(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
     this.empleado = this.loggedUser.nombreEmpleado;
   }
 
-  getCompany(): void {
+  getEmployee(): void {
     // Leer datos de la empresa
-    this.companyService.getCompany(this.id).subscribe(response => this.company = response);
-    console.log(`company-detail|company = ${JSON.stringify(this.company)}`);
+    this.employeeService.getEmployee(this.id).subscribe(response => this.employee = response);
+    console.log(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
 
-    /* console.log('result = ' + JSON.stringify(this.company));
+    /* console.log('result = ' + JSON.stringify(this.employee));
     console.log('hasChanges = ' + this.hasChanges); */
   }
 
-  dataChanged(value: boolean): void {
+  dataChanged(value: number): void {
     this.hasChanges = true;
-    this.company.Activa = value;
+    this.employee.activo = value;
     console.log('hasChanges = ' + this.hasChanges);
-    console.log('company = ' + JSON.stringify(this.company));
+    console.log('employee = ' + JSON.stringify(this.employee));
   }
 
   saveData(doExit: boolean): void {
     // guardar los cambios
     let response: any;
-    console.log('update ' + JSON.stringify(this.company));
-    this.companyService.updateCompany(this.company).subscribe(response => response);
+    console.log('update ' + JSON.stringify(this.employee));
+    this.employeeService.updateEmployee(this.employee).subscribe(response => response);
     console.log('response = ' + response);
     if (doExit) {
       this.router.navigateByUrl('/companies');
     }
-  }
-
-  setBool(): void {
-    this.company.Activa = !this.company.Activa;
   }
 
 }
