@@ -44,7 +44,7 @@ export class CompanyService {
     const url = `${this.PHP_API_SERVER}/api/getCompany.php?id=${id}`;
     console.log(`calling ${url}...`);
     return this.http.get<Company>(url).pipe(
-      tap(_ => this.log(`fetched Company id=${id}`)),
+      tap(_ => this.log(`Editar empresa [${id}]`, 'success')),
       catchError(this.handleError<Company>(`getCompany id=${id}`))
     );
   }
@@ -70,7 +70,7 @@ export class CompanyService {
       return of([]);
     }
     return this.http.get<Company[]>(`${this.PHP_API_SERVER}/?name=${term}`).pipe(
-      tap(_ => this.log(`found Companyes matching "${term}"`)),
+      tap(_ => this.log(`found Companyes matching "${term}"`, 'success')),
       catchError(this.handleError<Company[]>('searchCompanyes', []))
     );
   }
@@ -78,9 +78,9 @@ export class CompanyService {
   //////// Save methods //////////
 
   /** POST: add a new Company to the server */
-  addCompany(company): Observable<Company> {
+  addCompany(company: Company): Observable<Company> {
     return this.http.post<Company>(`${this.PHP_API_SERVER}/api/addCompany.php`, company, this.httpOptions).pipe(
-      tap((company: Company) => this.log(`added Company w/ id=${company.codigoEmpresa}`)),
+      tap((company: Company) => this.log(`Nueva empresa añadida con id: [${company.codigoEmpresa}]`, 'success')),
       catchError(this.handleError<Company>('addCompany'))
     );
   }
@@ -91,16 +91,16 @@ export class CompanyService {
     const url = `${this.PHP_API_SERVER}/${id}`;
 
     return this.http.delete<Company>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted Company id=${id}`)),
+      tap(_ => this.log(`¡Empresa [${id}] eliminada!`, 'success')),
       catchError(this.handleError<Company>('deleteCompany'))
     );
   }
 
   /** PUT: update the Company on the server */
-  updateCompany(company: Company): Observable<any> {
-    const url = `${this.PHP_API_SERVER}/api/updateCompany.php?id=${company.codigoEmpresa}`;
-    return this.http.put(url, company).pipe(
-      tap(_ => this.log(`updated Company id=${company.codigoEmpresa}`)),
+  updateCompany(company: Company): Observable<Company> {
+    const url = `${this.PHP_API_SERVER}/api/updateCompany.php`;
+    return this.http.put<Company>(url, company, this.httpOptions).pipe(
+      tap(_ => this.log(`Empresa [${company.codigoEmpresa}] actualizada correctamente.`, 'success')),
       catchError(this.handleError<any>('updateCompany'))
     );
   }
@@ -112,16 +112,16 @@ export class CompanyService {
       console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      this.log(`${operation} failed: ${error.message}`, 'danger');
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
 
-  /** Log a HeroService message with the MessageService */
-  private log(message: string) {
-    this.messageService.add(`CompanyService: ${message}`);
+  /** Log a message with the MessageService */
+  private log(message: string, alertType: string) {
+    this.messageService.add(message, alertType);
   }
 
 }

@@ -67,9 +67,10 @@ export class CompaniesComponent implements OnInit {
       });
   }
 
-  public toggleActive(id: number) {
+  public toggleActive(id: number): void {
     const company = this.companies[this.arrayObjectIndexOf(this.companies, id, 'codigoEmpresa')];
     company.Activa = !company.Activa;
+    this.companyService.updateCompany(company).subscribe();
   }
 
   arrayObjectIndexOf(myArray, searchTerm, property) {

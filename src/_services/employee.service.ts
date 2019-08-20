@@ -44,7 +44,7 @@ export class EmployeeService {
     const url = `${this.PHP_API_SERVER}/api/getEmployee.php?id=${id}`;
     console.log(`calling ${url}...`);
     return this.http.get<Employee>(url).pipe(
-      tap(_ => this.log(`fetched Employee id=${id}`)),
+      tap(_ => this.log(`Cargado empleado con id: ${id}`, 'success')),
       catchError(this.handleError<Employee>(`getEmployee id=${id}`))
     );
   }
@@ -70,7 +70,7 @@ export class EmployeeService {
       return of([]);
     }
     return this.http.get<Employee[]>(`${this.PHP_API_SERVER}/?name=${term}`).pipe(
-      tap(_ => this.log(`found Employeees matching "${term}"`)),
+      tap(_ => this.log(`Se han encontrado empleados con el término "${term}"`, 'success')),
       catchError(this.handleError<Employee[]>('searchEmployeees', []))
     );
   }
@@ -80,27 +80,27 @@ export class EmployeeService {
   /** POST: add a new Employee to the server */
   addEmployee(employee): Observable<Employee> {
     return this.http.post<Employee>(`${this.PHP_API_SERVER}/api/addEmployee.php`, employee, this.httpOptions).pipe(
-      tap((employee: Employee) => this.log(`added Employee w/ id=${employee.codigoEmpleado}`)),
+      tap((employee: Employee) => this.log(`added Employee w/ id=${employee.codigoEmpleado}`, 'success')),
       catchError(this.handleError<Employee>('addEmployee'))
     );
   }
 
   /** DELETE: delete the Employee from the server */
   deleteEmployee(employee: Employee | number): Observable<Employee> {
-    const id = typeof employee === 'number' ? employee : employee.codigoEmpresa;
-    const url = `${this.PHP_API_SERVER}/${id}`;
+    const id = typeof employee === 'number' ? employee : employee.codigoEmpleado;
+    const url = `${this.PHP_API_SERVER}/api/deleteEmployee.php?id=${id}`;
 
     return this.http.delete<Employee>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted Employee id=${id}`)),
+      tap(_ => this.log(`deleted Employee id=${id}`, 'success')),
       catchError(this.handleError<Employee>('deleteEmployee'))
     );
   }
 
   /** PUT: update the Employee on the server */
   updateEmployee(employee: Employee): Observable<any> {
-    const url = `${this.PHP_API_SERVER}/api/updateEmployee.php?id=${employee.codigoEmpleado}`;
-    return this.http.put(url, employee).pipe(
-      tap(_ => this.log(`updated Employee id=${employee.codigoEmpleado}`)),
+    const url = `${this.PHP_API_SERVER}/api/updateEmployee.php`;
+    return this.http.put<Employee>(url, employee).pipe(
+      tap(_ => this.log(`Empleado [${employee.codigoEmpleado}] '${employee.nombreEmpleado}' actualizado correctamente.`, 'success')),
       catchError(this.handleError<any>('updateEmployee'))
     );
   }
@@ -109,10 +109,10 @@ export class EmployeeService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      // console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      this.log(`Falló la operación ${operation}: ${error.message}`, 'danger');
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
@@ -120,8 +120,8 @@ export class EmployeeService {
   }
 
   /** Log a HeroService message with the MessageService */
-  private log(message: string) {
-    this.messageService.add(`EmployeeService: ${message}`);
+  private log(message: string, alertType: string) {
+    this.messageService.add(`EmployeeService: ${message}`, alertType);
   }
 
 }

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Company } from 'src/_models/company.model';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService, Usuario } from 'src/_services';
 import { CompanyService } from 'src/_services/company.service';
-import { FormControl, FormsModule } from '@angular/forms';
-import { HttpParams } from '@angular/common/http';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
 
 @Component({
   selector: 'app-company-detail',
@@ -20,7 +17,7 @@ export class CompanyDetailComponent implements OnInit {
   hasChanges = false;
 
   constructor(private route: ActivatedRoute, private router: Router, private loginService: LoginService,
-    private companyService: CompanyService) { }
+              private companyService: CompanyService) { }
 
   async ngOnInit() {
     // get parameter of idCompany from listCompanies

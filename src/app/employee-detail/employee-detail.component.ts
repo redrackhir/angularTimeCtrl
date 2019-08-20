@@ -44,7 +44,7 @@ export class EmployeeDetailComponent implements OnInit {
     console.log('hasChanges = ' + this.hasChanges); */
   }
 
-  dataChanged(value: number): void {
+  dataChanged(value: boolean): void {
     this.hasChanges = true;
     this.employee.activo = value;
     console.log('hasChanges = ' + this.hasChanges);

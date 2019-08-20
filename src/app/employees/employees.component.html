@@ -1,6 +1,6 @@
 <div class="container">
   <input style="text-align: center; margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre...">
-  <table class="table table-striped table-hover" style="width: 80%; margin: auto">
+  <table class="table table-striped table-hover table-sm" style="width: 80%; margin: auto">
     <thead class="btn-primary">
       <tr>
         <th scope="col">Empresa</th>
@@ -19,11 +19,12 @@
         </td>
         <td>{{employee.codigoEmpleado}}</td>
         <td class="text-capitalize">{{employee.nombreEmpleado}}</td>
-        <td>{{employee.activo == -1 ? 'Sí' : 'No'}}</td>
-        <td><a class="badge badge-info"
-            (click)="toggleActive(employee.codigoEmpleado)">{{ employee.activo == -1 ? 'desactivar' : 'activar' }}</a>
+        <td>{{employee.activo == true ? 'Sí' : 'No'}}</td>
+        <td><a class="badge badge-info" [routerLink]="['/employees']"
+            (click)="toggleActive(employee)">{{ employee.activo == true ? 'desactivar' : 'activar' }}</a>
         </td>
-        <td><a [routerLink]="['/employee', employee.codigoEmpleado]">Editar</a></td>
+        <td><a class="badge badge-primary" [routerLink]="['/employee', employee.codigoEmpleado]">Editar</a></td>
+        <td><a class="badge badge-danger" [routerLink]="['/employees']" (click)="deleteEmployee(employee)">Eliminar</a></td>
       </tr>
     </tbody>
   </table>

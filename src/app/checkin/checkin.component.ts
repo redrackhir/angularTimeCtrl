@@ -55,6 +55,7 @@ export class CheckinComponent implements OnInit {
     const fechahora: string = formatDate(Date.now(), 'yyyy/MM/dd HH:mm:ss', 'en-US');
     this.checkinService.checkin(this.loggedUser.codigoEmpleado, fechahora).subscribe(resp => {
       // console.log('checkin.service: response = ' + JSON.stringify(resp));
+      // tslint:disable-next-line: no-string-literal
       if (resp['success']) {
         // console.log('on success = true: transacc');
         this.closeIn = 2;
@@ -62,6 +63,7 @@ export class CheckinComponent implements OnInit {
         this.buttonDisabled = true;
       } else {
         // console.error(`Error PHP/SQL: ${resp['message']}`);
+        // tslint:disable-next-line: no-string-literal
         this.alert = { class: 'alert alert-warning', msg: 'Excepción: ' + resp['message'], show: true };
         return false;
       }

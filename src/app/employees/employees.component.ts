@@ -17,8 +17,8 @@ export class EmployeesComponent implements OnInit {
   employees: Employee[];
   companies: Company[];
 
-  constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService
-    , private companyService: CompanyService) {
+  constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService,
+              private companyService: CompanyService) {
     this.router.events.forEach((event) => {
       // console.log('route event...' + event);
       if (event instanceof NavigationEnd && event.url == '/employees') {
@@ -63,7 +63,7 @@ export class EmployeesComponent implements OnInit {
     if (!nombreEmpleado || !nifDni) { return; }
 
     const employee = new Employee(codEmpresa, nombreEmpleado, nifDni);
-    employee.nombreEmpresa = "¡Nuevo!";
+    employee.nombreEmpresa = '¡Nuevo!';
 
     console.log('Employee = ' + JSON.stringify(employee));
 
@@ -75,9 +75,16 @@ export class EmployeesComponent implements OnInit {
       });
   }
 
-  public toggleActive(id: number) {
-    const employee = this.employees[this.arrayObjectIndexOf(this.employees, id, 'codigoEmpleado')];
-    if (employee.activo == 0) { employee.activo = -1 } else { employee.activo = 0 }
+  public toggleActive(employee: Employee) {
+    // const employee = this.employees[this.arrayObjectIndexOf(this.employees, id, 'codigoEmpleado')];
+    employee.activo = !employee.activo;
+    this.employeeService.updateEmployee(employee).subscribe();
+  }
+
+  public deleteEmployee(employee: Employee) {
+    // TODO: Ventana modal con confirmación de eliminado
+    this.employeeService.deleteEmployee(employee).subscribe();
+    this.getEmployees();
   }
 
   arrayObjectIndexOf(myArray, searchTerm, property) {

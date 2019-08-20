@@ -1,6 +1,6 @@
 <div class="container">
-  <input [(ngModel)]="searchText" placeholder="buscar por nombre...">
-  <table class="table table-striped table-hover" style="width: 85%; margin: auto">
+  <input [(ngModel)]="searchText" placeholder="filtrar por nombre..." class="text-center">
+  <table class="table table-striped table-hover table-sm text-center">
     <thead class="btn-primary">
       <tr>
         <th scope="col">Código</th>
@@ -13,13 +13,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let company of companies | filterByName: 'nombreEmpresa' : searchText" [className]="company.Activa == 1 ? '' : 'text-muted'">
+      <tr *ngFor="let company of companies | filterByName: 'nombreEmpresa' : searchText"
+        [className]="company.Activa == 1 ? '' : 'text-muted'">
         <td>{{company.codigoEmpresa == null ? 'Nueva' : company.codigoEmpresa}}</td>
         <td>{{company.nombreEmpresa}}</td>
         <td>{{company.CifDni}}</td>
         <td>{{company.FechaAlta | date:'dd/MM/yyyy' }}</td>
         <td>{{company.Activa == 1 ? 'Sí' : 'No'}}</td>
-        <td><a (click)="toggleActive(company.codigoEmpresa)">{{ company.Activa == 1 ? 'desactivar' : 'activar' }}</a></td>
+        <td><a (click)="toggleActive(company.codigoEmpresa)">{{ company.Activa == 1 ? 'desactivar' : 'activar' }}</a>
+        </td>
         <td><a [routerLink]="['/company', company.codigoEmpresa]">Editar</a></td>
       </tr>
     </tbody>
@@ -36,5 +38,4 @@
       añadir
     </button>
   </div>
-
 </div>

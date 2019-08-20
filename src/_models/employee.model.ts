@@ -7,7 +7,7 @@ export class Employee {
   nombreEmpleado: string;
   nifDni: string;
   fechaAlta: Date;
-  activo: number;
+  activo: boolean;
   permisos: string;
 
   constructor(codEmpresa: number, nombre: string, nif: string) {
@@ -16,7 +16,7 @@ export class Employee {
     this.nombreEmpleado = nombre;
     this.nifDni = nif;
     this.fechaAlta = new Date();
-    this.activo = -1;
+    this.activo = true;
     this.permisos = 'Usuario';
   }
 
