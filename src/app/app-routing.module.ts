@@ -8,6 +8,7 @@ import { CompaniesComponent } from './companies/companies.component';
 import { CompanyDetailComponent } from './company-detail/company-detail.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import { RptTimerComponent } from './rpt-timer/rpt-timer.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'company/:id', component: CompanyDetailComponent },
   { path: 'employees', component: EmployeesComponent },
   { path: 'employee/:id', component: EmployeeDetailComponent },
+  { path: 'rpt-timer', component: RptTimerComponent },
   { path: '', component: AppComponent },
   { path: '**', component: AppComponent }
 ];

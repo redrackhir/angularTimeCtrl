@@ -14,10 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterPipe } from 'src/_pipes/filter.pipe';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
+import { RptTimerComponent } from './rpt-timer/rpt-timer.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, CheckinComponent, CompaniesComponent,
-    EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterPipe, EmployeeDetailComponent],
+    EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterPipe, EmployeeDetailComponent, RptTimerComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent]
