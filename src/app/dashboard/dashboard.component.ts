@@ -11,7 +11,8 @@ import { LoginService } from '../../_services/login.service';
 export class DashboardComponent implements OnInit {
 
   isUserLogged = false;
-  userLoggedName = null;
+  userLoggedName = '';
+  userLoggedCompany = '';
   private _router: Router;
   loginService: LoginService;
 

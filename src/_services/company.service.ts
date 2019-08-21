@@ -88,7 +88,7 @@ export class CompanyService {
   /** DELETE: delete the Company from the server */
   deleteCompany(company: Company | number): Observable<Company> {
     const id = typeof company === 'number' ? company : company.codigoEmpresa;
-    const url = `${this.PHP_API_SERVER}/${id}`;
+    const url = `${this.PHP_API_SERVER}/api/deleteCompany.php?id=${id}`;
 
     return this.http.delete<Company>(url, this.httpOptions).pipe(
       tap(_ => this.log(`¡Empresa [${id}] eliminada!`, 'success')),

@@ -29,13 +29,14 @@ export class CheckinService {
     return this.http.get<Checkin[]>(`${this.PHP_API_SERVER}/api/readCheckins.php`);
   }
 
-  checkin(employeeId: number, dateAndTime: string) {
+  checkin(employeeId: number, dateAndTime: string, coords: any) {
     // event.preventDefault();
     // tslint:disable-next-line: prefer-const
     // console.log(`registering ${employeeId}, ${dateAndTime}`);
     return this.http.post(`${this.PHP_API_SERVER}/api/insertCheckin.php`, {
       employeeId,
-      dateAndTime
+      dateAndTime,
+      coords
     });
   }
 

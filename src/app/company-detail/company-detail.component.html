@@ -6,24 +6,28 @@
       <label class="w-100">Código empresa: {{company.codigoEmpresa}}
       </label>
 
-      <label class="w-100">Empresa <input type="text" #nombreEmpresa name="nombreEmpresa" (keydown)="dataChanged()"
-          class="col" [(ngModel)]="company.nombreEmpresa" />
-      </label>
-      <label class="w-100">C.I.F./D.N.I. <input type="text" class="col" name="cifDni" (keydown)="dataChanged()"
-          [(ngModel)]="company.CifDni" />
+      <label class="w-100">Empresa <input type="text" #nombreEmpresa name="nombreEmpresa" class="col"
+          [(ngModel)]="company.nombreEmpresa" />
       </label>
 
-      <label class="w-100">Fecha alta: {{ company.FechaAlta | date: 'dd-MM-yyyy'}}
+      <label class="w-100">Contraseña <input type="text" #contrasenya name="contrasenya" class="col"
+          [(ngModel)]="company.contrasenya" />
+      </label>
+
+      <label class="w-100">C.I.F./D.N.I. <input type="text" class="col" name="cifDni" [(ngModel)]="company.cifDni" />
+      </label>
+
+      <label class="w-100">Fecha alta: {{ company.fechaAlta | date: 'dd-MM-yyyy'}}
       </label>
 
 
-      <label class="w-100">Empresa {{ company.Activa == 1 ? 'activada':'desactivada'}}
-        <input #activa type="checkbox" checked="{{ company.Activa == 1 ? 'checked':'' }}" (click)="dataChanged(activa.checked)" />
+      <label class="w-100">Empresa {{ company.activa ? 'activada':'desactivada'}}
+        <input #activa type="checkbox" checked="{{ company.activa ? 'checked':'' }}" (click)="toggleActive()" />
       </label>
 
       <div class="btn-group">
         <button type="button" class="btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"
-        style="text-align: center; margin: auto" (disabled)="companyForm.dirty">Guardar</button>
+          style="text-align: center; margin: auto" (disabled)="companyForm.dirty">Guardar</button>
         <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>
       </div>
 

@@ -41,13 +41,6 @@ export class CompanyDetailComponent implements OnInit {
     console.log('hasChanges = ' + this.hasChanges); */
   }
 
-  dataChanged(value: boolean): void {
-    this.hasChanges = true;
-    this.company.Activa = value;
-    console.log('hasChanges = ' + this.hasChanges);
-    console.log('company = ' + JSON.stringify(this.company));
-  }
-
   saveData(doExit: boolean): void {
     // guardar los cambios
     let response: any;
@@ -59,8 +52,8 @@ export class CompanyDetailComponent implements OnInit {
     }
   }
 
-  setBool(): void {
-    this.company.Activa = !this.company.Activa;
+  toggleActive(): void {
+    this.company.activa = !this.company.activa;
   }
 
 }

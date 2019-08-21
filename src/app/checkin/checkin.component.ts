@@ -4,7 +4,7 @@ import { LoginService, Usuario } from 'src/_services';
 import { CheckinService } from 'src/_services/checkin.service';
 import { interval } from 'rxjs';
 import { formatDate } from '@angular/common';
-import { Button } from 'protractor';
+import { LocationService } from 'src/_services/location.service';
 
 @Component({
   selector: 'app-checkin',
@@ -21,7 +21,10 @@ export class CheckinComponent implements OnInit {
   private _router: Router;
   // tslint:disable-next-line: variable-name
   private _loginService: LoginService;
+  // tslint:disable-next-line: variable-name
+  _locationService: LocationService;
   checkinService: CheckinService;
+  public location: any;
   public txtFechahora: Date;
   private secondsCounter = interval(1000);
   private timerSubscribe = this.secondsCounter.subscribe(n => this.refreshTextBoxTime());
@@ -31,8 +34,9 @@ export class CheckinComponent implements OnInit {
   private closeIn = -1;
   buttonDisabled: boolean;
 
-  constructor(private router: Router, loginService: LoginService, checkinService: CheckinService) {
+  constructor(private router: Router, loginService: LoginService, checkinService: CheckinService, locationService: LocationService) {
     this._loginService = loginService;
+    this._locationService = locationService;
     this._router = router;
     this.checkinService = checkinService;
     this.loggedUser = this._loginService.getEmployee();
@@ -47,13 +51,18 @@ export class CheckinComponent implements OnInit {
 
     this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
+    // geolocalizacion
+    this._locationService.getPosition().then(pos => {
+      this.location = pos.lat + ' ' + pos.lng,
+        console.log(`Position: ${pos.lat} ${pos.lng}`);
+    });
   }
 
   checkIn(event: Event) {
     event.preventDefault();
     // console.log(`checkin.component: checkIn() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
     const fechahora: string = formatDate(Date.now(), 'yyyy/MM/dd HH:mm:ss', 'en-US');
-    this.checkinService.checkin(this.loggedUser.codigoEmpleado, fechahora).subscribe(resp => {
+    this.checkinService.checkin(this.loggedUser.codigoEmpleado, fechahora, this.location).subscribe(resp => {
       // console.log('checkin.service: response = ' + JSON.stringify(resp));
       // tslint:disable-next-line: no-string-literal
       if (resp['success']) {
@@ -81,7 +90,7 @@ export class CheckinComponent implements OnInit {
       this.closeIn--;
       if (this.closeIn < 0) {
         this.timerSubscribe.unsubscribe();
-        this._router.navigateByUrl('');
+        this._router.navigateByUrl('/dashboard');
       }
     }
   }

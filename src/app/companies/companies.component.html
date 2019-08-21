@@ -1,6 +1,6 @@
 <div class="container">
   <input [(ngModel)]="searchText" placeholder="filtrar por nombre..." class="text-center">
-  <table class="table table-striped table-hover table-sm text-center">
+  <table class="table table-striped table-hover table-sm">
     <thead class="btn-primary">
       <tr>
         <th scope="col">Código</th>
@@ -8,21 +8,23 @@
         <th scope="col">CIF - DNI</th>
         <th scope="col">Fecha Alta</th>
         <th scope="col">Activa</th>
-        <th scope="col">Opciones</th>
-        <th scope="col">&nbsp;</th>
+        <th scope="col" class="text-center">Opciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let company of companies | filterByName: 'nombreEmpresa' : searchText"
-        [className]="company.Activa == 1 ? '' : 'text-muted'">
+        [className]="company.Activa ? '' : 'text-muted'">
         <td>{{company.codigoEmpresa == null ? 'Nueva' : company.codigoEmpresa}}</td>
         <td>{{company.nombreEmpresa}}</td>
-        <td>{{company.CifDni}}</td>
-        <td>{{company.FechaAlta | date:'dd/MM/yyyy' }}</td>
-        <td>{{company.Activa == 1 ? 'Sí' : 'No'}}</td>
-        <td><a (click)="toggleActive(company.codigoEmpresa)">{{ company.Activa == 1 ? 'desactivar' : 'activar' }}</a>
+        <td>{{company.cifDni}}</td>
+        <td>{{company.fechaAlta | date:'dd/MM/yyyy' }}</td>
+        <td>{{company.activa ? 'Sí' : 'No'}}</td>
+        <td class="text-center">
+          <a class="badge badge-info"
+            (click)="toggleActive(company.codigoEmpresa)">{{ company.activa ? 'desactivar' : 'activar' }}</a>&nbsp;
+          <a class="badge badge-primary" [routerLink]="['/company', company.codigoEmpresa]">Editar</a>&nbsp;
+          <a class="badge badge-danger" [routerLink]="['/companies']" data-toggle="modal" data-target="#deleteCompany" (click)="setCurrentCompany(company)">Eliminar</a>
         </td>
-        <td><a [routerLink]="['/company', company.codigoEmpresa]">Editar</a></td>
       </tr>
     </tbody>
   </table>
@@ -37,5 +39,28 @@
     <button (click)="add(companyName.value, cifDniCompany.value); companyName.value=''; cifDniCompany.value">
       añadir
     </button>
+  </div>
+</div>
+<!-- Confirmacion eliminacion -->
+<div class="modal fade" id="deleteCompany" tabindex="-1" role="dialog" aria-labelledby="deleteCompany" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteCompanyLabel">Eliminar empresa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>¡Atención!</b><br>
+        Además de la empresa, también se perderán todos los datos asociados a ella.<br><hr>
+        ¿Confirma eliminar la empresa <em><b>{{currentCompany.nombreEmpresa}}</b></em> y sus datos asociados?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="deleteCompany()">Sí, eliminar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No, cancela</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
   </div>
 </div>

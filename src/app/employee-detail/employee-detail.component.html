@@ -20,8 +20,8 @@
       <label class="w-100 text-muted">Permisos: <span class="text-dark">{{ employee.permisos}}</span> </label>
 
 
-      <label class="w-100">Empleado {{ employee.activo == -1 ? 'activo':'inactivo'}}
-        <input #activo type="checkbox" checked="{{ employee.activo == -1 ? 'checked':'' }}"
+      <label class="w-100">Empleado {{ employee.activo ? 'activo':'inactivo'}}
+        <input #activo type="checkbox" checked="{{employee.activo ? 'checked' : ''}}"
           (click)="dataChanged(activo.checked)" />
       </label>
 

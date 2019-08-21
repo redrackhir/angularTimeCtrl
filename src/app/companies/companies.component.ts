@@ -17,6 +17,7 @@ export class CompaniesComponent implements OnInit {
   isUserLogged = false;
   userLoggedName = null;
   companies: Company[];
+  currentCompany: Company = new Company('', '');
 
   constructor(private router: Router, private loginService: LoginService, private companyService: CompanyService) {
     this.router.events.forEach((event) => {
@@ -67,10 +68,23 @@ export class CompaniesComponent implements OnInit {
       });
   }
 
+  public setCurrentCompany(company: Company) {
+    this.currentCompany = company;
+    console.log(`Current company = ${JSON.stringify(this.currentCompany)}`);
+  }
+
   public toggleActive(id: number): void {
     const company = this.companies[this.arrayObjectIndexOf(this.companies, id, 'codigoEmpresa')];
-    company.Activa = !company.Activa;
+    company.activa = !company.activa;
     this.companyService.updateCompany(company).subscribe();
+  }
+
+  public deleteCompany() {
+    // TODO: Ventana modal con confirmación de eliminado
+    const company = this.currentCompany;
+    console.log(`Delete company = ${JSON.stringify(company)}`);
+    this.companyService.deleteCompany(company).subscribe();
+    this.getCompanies();
   }
 
   arrayObjectIndexOf(myArray, searchTerm, property) {
