@@ -28,7 +28,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a *ngIf="isUserLogged" class="nav-link" (click)="logout()">Logout</a>
+        <a *ngIf="isUserLogged" routerLink="/" class="nav-link" (click)="logout()">Logout</a>
       </li>
 
       <li *ngIf="isAdmin" class="nav-item dropdown">
@@ -72,14 +72,6 @@
       </div>
     </div>
   </div>
-
-
-
-<div style="text-align:center">
-  <h1>
-    Bienvenid@ a {{ title }}!
-  </h1>
-</div>
 
 <router-outlet></router-outlet>
 <app-messages></app-messages>

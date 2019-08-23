@@ -5,8 +5,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ userLoggedName }}</h5>
         <p class="card-text">{{ userLoggedCompany }}</p>
-        <p class="card-text">Última fichada {{ lastClockin | date:'dd/MM/yyyy \'a las\' HH:mm' }}</p>
-        <a routerLink="/checkin" class="btn btn-primary">Fichar</a>
+        <p class="card-text">Última fichada {{ lastClockin }}</p>
+        <a routerLink="/checkin" class="btn btn-primary">Fichar</a>&nbsp;&nbsp;
+        <a routerLink="/" (click)="logout()" class="btn btn-primary">Salir</a>
       </div>
     </div>
   </div>

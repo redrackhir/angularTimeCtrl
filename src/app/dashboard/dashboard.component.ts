@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginService } from '../../_services/login.service';
 import { ClockinService } from '../../_services/clock-in.service';
 import { Usuario } from 'src/_services';
 import { environment } from 'src/environments/environment.prod';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,20 +48,25 @@ export class DashboardComponent implements OnInit {
     this.debug(`this.getLastClockin(${this.userLogged.codigoEmpleado})`);
     this.clockinService.getLastClockin(this.userLogged.codigoEmpleado)
                       .subscribe(response => this.userLoggedLastClockin = response, _ => this.debug('Error leyendo datos...')
-                      , () => this.lastClockin = this.userLoggedLastClockin['last']);
+                      , () => this.lastClockin = this.humanize(this.userLoggedLastClockin['last']));
     this.debug('this.userLoggedLastClockin = ' + this.userLoggedLastClockin);
     // this.debug('from dasboard.onInit(): ' + this.userLoggedName);
+  }
+  humanize(fecha: string): string {
+    let date = new Date(fecha);
+    let ret = '';
+    if (date.getDate() == new Date().getDate()) { ret = `Hoy a las ${date.getHours()}:${date.getMinutes()}`; }
+    if (date.getDate() == new Date().getDate() - 1) { ret = `Ayer a las ${date.getHours()}:${date.getMinutes()}`; }
+    // tslint:disable-next-line: max-line-length
+    if (date.getDate() < new Date().getDate() - 1) { ret = `${formatDate(date, 'dd/MM/yy', 'es')} a las ${date.getHours()}:${date.getMinutes()}`; }
+    return ret;
   }
 
   logout() {
     this.loginService.logout();
-    this.router.navigateByUrl('');
-    /*
-    localStorage.removeItem('user');
     this.isUserLogged = false;
     this.userLoggedName = null;
-    // this.router.navigateByUrl('');
-    */
+    this.router.navigateByUrl('/');
   }
 
   debug(msg: string) {

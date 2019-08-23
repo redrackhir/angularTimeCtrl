@@ -39,14 +39,15 @@ export class RptTimerComponent implements OnInit {
   filterByCurrentWeek(): void {
     const d = new Date();
     this.filterWeek = this.getWeekNumber(d) - 1;
-    this.debug(`filterWeek = ${this.filterWeek}`);
     this.filterMonth = 0;
-    this.getClockins();
+    this.filterYear = 0;
     this.filterText = 'Semana en curso';
+    this.getClockins();
   }
 
   filterByCurrentMonth(): void {
     this.filterMonth = new Date().getMonth() + 1;
+    this.filterYear = 0;
     this.filterWeek = 0;
     this.filterText = 'Mes en curso';
     this.getClockins();
