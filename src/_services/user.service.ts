@@ -3,7 +3,7 @@ import { Usuario } from '../_models/user.model';
 
 @Injectable()
 export class UserService {
-  private isUserLoggedIn;
+  private isUserLoggedIn: boolean;
   public usserLogged: Usuario;
 
   constructor() {

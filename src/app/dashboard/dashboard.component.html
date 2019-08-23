@@ -4,14 +4,12 @@
       <img src="../../assets/users.png" class="card-img-top" style="width: 18rem" alt="...">
       <div class="card-body">
         <h5 class="card-title">{{ userLoggedName }}</h5>
-        <p class="card-text">Empresa</p>
-        <a href="#" class="btn btn-primary">Salir</a>
+        <p class="card-text">{{ userLoggedCompany }}</p>
+        <p class="card-text">Última fichada {{ lastClockin | date:'dd/MM/yyyy \'a las\' HH:mm' }}</p>
+        <a routerLink="/checkin" class="btn btn-primary">Fichar</a>
       </div>
     </div>
   </div>
 
 </div>
-<div *ngIf="isUserLogged">
-  Welcome {{ userLoggedName }}
-  <button class="button" (click)="logout()">Logout</button>
-</div>
+

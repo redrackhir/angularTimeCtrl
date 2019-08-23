@@ -29,11 +29,12 @@ export class CheckinService {
     return this.http.get<Checkin[]>(`${this.PHP_API_SERVER}/api/readCheckins.php`);
   }
 
-  checkin(employeeId: number, dateAndTime: string, coords: any) {
+  checkin(companyId: number, employeeId: number, dateAndTime: string, coords: any) {
     // event.preventDefault();
     // tslint:disable-next-line: prefer-const
-    // console.log(`registering ${employeeId}, ${dateAndTime}`);
+    // this.debug(`registering ${employeeId}, ${dateAndTime}`);
     return this.http.post(`${this.PHP_API_SERVER}/api/insertCheckin.php`, {
+      companyId,
       employeeId,
       dateAndTime,
       coords
@@ -70,7 +71,7 @@ export class CheckinService {
   /*
   return new Promise<boolean>(resolve => {
     if (localStorage.getItem('user') != null) {
-      // console.log('checkin.service: isUserLogged = ' + true);
+      // this.debug('checkin.service: isUserLogged = ' + true);
       return true;
     } else {
       return false;
@@ -80,13 +81,13 @@ export class CheckinService {
  */
 
   /* getUserName() {
-    // console.log(`checkin.service: userLogged = ${JSON.stringify(this.userLogged)}`);
+    // this.debug(`checkin.service: userLogged = ${JSON.stringify(this.userLogged)}`);
     return this.userLogged.NombreEmpleado; */
   /*
   return new Promise<string>(resolve => {
     if (this.isUserLogged()) {
       const userName = JSON.parse(localStorage.getItem('user'))['NombreEmpleado'];
-      // console.log('checkin.service: getUserName = ' + userName);
+      // this.debug('checkin.service: getUserName = ' + userName);
       return userName;
     } else {
       return null;

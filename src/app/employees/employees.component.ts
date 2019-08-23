@@ -5,6 +5,7 @@ import { EmployeeService } from 'src/_services/employee.service';
 import { CompanyService } from 'src/_services/company.service';
 import { Employee } from 'src/_models/employee.model';
 import { Company } from 'src/_models/company.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-employees',
@@ -12,6 +13,8 @@ import { Company } from 'src/_models/company.model';
   styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
+
+  public searchText = '';
   loggedUser: Usuario;
   empleado: any;
   employees: Employee[];
@@ -20,10 +23,10 @@ export class EmployeesComponent implements OnInit {
   constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService,
               private companyService: CompanyService) {
     this.router.events.forEach((event) => {
-      // console.log('route event...' + event);
+      // this.debug('route event...' + event);
       if (event instanceof NavigationEnd && event.url == '/employees') {
         this.ngOnInit();
-        // console.log('reloading data...' + event);
+        // this.debug('reloading data...' + event);
       }
     });
   }
@@ -32,13 +35,13 @@ export class EmployeesComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
     // this.checkinService.setLastTransacc(false);
-    // console.log(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // this.debug(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
     // this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     this.getEmployees();
     this.getCompanies();
-    // console.log('response 3: ' + JSON.stringify(this.data));
+    // this.debug('response 3: ' + JSON.stringify(this.data));
   }
 
   getEmployees(): void {
@@ -65,13 +68,13 @@ export class EmployeesComponent implements OnInit {
     const employee = new Employee(codEmpresa, nombreEmpleado, nifDni);
     employee.nombreEmpresa = '¡Nuevo!';
 
-    console.log('Employee = ' + JSON.stringify(employee));
+    this.debug('Employee = ' + JSON.stringify(employee));
 
     this.employeeService.addEmployee(employee)
       // tslint:disable-next-line: no-shadowed-variable
       .subscribe(employee => {
         this.employees.push(employee);
-        console.log('new employee added: ' + JSON.stringify(employee));
+        this.debug('new employee added: ' + JSON.stringify(employee));
       });
   }
 
@@ -89,9 +92,15 @@ export class EmployeesComponent implements OnInit {
 
   arrayObjectIndexOf(myArray, searchTerm, property) {
     for (let i = 0, len = myArray.length; i < len; i++) {
-      // console.log('myArray[i][property] = ' + myArray[i][property]);
+      // this.debug('myArray[i][property] = ' + myArray[i][property]);
       // tslint:disable-next-line: triple-equals
       if (myArray[i][property] == searchTerm) { return i; }
+    }
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
     }
   }
 

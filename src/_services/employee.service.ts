@@ -31,7 +31,7 @@ export class EmployeeService {
 
   getEmployeesList(): Observable<Employee[]> {
     const url = `${this.PHP_API_SERVER}/api/readEmployees.php`;
-    console.log(`calling ${url}...`);
+    this.debug(`calling ${url}...`);
     return this.http.get<Employee[]>(this.PHP_API_SERVER + '/api/readEmployees.php')
       .pipe(
         tap(),
@@ -42,7 +42,7 @@ export class EmployeeService {
   /** GET Employee by id. Will 404 if id not found */
   getEmployee(id: number): Observable<Employee> {
     const url = `${this.PHP_API_SERVER}/api/getEmployee.php?id=${id}`;
-    console.log(`calling ${url}...`);
+    this.debug(`calling ${url}...`);
     return this.http.get<Employee>(url).pipe(
       tap(_ => this.log(`Cargado empleado con id: ${id}`, 'success')),
       catchError(this.handleError<Employee>(`getEmployee id=${id}`))
@@ -109,7 +109,7 @@ export class EmployeeService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      // console.error(error); // log to console instead
+      // this.debug(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`Falló la operación ${operation}: ${error.message}`, 'danger');
@@ -122,6 +122,12 @@ export class EmployeeService {
   /** Log a HeroService message with the MessageService */
   private log(message: string, alertType: string) {
     this.messageService.add(`EmployeeService: ${message}`, alertType);
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
   }
 
 }

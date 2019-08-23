@@ -6,6 +6,7 @@ import { EmployeeService } from 'src/_services/employee.service';
 import { FormControl, FormsModule } from '@angular/forms';
 import { HttpParams } from '@angular/common/http';
 import { switchMap } from 'rxjs/internal/operators/switchMap';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-employee-detail',
@@ -31,34 +32,39 @@ export class EmployeeDetailComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
 
-    console.log(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
+    this.debug(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
     this.empleado = this.loggedUser.nombreEmpleado;
   }
 
   getEmployee(): void {
     // Leer datos de la empresa
     this.employeeService.getEmployee(this.id).subscribe(response => this.employee = response);
-    console.log(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
+    this.debug(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
 
-    /* console.log('result = ' + JSON.stringify(this.employee));
-    console.log('hasChanges = ' + this.hasChanges); */
+    /* this.debug('result = ' + JSON.stringify(this.employee));
+    this.debug('hasChanges = ' + this.hasChanges); */
   }
 
-  dataChanged(value: boolean): void {
+  dataChanged(): void {
     this.hasChanges = true;
-    this.employee.activo = value;
-    console.log('hasChanges = ' + this.hasChanges);
-    console.log('employee = ' + JSON.stringify(this.employee));
+    this.debug('hasChanges = ' + this.hasChanges);
+    this.debug('employee = ' + JSON.stringify(this.employee));
   }
 
   saveData(doExit: boolean): void {
     // guardar los cambios
     let response: any;
-    console.log('update ' + JSON.stringify(this.employee));
+    this.debug('update ' + JSON.stringify(this.employee));
     this.employeeService.updateEmployee(this.employee).subscribe(response => response);
-    console.log('response = ' + response);
+    this.debug('response = ' + response);
     if (doExit) {
       this.router.navigateByUrl('/companies');
+    }
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
     }
   }
 

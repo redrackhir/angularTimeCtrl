@@ -13,7 +13,7 @@
         <a *ngIf="!isUserLogged" class="nav-link" routerLink="/login">Login <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a *ngIf="isUserLogged" class="btn btn-success my-2 my-sm-0" routerLink="/dashboard">{{ userLoggedName }}</a>
+        <a *ngIf="isUserLogged" class="btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}" routerLink="/dashboard">{{ userLoggedPermission }}:&nbsp;{{ userLoggedName }}</a>
       </li>
       <li class="nav-item">
         <a *ngIf="isUserLogged" class="nav-link" routerLink="/checkin">Fichar</a>
@@ -22,8 +22,8 @@
         <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">Consultar</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <a class="dropdown-item" [routerLink]="['/rpt-timer']">Fichajes de la semana</a>
-          <a class="dropdown-item" href="#">Fichajes del mes</a>
+          <a class="dropdown-item" [routerLink]="['/rpt-timer']">Fichadas de la semana</a>
+          <a class="dropdown-item" href="#">Fichadas del mes</a>
           <a class="dropdown-item" href="#">Resúmen de horas</a>
         </div>
       </li>

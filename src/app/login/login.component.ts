@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Usuario } from 'src/_models/user.model';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +24,11 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     this._loginService = loginService;
-    // console.log('login component (constructor): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
+    // this.debug('login component (constructor): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
   }
 
   ngOnInit() {
-    // console.log('login component (onInit): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
+    // this.debug('login component (onInit): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
     if (this._loginService.isUserLogged()) { this.router.navigateByUrl('/dashboard'); }
     this.loading = false;
     this.userLogged = this._loginService.getEmployee();
@@ -40,16 +41,18 @@ export class LoginComponent implements OnInit {
     this.loading = true;
 
     this._loginService.login(employeeId, password).subscribe(resp => {
-      // console.log('login.comp: response = ' + JSON.stringify(resp));
-      // tslint:disable-next-line: no-string-literal
+      // this.debug('login.comp: response = ' + JSON.stringify(resp));
       if (resp != null) {
+        // tslint:disable-next-line: no-string-literal
         if (resp['success'] === true) {
           this.isUserLoggedIn = true;
           // tslint:disable-next-line: no-string-literal
           this.userLogged = resp['user'];
-          // console.log(`user & userLogged = ${this.userLogged} // ${this.isUserLoggedIn}`);
+          // tslint:disable-next-line: no-string-literal
+          //this.userLogged.codigoEmpresa = resp['codigoEmpresa'];
           this.saveUser(this.userLogged);
-          console.log('UserLogged =' + this.userLogged.permisos);
+          this.debug('User permissions =' + this.userLogged.permisos);
+          this.debug(`user & isUserLoggedIn = ${JSON.stringify(this.userLogged)} // ${this.isUserLoggedIn}`);
           this.navigate();
           this.loading = false;
         } else {
@@ -59,24 +62,24 @@ export class LoginComponent implements OnInit {
       } else {
         this.isUserLoggedIn = false;
         this.userLogged = null;
-        // console.error('no response from PHP');
+        // this.debug('no response from PHP');
         this.removeUser();
         this.loading = false;
       }
     }, error => {
-      // console.log('login.comp: error = ' + JSON.stringify(error));
+      // this.debug('login.comp: error = ' + JSON.stringify(error));
       this.loading = false;
     });
   }
 
   navigate() {
     this.router.navigateByUrl('/dashboard');
-    // console.log('navigating to /dashboard...');
+    // this.debug('navigating to /dashboard...');
   }
 
   saveUser(empleado: Usuario) {
     localStorage.setItem('user', JSON.stringify(empleado));
-    // console.log('login.service: user saved on local');
+    // this.debug('login.service: user saved on local');
   }
 
   private removeUser() {
@@ -90,4 +93,11 @@ export class LoginComponent implements OnInit {
     this.userLogged = null;
     this.navigate();
   }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
+  }
+
 }

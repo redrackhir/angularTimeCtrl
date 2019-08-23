@@ -3,6 +3,7 @@ import { CompanyService } from 'src/_services/company.service';
 import { Company } from 'src/_models/company.model';
 import { LoginService, Usuario } from 'src/_services';
 import { Router, NavigationEnd } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-companies',
@@ -12,6 +13,7 @@ import { Router, NavigationEnd } from '@angular/router';
 
 export class CompaniesComponent implements OnInit {
 
+  public searchText = '';
   loggedUser: Usuario;
   empleado: string;
   isUserLogged = false;
@@ -21,10 +23,10 @@ export class CompaniesComponent implements OnInit {
 
   constructor(private router: Router, private loginService: LoginService, private companyService: CompanyService) {
     this.router.events.forEach((event) => {
-      // console.log('route event...' + event);
+      // this.debug('route event...' + event);
       if (event instanceof NavigationEnd && event.url == '/companies') {
         this.ngOnInit();
-        // console.log('reloading data...' + event);
+        // this.debug('reloading data...' + event);
       }
     });
   }
@@ -33,12 +35,12 @@ export class CompaniesComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
     // this.checkinService.setLastTransacc(false);
-    // console.log(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // this.debug(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
     // this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     this.getCompanies();
-    // console.log('response 3: ' + JSON.stringify(this.data));
+    // this.debug('response 3: ' + JSON.stringify(this.data));
   }
 
   getCompanies(): void {
@@ -59,7 +61,7 @@ export class CompaniesComponent implements OnInit {
 
     const company = new Company(nombreEmpresa, cifDni);
 
-    console.log('Company = ' + JSON.stringify(company));
+    this.debug('Company = ' + JSON.stringify(company));
 
     this.companyService.addCompany(company)
       // tslint:disable-next-line: no-shadowed-variable
@@ -70,7 +72,7 @@ export class CompaniesComponent implements OnInit {
 
   public setCurrentCompany(company: Company) {
     this.currentCompany = company;
-    console.log(`Current company = ${JSON.stringify(this.currentCompany)}`);
+    this.debug(`Current company = ${JSON.stringify(this.currentCompany)}`);
   }
 
   public toggleActive(id: number): void {
@@ -82,16 +84,22 @@ export class CompaniesComponent implements OnInit {
   public deleteCompany() {
     // TODO: Ventana modal con confirmación de eliminado
     const company = this.currentCompany;
-    console.log(`Delete company = ${JSON.stringify(company)}`);
+    this.debug(`Delete company = ${JSON.stringify(company)}`);
     this.companyService.deleteCompany(company).subscribe();
     this.getCompanies();
   }
 
   arrayObjectIndexOf(myArray, searchTerm, property) {
     for (let i = 0, len = myArray.length; i < len; i++) {
-      // console.log('myArray[i][property] = ' + myArray[i][property]);
+      // this.debug('myArray[i][property] = ' + myArray[i][property]);
       // tslint:disable-next-line: triple-equals
       if (myArray[i][property] == searchTerm) { return i; }
+    }
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
     }
   }
 

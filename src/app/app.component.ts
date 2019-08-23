@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from 'src/_services';
 import { Router, NavigationStart } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent {
   isUserLogged: boolean;
   isAdmin: boolean;
   userLoggedName: string;
+  userLoggedPermission = '';
   version = 'Beta version 1.0';
   about = { title: 'PC Serveis', body: 'Dpto. programación\n' };
 
@@ -22,17 +24,17 @@ export class AppComponent {
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
         this.getLogged();
-        console.log('route event = ' + event);
-        console.log('User logged? ' + this.loginService.isUserLogged());
-        console.log('User isAdmin ' + this.loginService.isAdmin());
+        this.debug('route event = ' + event);
+        this.debug('User logged? ' + this.loginService.isUserLogged());
+        this.debug('User isAdmin ' + this.loginService.isAdmin());
         if (!this.loginService.isUserLogged) {
-          console.error('User not logged, please loggin. Redirect to home...');
+          this.debug('User not logged, please loggin. Redirect to home...');
           this.navigate();
         }
         // Permisos paginas protegidas
         if (event.url == '/companies' || event.url == '/employees') {
           if (!this.loginService.isAdmin()) {
-            console.error('You don\'t have access to security area. Redirect to home...');
+            this.debug('You don\'t have access to security area. Redirect to home...');
             this.navigate();
           }
         }
@@ -52,7 +54,7 @@ export class AppComponent {
       this.isUserLogged = false;
     } else {
       this.isUserLogged = true;
-    // console.log(this.userLoggedName);
+    // this.debug(this.userLoggedName);
     }
     */
   }
@@ -60,6 +62,7 @@ export class AppComponent {
   private async getLogged() {
     this.isUserLogged = await this.loginService.isUserLogged() as boolean;
     this.userLoggedName = await this.loginService.getEmployeeName() as string;
+    this.userLoggedPermission = await this.loginService.getPermissionLevel() as string;
     this.isAdmin = await this.loginService.isAdmin() as boolean;
   }
   navigate() {
@@ -73,8 +76,10 @@ export class AppComponent {
     this.router.navigateByUrl('/');
   }
 
-  showVersion() {
-
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
   }
 
 }

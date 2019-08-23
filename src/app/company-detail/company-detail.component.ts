@@ -3,6 +3,7 @@ import { Company } from 'src/_models/company.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService, Usuario } from 'src/_services';
 import { CompanyService } from 'src/_services/company.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-company-detail',
@@ -28,25 +29,25 @@ export class CompanyDetailComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
 
-    console.log(`company-detail|company = ${JSON.stringify(this.company)}`);
+    this.debug(`company-detail|company = ${JSON.stringify(this.company)}`);
     this.empleado = this.loggedUser.nombreEmpleado;
   }
 
   getCompany(): void {
     // Leer datos de la empresa
     this.companyService.getCompany(this.id).subscribe(response => this.company = response);
-    console.log(`company-detail|company = ${JSON.stringify(this.company)}`);
+    this.debug(`company-detail|company = ${JSON.stringify(this.company)}`);
 
-    /* console.log('result = ' + JSON.stringify(this.company));
-    console.log('hasChanges = ' + this.hasChanges); */
+    /* this.debug('result = ' + JSON.stringify(this.company));
+    this.debug('hasChanges = ' + this.hasChanges); */
   }
 
   saveData(doExit: boolean): void {
     // guardar los cambios
     let response: any;
-    console.log('update ' + JSON.stringify(this.company));
+    this.debug('update ' + JSON.stringify(this.company));
     this.companyService.updateCompany(this.company).subscribe(response => response);
-    console.log('response = ' + response);
+    this.debug('response = ' + response);
     if (doExit) {
       this.router.navigateByUrl('/companies');
     }
@@ -54,6 +55,12 @@ export class CompanyDetailComponent implements OnInit {
 
   toggleActive(): void {
     this.company.activa = !this.company.activa;
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
   }
 
 }

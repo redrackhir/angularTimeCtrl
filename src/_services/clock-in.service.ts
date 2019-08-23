@@ -29,9 +29,11 @@ export class ClockinService {
     }
   }
 
-  getClockinsList(): Observable<Clockin[]> {
-    const url = `${this.PHP_API_SERVER}/api/readClockins.php`;
-    console.log(`calling ${url}...`);
+  getClockinsList(idEmpresa: number, idEmpleado: number, filterWeek: number,
+                  filterMonth: number, filterYear: number): Observable<Clockin[]> {
+    // tslint:disable-next-line: max-line-length
+    const url = `${this.PHP_API_SERVER}/api/readClockins.php?idEmpresa=${idEmpresa}&idEmpleado=${idEmpleado}&week=${filterWeek}&month=${filterMonth}&year=${filterYear}`;
+    this.debug(`calling ${url}...`);
     return this.http.get<Clockin[]>(url)
       .pipe(
         tap(),
@@ -39,11 +41,20 @@ export class ClockinService {
       );
   }
 
+  getLastClockin(idEmpleado: number): Observable<any> {
+    const url = `${this.PHP_API_SERVER}/api/getLastClockin.php?id=${idEmpleado}`;
+    return this.http.get<any>(url)
+      .pipe(
+        tap(),
+        catchError(this.handleError<any>('getLastClockin'))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      this.debug(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`, 'danger');
@@ -56,6 +67,12 @@ export class ClockinService {
   /** Log a message with the MessageService */
   private log(message: string, alertType: string) {
     this.messageService.add(message, alertType);
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
   }
 
 }

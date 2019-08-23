@@ -5,6 +5,8 @@ import { CheckinService } from 'src/_services/checkin.service';
 import { interval } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { LocationService } from 'src/_services/location.service';
+import { environment } from 'src/environments/environment';
+
 
 @Component({
   selector: 'app-checkin',
@@ -47,37 +49,39 @@ export class CheckinComponent implements OnInit {
     // this.loggedUser = this._loginService.getEmployee();
     if (this.loggedUser == null) { this._router.navigateByUrl('/'); }
     this.checkinService.setLastTransacc(false);
-    // console.log(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // this.debug(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
     this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     // geolocalizacion
     this._locationService.getPosition().then(pos => {
-      this.location = pos.lat + ' ' + pos.lng,
-        console.log(`Position: ${pos.lat} ${pos.lng}`);
+      this.location = pos.lat + ' ' + pos.lng;
+        this.debug(`Position: ${pos.lat} ${pos.lng}`);
     });
   }
 
   checkIn(event: Event) {
     event.preventDefault();
-    // console.log(`checkin.component: checkIn() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // this.debug(`checkin.component: checkIn() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
     const fechahora: string = formatDate(Date.now(), 'yyyy/MM/dd HH:mm:ss', 'en-US');
-    this.checkinService.checkin(this.loggedUser.codigoEmpleado, fechahora, this.location).subscribe(resp => {
-      // console.log('checkin.service: response = ' + JSON.stringify(resp));
+    this.debug('idCompany = ' + this._loginService.getEmployee().codigoEmpresa);
+    this.debug(`Save clockin: ${this.loggedUser.codigoEmpresa} ${this.loggedUser.codigoEmpleado} ${fechahora} ${this.location}`);
+    this.checkinService.checkin(this.loggedUser.codigoEmpresa, this.loggedUser.codigoEmpleado, fechahora, this.location).subscribe(resp => {
+      // this.debug('checkin.service: response = ' + JSON.stringify(resp));
       // tslint:disable-next-line: no-string-literal
       if (resp['success']) {
-        // console.log('on success = true: transacc');
+        // this.debug('on success = true: transacc');
         this.closeIn = 2;
         this.alert = { class: 'alert alert-success', msg: 'Fichada guardada correctamente', show: true };
         this.buttonDisabled = true;
       } else {
-        // console.error(`Error PHP/SQL: ${resp['message']}`);
+        // this.debug(`Error PHP/SQL: ${resp['message']}`);
         // tslint:disable-next-line: no-string-literal
         this.alert = { class: 'alert alert-warning', msg: 'Excepción: ' + resp['message'], show: true };
         return false;
       }
     }, error => {
-      // console.log('checkin.service: error = ' + JSON.stringify(error));
+      // this.debug('checkin.service: error = ' + JSON.stringify(error));
       this.alert = { class: 'alert alert-danger', msg: 'Error: ' + JSON.stringify(error.name), show: true };
       return false;
     });
@@ -85,13 +89,19 @@ export class CheckinComponent implements OnInit {
 
   refreshTextBoxTime() {
     this.txtFechahora = new Date();
-    // console.log(`checkin.component: closeIn = ${this.closeIn}`);
+    // this.debug(`checkin.component: closeIn = ${this.closeIn}`);
     if (this.closeIn > -1) {
       this.closeIn--;
       if (this.closeIn < 0) {
         this.timerSubscribe.unsubscribe();
         this._router.navigateByUrl('/dashboard');
       }
+    }
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
     }
   }
 

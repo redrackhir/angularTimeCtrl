@@ -17,13 +17,13 @@ export class LoginService {
 
   constructor(private http: HttpClient) {
     this.loadUser();
-    // console.log('login.service: constructor');
+    // this.debug('login.service: constructor');
     if (environment.production) {
       this.PHP_API_SERVER = '';
     } else {
       this.PHP_API_SERVER = 'http://127.0.0.1';
     }
-    // console.log(` ....environment.production = ${environment.production}; API_SERV = ${this.PHP_API_SERVER}`);
+    // this.debug(` ....environment.production = ${environment.production}; API_SERV = ${this.PHP_API_SERVER}`);
   }
 
   readUsers(): Observable<Usuario[]> {
@@ -39,7 +39,7 @@ export class LoginService {
   }
   /*
     .subscribe(resp => {
-    // console.log('login.service: response = ' + JSON.stringify(resp));
+    // this.debug('login.service: response = ' + JSON.stringify(resp));
       // tslint:disable-next-line: no-string-literal
       if (resp != null) {
         if (resp['success'] === true) {
@@ -47,7 +47,7 @@ export class LoginService {
           // tslint:disable-next-line: no-string-literal
           this.userLogged = resp['user'];
           this.saveUser(this.userLogged);
-        // console.log(`user & userLogged = ${this.userLogged} // ${this.isUserLoggedIn}`);
+        // this.debug(`user & userLogged = ${this.userLogged} // ${this.isUserLoggedIn}`);
           return true;
           retval = true;
         }
@@ -55,10 +55,10 @@ export class LoginService {
         this.isUserLoggedIn = false;
         this.userLogged = null;
         this.removeUser();
-      // console.error('no response from PHP');
+      // this.debug('no response from PHP');
       }
     }, error => {
-    // console.log('login.service: error = ' + JSON.stringify(error));
+    // this.debug('login.service: error = ' + JSON.stringify(error));
     });
     return retval;
   }
@@ -66,12 +66,12 @@ export class LoginService {
 
   /*   saveUser(empleado: Empleado) {
       localStorage.setItem('user', JSON.stringify(empleado));
-    // console.log('login.service: user saved on local');
+    // this.debug('login.service: user saved on local');
     } */
   isAdmin(): boolean | PromiseLike<boolean> {
     // throw new Error("Method not implemented.");
     // tslint:disable-next-line: triple-equals
-    // console.log('isAdmin = ' + this.userLogged.permisos);
+    // this.debug('isAdmin = ' + this.userLogged.permisos);
     if (this.userLogged != null && this.userLogged.permisos == 'Administrador') {
       return true;
     }
@@ -81,10 +81,10 @@ export class LoginService {
   private loadUser() {
     this.userLogged = JSON.parse(localStorage.getItem('user'));
     if (this.userLogged != null) {
-      // console.log('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
+      // this.debug('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
       this.isUserLoggedIn = true;
     } else {
-      // console.error('login.service: loadUser() = null!');
+      // this.debug('login.service: loadUser() = null!');
       this.isUserLoggedIn = false;
     }
   }
@@ -95,12 +95,12 @@ export class LoginService {
 
   isUserLogged(): boolean {
     this.loadUser();
-    // console.log(`login.service: isUserLogged() = ${this.isUserLoggedIn}`);
+    // this.debug(`login.service: isUserLogged() = ${this.isUserLoggedIn}`);
     return this.isUserLoggedIn;
     /*
     return new Promise<boolean>(resolve => {
       if (localStorage.getItem('user') != null) {
-      // console.log('login.service: isUserLogged = ' + true);
+      // this.debug('login.service: isUserLogged = ' + true);
         return true;
       } else {
         return false;
@@ -111,24 +111,44 @@ export class LoginService {
 
   getEmployeeName() {
     if (this.userLogged != null) {
-      // console.log(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
+      // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
       return this.userLogged.nombreEmpleado;
     } else {
-      // console.log(`login.service: getUserName() = null`);
+      // this.debug(`login.service: getUserName() = null`);
       return null;
     }
-    /*
-    return new Promise<string>(resolve => {
-      if (this.isUserLogged()) {
-        const userName = JSON.parse(localStorage.getItem('user'))['NombreEmpleado'];
-      // console.log('login.service: getUserName = ' + userName);
-        return userName;
-      } else {
-        return null;
-      }
-    })
-    */
   }
+
+  getCompanyName() {
+    if (this.userLogged != null) {
+      // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
+      return this.userLogged.nombreEmpresa;
+    } else {
+      // this.debug(`login.service: getUserName() = null`);
+      return null;
+    }
+  }
+
+  getPermissionLevel() {
+    if (this.userLogged != null) {
+      // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
+      return this.userLogged.permisos;
+    } else {
+      // this.debug(`login.service: getUserName() = null`);
+      return null;
+    }
+  }
+
+  getLastClockin() {
+    if (this.userLogged != null) {
+      // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
+      return this.userLogged.permisos;
+    } else {
+      // this.debug(`login.service: getUserName() = null`);
+      return null;
+    }
+  }
+
 
   public getEmployee() {
     return this.userLogged;

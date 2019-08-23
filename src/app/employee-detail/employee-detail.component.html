@@ -22,7 +22,7 @@
 
       <label class="w-100">Empleado {{ employee.activo ? 'activo':'inactivo'}}
         <input #activo type="checkbox" checked="{{employee.activo ? 'checked' : ''}}"
-          (click)="dataChanged(activo.checked)" />
+          (click)="dataChanged()" />
       </label>
 
       <div class="btn-group">

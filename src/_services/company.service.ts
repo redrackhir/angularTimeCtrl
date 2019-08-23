@@ -31,7 +31,7 @@ export class CompanyService {
 
   getCompaniesList(): Observable<Company[]> {
     const url = `${this.PHP_API_SERVER}/api/readCompanies.php`;
-    console.log(`calling ${url}...`);
+    this.debug(`calling ${url}...`);
     return this.http.get<Company[]>(this.PHP_API_SERVER + '/api/readCompanies.php')
       .pipe(
         tap(),
@@ -42,7 +42,7 @@ export class CompanyService {
   /** GET Company by id. Will 404 if id not found */
   getCompany(id: number): Observable<Company> {
     const url = `${this.PHP_API_SERVER}/api/getCompany.php?id=${id}`;
-    console.log(`calling ${url}...`);
+    this.debug(`calling ${url}...`);
     return this.http.get<Company>(url).pipe(
       tap(_ => this.log(`Editar empresa [${id}]`, 'success')),
       catchError(this.handleError<Company>(`getCompany id=${id}`))
@@ -109,7 +109,7 @@ export class CompanyService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      this.debug(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`, 'danger');
@@ -122,6 +122,12 @@ export class CompanyService {
   /** Log a message with the MessageService */
   private log(message: string, alertType: string) {
     this.messageService.add(message, alertType);
+  }
+
+  debug(msg: string) {
+    if (!environment.production) {
+      console.log(msg);
+    }
   }
 
 }
