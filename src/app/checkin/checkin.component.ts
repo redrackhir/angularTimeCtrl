@@ -6,6 +6,7 @@ import { interval } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { LocationService } from 'src/_services/location.service';
 import { environment } from 'src/environments/environment';
+import { Company } from 'src/_models/company.model';
 
 
 @Component({
@@ -19,13 +20,7 @@ export class CheckinComponent implements OnInit {
   isUserLogged = false;
   userLoggedName = null;
   loggedUser: Usuario;
-  // tslint:disable-next-line: variable-name
-  private _router: Router;
-  // tslint:disable-next-line: variable-name
-  private _loginService: LoginService;
-  // tslint:disable-next-line: variable-name
-  _locationService: LocationService;
-  checkinService: CheckinService;
+  loggedCompany: Company;
   public location: any;
   public txtFechahora: Date;
   private secondsCounter = interval(1000);
@@ -34,29 +29,28 @@ export class CheckinComponent implements OnInit {
   empresa: string;
   empleado: string;
   private closeIn = -1;
-  buttonDisabled: boolean;
+  checkBtnDisabled: boolean;
 
-  constructor(private router: Router, loginService: LoginService, checkinService: CheckinService, locationService: LocationService) {
-    this._loginService = loginService;
-    this._locationService = locationService;
-    this._router = router;
-    this.checkinService = checkinService;
-    this.loggedUser = this._loginService.getEmployee();
+  constructor(private router: Router, private loginService: LoginService, private checkinService: CheckinService,
+    private locationService: LocationService) {
   }
 
 
   ngOnInit() {
+    this.loggedUser = this.loginService.getEmployee();
+    this.loggedCompany = this.loginService.getCompany();
     // this.loggedUser = this._loginService.getEmployee();
-    if (this.loggedUser == null) { this._router.navigateByUrl('/'); }
+    if (this.loggedUser == null) { this.router.navigateByUrl('/'); }
     this.checkinService.setLastTransacc(false);
     // this.debug(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
-    this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
+    this.empresa = 'Empresa ' + this.loggedCompany.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     // geolocalizacion
-    this._locationService.getPosition().then(pos => {
+    this.locationService.getPosition().then(pos => {
       this.location = pos.lat + ' ' + pos.lng;
-        this.debug(`Position: ${pos.lat} ${pos.lng}`);
+      this.debug(`Position: ${pos.lat} ${pos.lng}`);
+      this.debug('loggedUser = ' + JSON.stringify(this.loggedUser));
     });
   }
 
@@ -64,18 +58,21 @@ export class CheckinComponent implements OnInit {
     event.preventDefault();
     // this.debug(`checkin.component: checkIn() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
     const fechahora: string = formatDate(Date.now(), 'yyyy/MM/dd HH:mm:ss', 'en-US');
-    this.debug('idCompany = ' + this._loginService.getEmployee().codigoEmpresa);
-    this.debug(`Save clockin: ${this.loggedUser.codigoEmpresa} ${this.loggedUser.codigoEmpleado} ${fechahora} ${this.location}`);
-    this.checkinService.checkin(this.loggedUser.codigoEmpresa, this.loggedUser.codigoEmpleado, fechahora, this.location).subscribe(resp => {
+    this.debug('loggedCompany = ' + JSON.stringify(this.loggedCompany));
+    this.debug('loggedUser = ' + JSON.stringify(this.loggedUser));
+    this.debug(`Save clockin: ${this.loggedCompany.codigoEmpresa} ${this.loggedUser.codigoEmpleado} ${fechahora} ${this.location}`);
+    // tslint:disable-next-line: max-line-length
+    this.checkinService.checkin(this.loggedCompany.codigoEmpresa, this.loggedUser.codigoEmpleado, fechahora, this.location).subscribe(resp => {
       // this.debug('checkin.service: response = ' + JSON.stringify(resp));
       // tslint:disable-next-line: no-string-literal
       if (resp['success']) {
         // this.debug('on success = true: transacc');
         this.closeIn = 2;
         this.alert = { class: 'alert alert-success', msg: 'Fichada guardada correctamente', show: true };
-        this.buttonDisabled = true;
+        this.checkBtnDisabled = true;
       } else {
         // this.debug(`Error PHP/SQL: ${resp['message']}`);
+        this.closeIn = 2;
         // tslint:disable-next-line: no-string-literal
         this.alert = { class: 'alert alert-warning', msg: 'Excepción: ' + resp['message'], show: true };
         return false;
@@ -94,7 +91,13 @@ export class CheckinComponent implements OnInit {
       this.closeIn--;
       if (this.closeIn < 0) {
         this.timerSubscribe.unsubscribe();
-        this._router.navigateByUrl('/dashboard');
+        // Logout si no tiene marcado 'recuerdame en este equipo'
+        if (!this.loggedUser.recuerdame) {
+          this.loginService.logout();
+          this.router.navigateByUrl('/');
+        } else {
+          this.router.navigateByUrl('/dashboard');
+        }
       }
     }
   }

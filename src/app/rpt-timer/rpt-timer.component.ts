@@ -64,6 +64,7 @@ export class RptTimerComponent implements OnInit {
   getSumaHoras(): number {
     let sum = 0;
     // tslint:disable-next-line: prefer-const
+    if (!this.clockins) { return 0; }
     for (let clockin of this.clockins) {
       sum += parseFloat(clockin.horas.toString());
     }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { CompanyLoginComponent } from './company-login/company-login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckinComponent } from './checkin/checkin.component';
 import { CompaniesComponent } from './companies/companies.component';
@@ -12,6 +13,7 @@ import { RptTimerComponent } from './rpt-timer/rpt-timer.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'company-login', component: CompanyLoginComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'home', component: AppComponent },
   { path: 'checkin', component: CheckinComponent },

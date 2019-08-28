@@ -19,6 +19,7 @@ import { FilterByWeekPipe } from 'src/_pipes/filterByWeek.pipe';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID } from '@angular/core';
+import { CompanyLoginComponent } from './company-login/company-login.component';
 
 // Definir idioma Español
 registerLocaleData(localeEs);
@@ -26,7 +27,7 @@ registerLocaleData(localeEs);
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, CheckinComponent, CompaniesComponent,
     EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterByNamePipe, FilterByWeekPipe,
-    EmployeeDetailComponent, RptTimerComponent],
+    EmployeeDetailComponent, RptTimerComponent, CompanyLoginComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
   bootstrap: [AppComponent]

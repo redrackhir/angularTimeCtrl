@@ -17,16 +17,16 @@ export class AppComponent {
   userLoggedName: string;
   userLoggedPermission = '';
   version = 'Beta version 1.0';
-  about = { title: 'PC Serveis', body: 'Dpto. programación\n' };
+  // tslint:disable-next-line: max-line-length
+  about = { title: 'Fichador web', body: '<h5>Fichador web</h5>Dpto. programación<br>Más información en <a href=\'http://www.pcserveis.com\'>www.pcserveis.com</a>' };
 
   constructor(private router: Router, private loginService: LoginService) {
-    this.loginService = loginService;
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
         this.getLogged();
         this.debug('route event = ' + event);
-        this.debug('User logged? ' + this.loginService.isUserLogged());
-        this.debug('User isAdmin ' + this.loginService.isAdmin());
+        // this.debug('User logged? ' + this.loginService.isCompanyLogged());
+        // this.debug('User isAdmin ' + this.loginService.isAdmin());
         if (!this.loginService.isUserLogged) {
           this.debug('User not logged, please loggin. Redirect to home...');
           this.navigate();

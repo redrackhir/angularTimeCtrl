@@ -31,19 +31,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*
-    this.userLogged = localStorage.getItem('user');
-    if (!this.userLogged) {
-      this.isUserLogged = false;
-    } else {
-      this.isUserLogged = true;
-    }
-    */
-    this.isUserLogged = this.loginService.isUserLogged();
+    this.userLogged = this.loginService.getEmployee();
     if (this.userLogged) {
       this.userLoggedName = this.loginService.getEmployeeName();
       this.userLoggedCompany = this.loginService.getCompanyName();
       this.userLoggedPermission = this.loginService.getPermissionLevel();
+    } else {
+      this.router.navigateByUrl('/login');
     }
     this.debug(`this.getLastClockin(${this.userLogged.codigoEmpleado})`);
     this.clockinService.getLastClockin(this.userLogged.codigoEmpleado)
@@ -52,6 +46,7 @@ export class DashboardComponent implements OnInit {
     this.debug('this.userLoggedLastClockin = ' + this.userLoggedLastClockin);
     // this.debug('from dasboard.onInit(): ' + this.userLoggedName);
   }
+
   humanize(fecha: string): string {
     let date = new Date(fecha);
     let ret = '';
