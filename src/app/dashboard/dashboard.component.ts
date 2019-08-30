@@ -36,13 +36,18 @@ export class DashboardComponent implements OnInit {
       this.userLoggedName = this.loginService.getEmployeeName();
       this.userLoggedCompany = this.loginService.getCompanyName();
       this.userLoggedPermission = this.loginService.getPermissionLevel();
+      this.getLastClockin();
     } else {
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/company-login');
     }
+  }
+
+  getLastClockin() {
     this.debug(`this.getLastClockin(${this.userLogged.codigoEmpleado})`);
+
     this.clockinService.getLastClockin(this.userLogged.codigoEmpleado)
-                      .subscribe(response => this.userLoggedLastClockin = response, _ => this.debug('Error leyendo datos...')
-                      , () => this.lastClockin = this.humanize(this.userLoggedLastClockin['last']));
+      .subscribe(response => this.userLoggedLastClockin = response, _ => this.debug('Error leyendo datos...')
+        , () => this.lastClockin = this.humanize(this.userLoggedLastClockin['last']));
     this.debug('this.userLoggedLastClockin = ' + this.userLoggedLastClockin);
     // this.debug('from dasboard.onInit(): ' + this.userLoggedName);
   }

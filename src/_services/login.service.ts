@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Usuario } from 'src/_models/user.model';
 import { environment } from 'src/environments/environment';
 import { Company } from 'src/_models/company.model';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class LoginService {
   isCompanyLoggedIn: boolean;
   companyLogged: Company;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private messageService: MessageService) {
     this.loadUser();
     // this.debug('login.service: constructor');
     if (environment.production) {
@@ -71,12 +72,12 @@ export class LoginService {
   private loadCompany() {
     this.companyLogged = JSON.parse(localStorage.getItem('company'));
     if (this.companyLogged != null) {
-      // this.debug('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
       this.isCompanyLoggedIn = true;
     } else {
-      // this.debug('login.service: loadUser() = null!');
+      // this.debug('login.service: loadCompany() = null!');
       this.isCompanyLoggedIn = false;
     }
+    this.debug('login.service: loadCompany() = ' + JSON.stringify(this.companyLogged));
   }
 
   private removeUser() {
@@ -111,7 +112,7 @@ export class LoginService {
   }
 
   getCompanyName() {
-    if (this.userLogged != null) {
+    if (this.companyLogged != null) {
       // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
       return this.companyLogged.nombreEmpresa;
     } else {
@@ -172,6 +173,11 @@ export class LoginService {
     if (!environment.production) {
       console.log(msg);
     }
+  }
+
+  /** Log a message with the MessageService */
+  private log(message: string, alertType: string) {
+    this.messageService.add(message, alertType);
   }
 
 }

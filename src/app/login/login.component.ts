@@ -15,28 +15,28 @@ export class LoginComponent implements OnInit {
   loading = false;
   userLogged: Usuario;
   isUserLoggedIn = false;
-  companyLogged: Company;
+  companyLogged: Company = new Company('', '');
   // tslint:disable-next-line: variable-name
 
   alert: any = { class: 'alert alert-primary', msg: 'nothing', show: false };
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router
-  ) {
-    this.loginService = loginService;
-    // this.debug('login component (constructor): this._loginService.isUserLogged() = ' + this._loginService.isUserLogged());
-  }
+  constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
-    // Si no hay empresa logeada ir a login-empresa
-    if (!this.loginService.isCompanyLoggedIn) { this.router.navigateByUrl('/company-login'); }
     this.companyLogged = this.loginService.getCompany();
-    // Si no hay usuario logeado continuar, o pasar a tablon principal
-    if (this.loginService.isUserLogged()) { this.router.navigateByUrl('/dashboard'); }
+    // Si no hay empresa logeada ir a login-empresa
+    if (!this.loginService.isCompanyLoggedIn) {
+      this.router.navigateByUrl('/company-login');
+    } else {
+      this.userLogged = this.loginService.getEmployee();
+      // Si no hay usuario logeado continuar, o pasar a tablon principal
+      if (this.loginService.isUserLogged()) {
+        this.router.navigateByUrl('/dashboard');
+      } else {
+        if (this.userLogged != null) { this.router.navigateByUrl('/login'); }
+      }
+    }
     this.loading = false;
-    this.userLogged = this.loginService.getEmployee();
-    if (this.userLogged != null) { this.navigate(); }
   }
 
   logIn(uid: string, password: string, rememberMe: any, event: Event) {

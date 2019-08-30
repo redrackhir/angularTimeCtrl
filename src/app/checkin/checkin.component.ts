@@ -32,7 +32,7 @@ export class CheckinComponent implements OnInit {
   checkBtnDisabled: boolean;
 
   constructor(private router: Router, private loginService: LoginService, private checkinService: CheckinService,
-    private locationService: LocationService) {
+              private locationService: LocationService) {
   }
 
 
@@ -44,7 +44,7 @@ export class CheckinComponent implements OnInit {
     this.checkinService.setLastTransacc(false);
     // this.debug(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
-    this.empresa = 'Empresa ' + this.loggedCompany.nombreEmpresa;
+    this.empresa = this.loggedCompany.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     // geolocalizacion
     this.locationService.getPosition().then(pos => {
@@ -94,7 +94,7 @@ export class CheckinComponent implements OnInit {
         // Logout si no tiene marcado 'recuerdame en este equipo'
         if (!this.loggedUser.recuerdame) {
           this.loginService.logout();
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/dashboard');
         } else {
           this.router.navigateByUrl('/dashboard');
         }

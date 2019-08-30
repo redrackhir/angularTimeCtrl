@@ -4,7 +4,7 @@
     <div class="col h-100 justify-content-center align-items-center">
       <form class="form col" style="background-color: #5ec2c2; padding: 5%">
         <h1>Inicio de sesión</h1>
-        <h3 style="color: darkslateblue;">{{companyLogged.nombreEmpresa}}</h3>
+        <h3 style="color: darkslateblue;">{{ companyLogged != null ? companyLogged.nombreEmpresa : '' }}</h3>
         <span (click)="logoutCompany()" style="cursor: pointer; color: rgb(30, 34, 255);text-decoration-line: underline; font-size: 0.8em">Cambiar
           a otra
           empresa</span><br><br>
@@ -19,7 +19,7 @@
           <input type="password" #password class="form-control" />
         </div>
         <div class="form-group">
-          <label style="color: darkblue">Recuérdame en este equipo&nbsp;<input type="checkbox" #rememberMe /></label><br>
+          <label style="color: darkblue">Recuérdame en este equipo&nbsp;<input type="checkbox" #rememberMe class="checkbox" /></label><br>
           <button type="submit" (click)="logIn(employeeId.value, password.value, rememberMe.checked, $event)"
             id="login-button2"  class="btn btn-primary btn-block">Enviar</button>
           <img *ngIf="loading"

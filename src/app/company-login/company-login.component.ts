@@ -3,6 +3,7 @@ import { Company } from 'src/_models/company.model';
 import { LoginService } from 'src/_services';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { MessageService } from 'src/_services/message.service';
 
 @Component({
   selector: 'app-company-login',
@@ -18,12 +19,8 @@ export class CompanyLoginComponent implements OnInit {
 
   alert: any = { class: 'alert alert-primary', msg: 'nothing', show: false };
 
-  constructor(
-    private loginService: LoginService,
-    private router: Router
-  ) {
-    this.loginService = loginService;
-    // this.debug('login component (constructor): this._loginService.isCompanyLogged() = ' + this._loginService.isCompanyLogged());
+  constructor(private loginService: LoginService, private router: Router, private messageService: MessageService) {
+
   }
 
   ngOnInit() {
@@ -54,7 +51,7 @@ export class CompanyLoginComponent implements OnInit {
           this.loading = false;
         } else {
           // tslint:disable-next-line: max-line-length
-          this.alert = { class: 'alert alert-warning alert-dismissible fade show', msg: 'Código empresa o contraseña incorrectos', show: true };
+          this.log('Código empresa o contraseña incorrectos', 'warning');
           this.loading = false;
         }
       } else {
@@ -97,6 +94,11 @@ export class CompanyLoginComponent implements OnInit {
     if (!environment.production) {
       console.log(msg);
     }
+  }
+
+  /** Log a message with the MessageService */
+  private log(message: string, alertType: string) {
+    this.messageService.add(message, alertType);
   }
 
 }

@@ -1,15 +1,19 @@
 import { formatDate } from '@angular/common';
 
 export class Company {
+  BaseDeDades: string;
   codigoEmpresa: number;
+  CodigoEmpresaSage: number;
   contrasenya: string;
-  nombreEmpresa: string;
+  nombreEmpresa = '';
   cifDni: string;
   fechaAlta: Date;
   activa: boolean;
 
   constructor(nombre: string, cif: string) {
     this.codigoEmpresa = -1;
+    this.CodigoEmpresaSage = -1;
+    this.BaseDeDades = '';
     this.contrasenya = this.generatePassword();
     this.nombreEmpresa = nombre;
     this.cifDni = cif;
