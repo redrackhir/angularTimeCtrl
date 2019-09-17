@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   // loginService: LoginService;
 
   constructor(private router: Router, private loginService: LoginService, private clockinService: ClockinService) {
-    this.userLogged = loginService.getEmployee();
+    // this.userLogged = loginService.getEmployee();
     // this.loginService = loginService;
     // this._router = router;
   }

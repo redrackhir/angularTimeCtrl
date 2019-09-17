@@ -40,18 +40,21 @@ export class CheckinComponent implements OnInit {
     this.loggedUser = this.loginService.getEmployee();
     this.loggedCompany = this.loginService.getCompany();
     // this.loggedUser = this._loginService.getEmployee();
-    if (this.loggedUser == null) { this.router.navigateByUrl('/'); }
-    this.checkinService.setLastTransacc(false);
-    // this.debug(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    if (this.loggedUser == null) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.checkinService.setLastTransacc(false);
+      // this.debug(`checkin.component: onInit() => this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
 
-    this.empresa = this.loggedCompany.nombreEmpresa;
-    this.empleado = this.loggedUser.nombreEmpleado;
-    // geolocalizacion
-    this.locationService.getPosition().then(pos => {
-      this.location = pos.lat + ' ' + pos.lng;
-      this.debug(`Position: ${pos.lat} ${pos.lng}`);
-      this.debug('loggedUser = ' + JSON.stringify(this.loggedUser));
-    });
+      this.empresa = this.loggedCompany.nombreEmpresa;
+      this.empleado = this.loggedUser.nombreEmpleado;
+      // geolocalizacion
+      this.locationService.getPosition().then(pos => {
+        this.location = pos.lat + ' ' + pos.lng;
+        this.debug(`Position: ${pos.lat} ${pos.lng}`);
+        this.debug('loggedUser = ' + JSON.stringify(this.loggedUser));
+      });
+    }
   }
 
   checkIn(event: Event) {

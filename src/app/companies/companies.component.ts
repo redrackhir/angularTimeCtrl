@@ -48,6 +48,10 @@ export class CompaniesComponent implements OnInit {
     this.companyService.getCompaniesList().subscribe(response => this.companies = response);
   }
 
+  getBool(value: number): boolean {
+    if (value != 0) { return true; } else { return false; }
+  }
+
   companyDetail(id: number) {
     // Ir a la edición de empresa
     this.router.navigateByUrl('/company' + id); // :id=' + id);

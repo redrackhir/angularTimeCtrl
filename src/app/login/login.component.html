@@ -1,10 +1,10 @@
 <div class="container h-100" style="margin-top: 10%">
   <div class="row">
-    <div class="col"></div>
-    <div class="col h-100 justify-content-center align-items-center">
-      <form class="form col" style="background-color: #5ec2c2; padding: 5%">
-        <h1>Inicio de sesión</h1>
-        <h3 style="color: darkslateblue;">{{ companyLogged != null ? companyLogged.nombreEmpresa : '' }}</h3>
+    <div class="col-sm"></div>
+    <div class="col-sm h-100 justify-content-center align-items-center">
+      <form class="form col-sm" style="background-color: #5ec2c2; padding: 5%">
+        <h3>Inicio de sesión</h3>
+        <h4 style="color: darkslateblue;">{{ companyLogged != null ? companyLogged.nombreEmpresa : '' }}</h4>
         <span (click)="logoutCompany()" style="cursor: pointer; color: rgb(30, 34, 255);text-decoration-line: underline; font-size: 0.8em">Cambiar
           a otra
           empresa</span><br><br>
@@ -12,11 +12,11 @@
         <h5>Empleado</h5>
         <div class="form-group">
           <label for="username">Código de empleado</label>
-          <input type="text" #employeeId class="form-control" />
+          <input type="text" #employeeId class="form-control" autocomplete="username"/>
         </div>
         <div class="form-group">
           <label for="password">Contraseña</label>
-          <input type="password" #password class="form-control" />
+          <input type="password" #password class="form-control" autocomplete="current-password"/>
         </div>
         <div class="form-group">
           <label style="color: darkblue">Recuérdame en este equipo&nbsp;<input type="checkbox" #rememberMe class="checkbox" /></label><br>
@@ -33,6 +33,6 @@
         </div>
       </form>
     </div>
-    <div class="col"></div>
+    <div class="col-sm"></div>
   </div>
 </div>

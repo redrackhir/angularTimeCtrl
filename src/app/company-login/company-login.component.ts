@@ -27,6 +27,7 @@ export class CompanyLoginComponent implements OnInit {
     // this.debug('login component (onInit): this._loginService.isCompanyLogged() = ' + this._loginService.isCompanyLogged());
     this.loading = false;
     this.companyLogged = this.loginService.getCompany();
+    this.debug(`company-login.OnInit()`);
     if (this.companyLogged) { this.router.navigateByUrl('/login'); }
   }
 

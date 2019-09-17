@@ -4,6 +4,7 @@ import { LoginService } from 'src/_services';
 import { Clockin } from 'src/_models/clockin.model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rpt-timer',
@@ -19,9 +20,10 @@ export class RptTimerComponent implements OnInit {
   private idEmpresa: number;
   private idEmpleado: number;
 
-  constructor(private loginService: LoginService, private clokinService: ClockinService) { }
+  constructor(private loginService: LoginService, private router: Router, private clokinService: ClockinService) { }
 
   ngOnInit() {
+    if (!this.loginService.isUserLogged) { this.router.navigateByUrl('/'); }
     this.idEmpresa = this.loginService.getEmployee().codigoEmpresa;
     this.idEmpleado = this.loginService.getEmployee().codigoEmpleado;
     this.filterWeek = this.getWeekNumber(new Date()) - 1;
@@ -75,7 +77,7 @@ export class RptTimerComponent implements OnInit {
     const dias = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     const dat = new Date(d);
     const diasem = dat.getDay();
-    return dias[diasem];
+    return dias[diasem].substr(0, 3);
   }
 
   private getWeekNumber(d: Date): number {

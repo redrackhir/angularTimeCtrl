@@ -4,6 +4,7 @@ export class Usuario {
   codigoEmpleado: number;
   nombreEmpleado: string;
   recuerdame: boolean;
+  caducidad: Date;
   password: string;
   permisos: string;
 }

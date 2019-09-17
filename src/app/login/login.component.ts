@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   logIn(uid: string, password: string, rememberMe: any, event: Event) {
     event.preventDefault(); // Avoid default action for the submit button of the login form
 
-    this.debug('rememberMe = ' + rememberMe);
+    // this.debug('rememberMe = ' + rememberMe);
 
     this.loading = true;
     // Login employee/user
@@ -84,14 +84,20 @@ export class LoginComponent implements OnInit {
   }
 
   saveUser(empleado: Usuario) {
-    const values = [empleado.codigoEmpleado, empleado.nombreEmpleado, empleado.permisos];
+    // const values = [empleado.codigoEmpleado, empleado.nombreEmpleado, empleado.permisos];
+    const minutos = 2;
+    if (!empleado.recuerdame) {
+      empleado.caducidad = new Date(new Date().getTime() + (60000 * minutos));
+    } else {
+      empleado.caducidad = null;
+    }
     localStorage.setItem('user', JSON.stringify(empleado));
-    // this.debug('login.service: user saved on local');
+    this.debug(`login.service: user saved on local \'${JSON.stringify(empleado)}`);
   }
 
   saveCompany(empresa: Company) {
-    const values = [empresa.codigoEmpresa, empresa.nombreEmpresa];
-    localStorage.setItem('user', JSON.stringify(empresa));
+    // const values = [empresa.codigoEmpresa, empresa.nombreEmpresa];
+    localStorage.setItem('company', JSON.stringify(empresa));
     // this.debug('login.service: user saved on local');
   }
 

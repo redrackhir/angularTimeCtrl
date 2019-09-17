@@ -60,10 +60,10 @@ export class LoginService {
 
   private loadUser() {
     this.userLogged = JSON.parse(localStorage.getItem('user'));
+    this.checkExpired();
     if (this.userLogged != null) {
       this.isUserLoggedIn = true;
     } else {
-      // this.debug('login.service: loadUser() = null!');
       this.isUserLoggedIn = false;
     }
     this.debug('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
@@ -92,6 +92,19 @@ export class LoginService {
     this.loadUser();
     // this.debug(`login.service: isUserLogged() = ${this.isUserLoggedIn}`);
     return this.isUserLoggedIn;
+  }
+
+  checkExpired() {
+    if (this.userLogged == null) { return 0; }
+    if (this.userLogged.recuerdame) { return 0; }
+    const expireDate = this.userLogged.caducidad;
+    this.debug(`Expire time ${expireDate}`);
+    if (new Date(expireDate).getTime() > new Date().getTime()) {
+      this.debug(`Remain ${(new Date(expireDate).getTime() - new Date().getTime())} miliseconds to expire`);
+    } else {
+      this.debug(`User expired time`);
+      this.logout();
+    }
   }
 
   isCompanyLogged(): boolean {

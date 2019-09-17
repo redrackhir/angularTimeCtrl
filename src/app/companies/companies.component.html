@@ -27,10 +27,10 @@
         <td>{{company.nombreEmpresa}}</td>
         <td>{{company.cifDni}}</td>
         <td>{{company.fechaAlta | date:'dd/MM/yyyy' }}</td>
-        <td>{{company.activa ? 'Sí' : 'No'}}</td>
+        <td>{{getBool(company.activa) ? 'Sí' : 'No'}}</td>
         <td class="text-center">
           <a class="badge badge-info"
-            (click)="toggleActive(company.codigoEmpresa)">{{ company.activa ? 'desactivar' : 'activar' }}</a>&nbsp;
+            (click)="toggleActive(company.codigoEmpresa)">{{ getBool(company.activa) ? 'desactivar' : 'activar' }}</a>&nbsp;
           <a class="badge badge-primary" [routerLink]="['/company', company.codigoEmpresa]">Editar</a>&nbsp;
           <a class="badge badge-danger" [routerLink]="['/companies']" data-toggle="modal" data-target="#deleteCompany"
             (click)="setCurrentCompany(company)">Eliminar</a>

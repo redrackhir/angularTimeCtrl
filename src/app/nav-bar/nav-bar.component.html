@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <span><img src="../assets/clock.png" width="32px" /> </span>
+  <a class="navbar-brand" href="#">&nbsp;{{title}} &nbsp;&nbsp;&nbsp;</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigationBar"
+    aria-controls="navigationBar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"> </span>
+  </button>
+
+  <div class="navbar-collapse collapse" id="navigationBar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a *ngIf="!isUserLogged" class="nav-link" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <a class="nav-link" routerLink="/company-login">Inicio sesión<span class="sr-only">(current)</span></a>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isUserLogged"
+          class="btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}"
+          [routerLink]="['/dashboard']" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
+            {{ userLoggedPermission }}:&nbsp;{{ userLoggedName }}
+          </a>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isUserLogged" data-toggle="collapse" data-target=".navbar-collapse.show">
+          <a class="nav-link" routerLink="/checkin">Fichar</a>
+        </a>
+      </li>
+      <li *ngIf="isUserLogged" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Consultar</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" data-toggle="collapse" data-target=".navbar-collapse.show">
+            <a [routerLink]="['/rpt-timer']"> Registro de horas </a>
+          </a>
+          <!--
+            <a class="dropdown-item" href="#">Fichadas del mes</a>
+            <a class="dropdown-item" href="#">Resúmen de horas</a>
+            -->
+        </div>
+      </li>
+      <li class="nav-item">
+        <a *ngIf="isUserLogged" routerLink="/" class="nav-link" (click)="logout()">Salir</a>
+      </li>
+
+      <li *ngIf="isAdmin" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle btn btn-primary" href="http://example.com" id="dropdown01"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" routerLink="/companies">Empresas</a>
+          <a class="dropdown-item" routerLink="/employees">Empleados</a>
+        </div>
+      </li>
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+        data-target="#aboutMe">{{ version }}</button>
+      <!--
+          <a class="btn btn-outline-warning" (click)="showVersion()">{{ version }}</a>
+          <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+          <button *ngIf="isUserLogged" class="btn btn-success my-2 my-sm-0">{{userLoggedName}}</button>
+        -->
+    </form>
+  </div>
+</nav>
+
+
+<!-- Modal Info & about me... -->
+<div class="modal fade" id="aboutMe" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a href="www.pcserveis.com"><img src="../assets/logo-pcserveis.png" height="64px" /></a>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [innerHTML]=about.body>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>

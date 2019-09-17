@@ -19,12 +19,12 @@
     </div>
     <div class="row d-flex justify-content-center">
       <!-- <input [(ngModel)]="searchText" placeholder="filtrar por nombre..." class="text-center"> -->
-      <table class="table table-striped table-hover table-sm table-bordered"
-        style="width: 80%; margin:auto !important; margin-top: 1%">
+      <table class="table table-sm table-striped table-hover table-bordered text-weight-light"
+        style="margin:auto !important; margin-top: 1%; text-weight: 100">
         <thead class="btn-primary">
           <tr>
+            <th scope="col">Sem</th>
             <th scope="col">Mes</th>
-            <th scope="col">Semana</th>
             <th scope="col">Día</th>
             <th scope="col">Entrada</th>
             <th scope="col">Salida</th>
@@ -33,16 +33,16 @@
         </thead>
         <tbody>
           <tr *ngFor="let clockin of clockins">
-            <td>{{clockin.mes}}</td>
             <td>{{clockin.semana}}</td>
+            <td>{{clockin.mes}}</td>
             <td>{{ getDayOfWeek(clockin.fechaEntrada) }}</td>
             <td>{{clockin.fechaEntrada | date:'dd/MM/yyyy'}} - {{clockin.horaEntrada | slice:0:5}}</td>
             <td>{{clockin.fechaSalida | date:'dd/MM/yyyy'}} - {{clockin.horaSalida | slice:0:5}}</td>
-            <td class="text-right">{{clockin.horas | number:'.1'}}</td>
+            <td class="text-right">{{clockin.horas | number:'.2-2'}}</td>
           </tr>
           <tr class="table-info">
             <td colspan="5" style="text-align: right">Suma&nbsp;</td>
-            <td style="text-align: right">{{ getSumaHoras() | number:'.1'}}</td>
+            <td style="text-align: right">{{ getSumaHoras() | number:'.2-2'}}</td>
           </tr>
         </tbody>
       </table>
