@@ -15,9 +15,9 @@
       </li>
       <li class="nav-item">
         <a *ngIf="isUserLogged"
-          class="btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}"
           [routerLink]="['/dashboard']" data-toggle="collapse" data-target=".navbar-collapse.show">
-          <a class="nav-link" [routerLink]="['/dashboard']" routerLinkActive="router-link-active">
+          <a class="nav-link btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}" [routerLink]="['/dashboard']"
+          style="color:ghostwhite">
             {{ userLoggedPermission }}:&nbsp;{{ userLoggedName }}
           </a>
         </a>
