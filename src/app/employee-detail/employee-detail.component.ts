@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class EmployeeDetailComponent implements OnInit {
   loggedUser: Usuario;
   empleado: string;
-  id: number;
+  id: string;
   employee: Employee = new Employee(-1, '', '');
   hasChanges = false;
 
@@ -25,7 +25,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   async ngOnInit() {
     // get parameter of idEmployee from listCompanies
-    this.id = parseInt(this.route.snapshot.paramMap.get('id'), 10);
+    this.id = this.route.snapshot.paramMap.get('id');
 
     this.getEmployee();
 

@@ -9,6 +9,7 @@ export class Company {
   cifDni: string;
   fechaAlta: Date;
   activa: boolean;
+  mostrar: boolean;
 
   constructor(nombre: string, cif: string) {
     this.codigoEmpresa = -1;

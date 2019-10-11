@@ -1,17 +1,21 @@
-<div class="container md-4 text-center d-inline-block align-middle h-90" style="margin-top: 1%">
-  <div class="col-sm"></div>
-  <div class="jumbotron col-sm">
-    <div class="card" style="width: 18rem; margin: auto">
-      <img src="../../assets/user32x32.png" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{ userLoggedName }}</h5>
-        <p class="card-text">{{ userLoggedCompany }}</p>
-        <p class="card-text">Última fichada {{ lastClockin }}</p>
-        <a routerLink="/checkin" class="btn btn-primary">Fichar</a>&nbsp;&nbsp;
-        <a routerLink="/" (click)="logout()" class="btn btn-primary">Salir</a>
+<div class="container">
+  <div class="row" style="margin-top: 90px">
+    <div class="col"></div>
+
+    <div class="jumbotron col-sm text-center">
+      <div class="card " style="margin: auto">
+        <img src="../../assets/user32x32.png" style="width: 64px" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{ userLoggedName }}</h5>
+          <p class="card-text">{{ userLoggedCompany }}</p>
+          <p *ngIf="lastClockin" class="card-text">Última fichada <b>{{ lastClockin[0] }}</b> a las <b>{{ lastClockin[1] }}</b></p>
+          <a routerLink="/checkin" class="btn btn-primary">Fichar</a>&nbsp;&nbsp;
+          <a routerLink="/" (click)="logout()" class="btn btn-primary">Salir</a>
+        </div>
       </div>
     </div>
+
+    <div class="col"></div>
   </div>
-  <div class="col-sm"></div>
 
 </div>

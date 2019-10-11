@@ -52,7 +52,7 @@ export class CompanyLoginComponent implements OnInit {
           this.loading = false;
         } else {
           // tslint:disable-next-line: max-line-length
-          this.log('Código empresa o contraseña incorrectos', 'warning');
+          this.log(resp['message'], 'warning');
           this.loading = false;
         }
       } else {

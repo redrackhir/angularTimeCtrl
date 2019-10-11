@@ -19,6 +19,7 @@ export class EmployeesComponent implements OnInit {
   empleado: any;
   employees: Employee[];
   companies: Company[];
+  filteredEmployees: Employee[];
 
   constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService,
               private companyService: CompanyService) {
@@ -47,6 +48,7 @@ export class EmployeesComponent implements OnInit {
   getEmployees(): void {
     // Leer datos empresas
     this.employeeService.getEmployeesList().subscribe(response => this.employees = response);
+    this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response);
   }
 
   getCompanies(): void {
@@ -57,6 +59,10 @@ export class EmployeesComponent implements OnInit {
   employeeDetail(id: number) {
     // Ir a la edición de empresa
     this.router.navigateByUrl('/employee' + id); // :id=' + id);
+  }
+
+  filterByCompany(codEmpresa: number) {
+    this.filteredEmployees = this.employees.filter(employee => employee.codigoEmpresa === codEmpresa);
   }
 
   add(codEmpresa: number, nombreEmpleado: string, nifDni: string): void {

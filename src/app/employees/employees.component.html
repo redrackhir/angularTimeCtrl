@@ -5,8 +5,17 @@
     <div class="col"></div>
   </div>
   <div class="row">
-    <div class="col"></div>
-    <input type="text" class="col" style="margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre...">
+    <div class="col">
+      <select [(ngModel)]="selectedCompany" placeholder="Filtrar por empresa" (change)="filterByCompany($event.target.value)">
+        <option *ngFor=" let company of companies" [value]="company.codigoEmpresa">
+          {{ company.nombreEmpresa }}
+        </option>
+      </select>
+      <button class="btn btn-sm btn-info" (click)="getEmployees()">refresh</button>
+    </div>
+    <div class=" col">
+      <input type="text" class="col" style="margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre...">
+    </div>
     <div class="col"></div>
   </div>
 
@@ -22,7 +31,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of employees | filterByName: 'nombreEmpleado' : searchText" class="font-weight-light">
+      <tr *ngFor="let employee of filteredEmployees | filterByName: 'nombreEmpleado' : searchText" class="font-weight-light">
         <td>
           <span class="badge badge-info">{{employee.codigoEmpresa == null ? 'Nueva' : employee.codigoEmpresa}}</span>
           {{employee.nombreEmpresa}}

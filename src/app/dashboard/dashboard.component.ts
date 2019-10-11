@@ -20,7 +20,8 @@ export class DashboardComponent implements OnInit {
   userLoggedCompany = '';
   userLoggedPermission = '';
   userLoggedLastClockin: any;
-  lastClockin = '';
+  // lastClockin = '';
+  lastClockin: Array<string>;
   // private _router: Router;
   // loginService: LoginService;
 
@@ -49,17 +50,19 @@ export class DashboardComponent implements OnInit {
       .subscribe(response => this.userLoggedLastClockin = response, _ => this.debug('Error leyendo datos...')
         , () => this.lastClockin = this.humanize(this.userLoggedLastClockin['last']));
     this.debug('this.userLoggedLastClockin = ' + this.userLoggedLastClockin);
-    // this.debug('from dasboard.onInit(): ' + this.userLoggedName);
   }
 
-  humanize(fecha: string): string {
+  humanize(fecha: string) {
     let date = new Date(fecha);
-    let ret = '';
-    if (date.getDate() == new Date().getDate()) { ret = `Hoy a las ${date.getHours()}:${date.getMinutes()}`; }
-    if (date.getDate() == new Date().getDate() - 1) { ret = `Ayer a las ${date.getHours()}:${date.getMinutes()}`; }
+    if (date.getFullYear() < 1990) { return null; }
+    let ret = ['', ''];
+    if (date.getDate() == new Date().getDate()) { ret[0] = 'Hoy'; }
+    if (date.getDate() == new Date().getDate() - 1) { ret[0] = 'Ayer'; }
+    if (date.getDate() < new Date().getDate() - 1) { ret[0] = `${formatDate(date, 'dd/MM/yy', 'es')}`; }
     // tslint:disable-next-line: max-line-length
-    if (date.getDate() < new Date().getDate() - 1) { ret = `${formatDate(date, 'dd/MM/yy', 'es')} a las ${date.getHours()}:${date.getMinutes()}`; }
+    ret[1] = `${formatDate(date, 'HH:mm', 'es')}`;
     return ret;
+    console.error(`this.lastClockin = ${JSON.stringify(this.lastClockin)}`);
   }
 
   logout() {

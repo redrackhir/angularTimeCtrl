@@ -40,7 +40,7 @@ export class EmployeeService {
   }
 
   /** GET Employee by id. Will 404 if id not found */
-  getEmployee(id: number): Observable<Employee> {
+  getEmployee(id: string): Observable<Employee> {
     const url = `${this.PHP_API_SERVER}/api/getEmployee.php?id=${id}`;
     this.debug(`calling ${url}...`);
     return this.http.get<Employee>(url).pipe(

@@ -43,10 +43,10 @@ export class LoginComponent implements OnInit {
     event.preventDefault(); // Avoid default action for the submit button of the login form
 
     // this.debug('rememberMe = ' + rememberMe);
-
+    const companyId = this.loginService.getCompany().codigoEmpresa;
     this.loading = true;
     // Login employee/user
-    this.loginService.loginUser(uid, password).subscribe(resp => {
+    this.loginService.loginUser(uid, password, companyId).subscribe(resp => {
       if (resp != null) {
         // tslint:disable-next-line: no-string-literal
         if (resp['success'] === true) {

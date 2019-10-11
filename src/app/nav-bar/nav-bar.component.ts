@@ -10,14 +10,18 @@ import { environment } from 'src/environments/environment';
 })
 export class NavBarComponent implements OnInit {
 
-  title = 'PC\'s\'Time';
+  title = 'PCsTime';
   isUserLogged: boolean;
   isAdmin: boolean;
   userLoggedName: string;
   userLoggedPermission = '';
-  version = 'Beta version 1.0';
+  version = 'V1.1';
   // tslint:disable-next-line: max-line-length
-  about = { title: 'Fichador web', body: '<h5>Fichador web</h5>Dpto. programación<br>Más información en <a href=\'http://www.pcserveis.com\'>www.pcserveis.com</a>' };
+  about = {
+    title: 'Fichador web',
+    body: '<h5>Fichador web</h5>Dpto. programación<br>Más información en <a href=\'http://www.pcserveis.com\'>www.pcserveis.com</a>',
+    version: '1.1 release 6'
+  };
   collapseClass = 'display: none';
 
   constructor(private router: Router, private loginService: LoginService) {
@@ -36,12 +40,14 @@ export class NavBarComponent implements OnInit {
         if (!this.loginService.isUserLogged() && event.url != '/login') {
           this.debug('User not logged, please loggin. Redirect to login user/employee...');
           this.router.navigateByUrl('/login');
+        } else if (this.loginService.isUserLogged() && event.url == '/') {
+          this.router.navigateByUrl('/dashboard');
         }
         // Permisos paginas protegidas
         if (event.url == '/companies' || event.url == '/employees') {
           if (!this.loginService.isAdmin()) {
             this.debug('You don\'t have access to security area. Redirect to home...');
-            this.navigate();
+            this.router.navigateByUrl('/');
           }
         }
       }
@@ -67,9 +73,6 @@ export class NavBarComponent implements OnInit {
     this.userLoggedName = await this.loginService.getEmployeeName() as string;
     this.userLoggedPermission = await this.loginService.getPermissionLevel() as string;
     this.isAdmin = await this.loginService.isAdmin() as boolean;
-  }
-  navigate() {
-    this.router.navigateByUrl('dashboard');
   }
 
   logout() {

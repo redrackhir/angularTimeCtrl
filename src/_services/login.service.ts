@@ -34,11 +34,12 @@ export class LoginService {
     return this.http.get<Usuario[]>(`${this.PHP_API_SERVER}/api/read.php`);
   }
 
-  loginUser(employeeId: string, password: string) {
+  loginUser(employeeId: string, password: string, companyId: number) {
     // tslint:disable-next-line: prefer-const
     return this.http.post(`${this.PHP_API_SERVER}/api/readUser.php`, {
       employeeId,
-      password
+      password,
+      companyId
     });
   }
 
