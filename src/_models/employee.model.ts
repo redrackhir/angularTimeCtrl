@@ -4,7 +4,7 @@ export class Employee {
   codigoEmpresa: number;
   nombreEmpresa: string;
   codigoEmpleado: string;
-  codigoOperario: number;
+  Operario: number;
   nombreEmpleado: string;
   nifDni: string;
   fechaAlta: Date;
@@ -14,7 +14,7 @@ export class Employee {
   constructor(codEmpresa: number, nombre: string, nif: string) {
     this.codigoEmpresa = codEmpresa;
     this.codigoEmpleado = '-1';
-    this.codigoOperario = 0;
+    this.Operario = 0;
     this.nombreEmpleado = nombre;
     this.nifDni = nif;
     this.fechaAlta = new Date();

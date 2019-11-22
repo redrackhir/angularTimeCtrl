@@ -21,7 +21,8 @@ export class NavBarComponent implements OnInit {
   about = {
     title: 'Fichador web',
     body: '<h5>Fichador web</h5>Dpto. programación<br>Más información en <a href=\'http://www.pcserveis.com\'>www.pcserveis.com</a>',
-    version: '1.1 release 6'
+    version: '1.2',
+    release: '1'
   };
   collapseClass = 'display: none';
 

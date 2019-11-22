@@ -3,7 +3,7 @@ export class Usuario {
   nombreEmpresa: string;
   codigoEmpleado: string;
   nombreEmpleado: string;
-  codigoOperario: number;
+  Operario: number;
   recuerdame: boolean;
   caducidad: Date;
   password: string;

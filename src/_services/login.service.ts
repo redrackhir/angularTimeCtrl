@@ -146,8 +146,8 @@ export class LoginService {
 
   getCanCheck() {
     // El usuario podrá fichar siempre que esté activado Y no sea un operario de taller
-    this.debug(`canCheck (${this.userLogged.codigoOperario} && ${this.userLogged.activo}) = ${this.userLogged.codigoOperario == 0 && this.userLogged.activo != 0}`);
-    return this.userLogged.codigoOperario == 0 && this.userLogged.activo != 0;
+    this.debug(`canCheck (${this.userLogged.Operario} && ${this.userLogged.activo}) = ${this.userLogged.Operario == 0 && this.userLogged.activo != 0}`);
+    return this.userLogged.Operario == 0 && this.userLogged.activo != 0;
   }
 
   getLastClockin() {
