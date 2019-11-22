@@ -16,6 +16,7 @@ export class LoginService {
   // private userLogged: User = null;
   private isUserLoggedIn = false;
   private userLogged: Usuario;
+  dbUse: string;
   isCompanyLoggedIn: boolean;
   companyLogged: Company;
 
@@ -37,9 +38,7 @@ export class LoginService {
   loginUser(employeeId: string, password: string, companyId: number) {
     // tslint:disable-next-line: prefer-const
     return this.http.post(`${this.PHP_API_SERVER}/api/readUser.php`, {
-      employeeId,
-      password,
-      companyId
+      employeeId, password, companyId
     });
   }
 
@@ -145,6 +144,12 @@ export class LoginService {
     }
   }
 
+  getCanCheck() {
+    // El usuario podrá fichar siempre que esté activado Y no sea un operario de taller
+    this.debug(`canCheck (${this.userLogged.codigoOperario} && ${this.userLogged.activo}) = ${this.userLogged.codigoOperario == 0 && this.userLogged.activo != 0}`);
+    return this.userLogged.codigoOperario == 0 && this.userLogged.activo != 0;
+  }
+
   getLastClockin() {
     if (this.userLogged != null) {
       // this.debug(`login.service: getUserName() = ${JSON.stringify(this.userLogged.nombreEmpleado)}`);
@@ -181,6 +186,14 @@ export class LoginService {
     this.removeCompany();
     this.isCompanyLogged = null;
     this.companyLogged = null;
+  }
+
+  public getDbUse() {
+    return this.dbUse;
+  }
+
+  public setDbUse(name: string) {
+    this.dbUse = name;
   }
 
   debug(msg: string) {

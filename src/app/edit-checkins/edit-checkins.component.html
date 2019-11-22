@@ -1,0 +1,93 @@
+<div class="container">
+  <div class="row">&nbsp;</div>
+  <div class="row">
+    <div class="col"></div>
+    <b class="display-5 col">Listado de fichadas</b>
+    <div class="col"></div>
+  </div>
+  <div class="row">
+    <div class="col">
+
+      <!-- <button class="btn btn-sm btn-info" (click)="getEmployees()">refresh</button> -->
+    </div>
+    <div class=" col">
+      <!-- <input type="text" class="col" style="margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre..."> -->
+    </div>
+    <div class="col"></div>
+  </div>
+  <table class="table table-striped table-hover table-sm" style="width: 80%; margin: auto">
+    <thead class="btn-primary">
+      <tr>
+        <th scope="col">UID</th>
+        <th scope="col">Empresa</th>
+        <th scope="col">Empleado</th>
+        <th scope="col">Fecha/hora</th>
+        <th scope="col">Coordenadas</th>
+        <td scope="col" colspan=2>Acciones</td>
+      </tr>
+    </thead>
+    <tbody>
+      <!--
+      <tr *ngFor="let checkin of checkins" class="font-weight-light">
+        <td>
+          <span class="badge badge-info">{{ checkin.idFichada }}</span>
+        </td>
+        <td>{{checkin.codigoEmpresa}}</td>
+        <td>{{checkin.codigoEmpleado}}</td>
+        <td>{{checkin.fechaHora}}</td>
+        <td>{{checkin.coordenadas}}</td>
+        <td><a class="badge badge-primary" [routerLink]="['/checkin', checkin.idFichada]">Editar</a></td>
+        <td><a class="badge badge-danger" [routerLink]="['/checkins']" (click)="deleteCheckin(checkin)">Eliminar</a>
+        </td>
+      </tr>
+      -->
+      <tr>
+        <td>
+          Filtros ->
+        </td>
+        <td>
+          <select placeholder="Filtrar por empresa" (change)="companyIdChanged_Event($event.target.value)">
+            <option value="-1">Todas</option>
+            <option *ngFor=" let company of companies" [value]="company.codigoEmpresa">
+              {{ company.nombreEmpresa }}
+            </option>
+          </select>
+        </td>
+        <td>
+          <input type="text" placeholder="filtrar por Cód. empleado..." (change)="employeeIdChanged_Event($event.target.value)"/>
+        </td>
+        <td>
+          <input type="text" placeholder="filtrar por Fecha..." (change)="dateAndTimeChanged_Event($event.target.value)" />
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="refreshFilter()">Filtrar</button>
+        </td>>
+      </tr>
+        <tr *ngFor="let checkin of checkins" class="font-weight-light">
+          <td><span class="badge badge-info">{{ checkin.idFichada }}</span></td>
+          <td><input type="text" maxlength="5" [(value)]="checkin.codigoEmpresa" /></td>
+          <td><input type="text" maxlength="25" [(value)]="checkin.codigoEmpleado" /></td>
+          <td><input type="text" maxlength="20" [(value)]="checkin.fechaHora" />
+          </td>
+          <td><input type="text" maxlength="25" [(value)]="checkin.coordenadas" /></td>
+          <td><a class="badge badge-primary" (click)="updateCheckin(checkin)">Actualizar</a></td>
+          <td><a class="badge badge-danger" [routerLink]="['/checkins']" (click)="deleteCheckin(checkin)">Eliminar</a>
+        </tr>
+    </tbody>
+  </table>
+  <div style="width: 80%; margin: auto">
+    <label>Seleccione empresa&nbsp;
+      <select #checkinCode aria-placeholder="Seleccione empresa">
+        <option *ngFor="let checkin of checkins" [value]="checkin.codigoEmpresa">{{ checkin.codigoEmpresa }}</option>
+      </select>
+    </label>
+    <input #checkinName placeholder="Nombre empleado" />
+    <input #nifDniEmployee placeholder="Dni" />
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button
+      (click)="add(checkinCode.value, checkinName.value, nifDniEmployee.value); checkinCode.value=''; checkinName.value=''; nifDniEmployee.value = ''">
+      añadir fichada nueva
+    </button>
+  </div>
+  <div class="col"></div>
+</div>

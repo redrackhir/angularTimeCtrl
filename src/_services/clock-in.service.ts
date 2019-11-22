@@ -29,7 +29,7 @@ export class ClockinService {
     }
   }
 
-  getClockinsList(idEmpresa: number, idEmpleado: number, filterWeek: number,
+  getClockinsList(idEmpresa: number, idEmpleado: string, filterWeek: number,
                   filterMonth: number, filterYear: number): Observable<Clockin[]> {
     // tslint:disable-next-line: max-line-length
     const url = `${this.PHP_API_SERVER}/api/readClockins.php?idEmpresa=${idEmpresa}&idEmpleado=${idEmpleado}&week=${filterWeek}&month=${filterMonth}&year=${filterYear}`;
@@ -41,7 +41,7 @@ export class ClockinService {
       );
   }
 
-  getLastClockin(idEmpleado: number): Observable<any> {
+  getLastClockin(idEmpleado: string): Observable<any> {
     const url = `${this.PHP_API_SERVER}/api/getLastClockin.php?id=${idEmpleado}`;
     return this.http.get<any>(url)
       .pipe(

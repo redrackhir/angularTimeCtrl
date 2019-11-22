@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import { LocationService } from 'src/_services/location.service';
 import { environment } from 'src/environments/environment';
 import { Company } from 'src/_models/company.model';
+import { EmployeeService } from 'src/_services/employee.service';
 
 
 @Component({
@@ -29,10 +30,10 @@ export class CheckinComponent implements OnInit {
   empresa: string;
   empleado: string;
   private closeIn = -1;
-  checkBtnDisabled: boolean;
+  checkBtnDisabled = true;
 
   constructor(private router: Router, private loginService: LoginService, private checkinService: CheckinService,
-              private locationService: LocationService) {
+              private locationService: LocationService, private employeeService: EmployeeService) {
   }
 
 
@@ -48,6 +49,7 @@ export class CheckinComponent implements OnInit {
 
       this.empresa = this.loggedCompany.nombreEmpresa;
       this.empleado = this.loggedUser.nombreEmpleado;
+      this.checkBtnDisabled = !this.loginService.getCanCheck();
       // geolocalizacion
       this.locationService.getPosition().then(pos => {
         this.location = pos.lat + ' ' + pos.lng;

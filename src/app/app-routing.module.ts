@@ -10,6 +10,7 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
 import { EmployeesComponent } from './employees/employees.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { RptTimerComponent } from './rpt-timer/rpt-timer.component';
+import { EditCheckinsComponent } from './edit-checkins/edit-checkins.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'employees', component: EmployeesComponent },
   { path: 'employee/:id', component: EmployeeDetailComponent },
   { path: 'rpt-timer', component: RptTimerComponent },
+  { path: 'edit-checkins', component: EditCheckinsComponent },
   { path: '', component: AppComponent },
   { path: '**', component: AppComponent }
 ];

@@ -3,7 +3,8 @@ import { formatDate, NumberSymbol } from '@angular/common';
 export class Employee {
   codigoEmpresa: number;
   nombreEmpresa: string;
-  codigoEmpleado: number;
+  codigoEmpleado: string;
+  codigoOperario: number;
   nombreEmpleado: string;
   nifDni: string;
   fechaAlta: Date;
@@ -12,7 +13,8 @@ export class Employee {
 
   constructor(codEmpresa: number, nombre: string, nif: string) {
     this.codigoEmpresa = codEmpresa;
-    this.codigoEmpleado = -1;
+    this.codigoEmpleado = '-1';
+    this.codigoOperario = 0;
     this.nombreEmpleado = nombre;
     this.nifDni = nif;
     this.fechaAlta = new Date();

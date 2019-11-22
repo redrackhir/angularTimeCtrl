@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
           this.isUserLoggedIn = true;
           // tslint:disable-next-line: no-string-literal
           this.userLogged = resp['user'];
+          this.loginService.setDbUse(resp['dbUse']);
           this.userLogged.recuerdame = rememberMe;
           // tslint:disable-next-line: no-string-literal
           // this.userLogged.codigoEmpresa = resp['codigoEmpresa'];

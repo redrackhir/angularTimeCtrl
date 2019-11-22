@@ -21,6 +21,7 @@ import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID } from '@angular/core';
 import { CompanyLoginComponent } from './company-login/company-login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { EditCheckinsComponent } from './edit-checkins/edit-checkins.component';
 
 // Definir idioma Español
 registerLocaleData(localeEs);
@@ -28,7 +29,7 @@ registerLocaleData(localeEs);
 @NgModule({
   declarations: [AppComponent, LoginComponent, DashboardComponent, CheckinComponent, CompaniesComponent,
     EmployeesComponent, MessagesComponent, CompanyDetailComponent, FilterByNamePipe, FilterByWeekPipe,
-    EmployeeDetailComponent, RptTimerComponent, CompanyLoginComponent, NavBarComponent],
+    EmployeeDetailComponent, RptTimerComponent, CompanyLoginComponent, NavBarComponent, EditCheckinsComponent],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, BrowserAnimationsModule],
   providers: [{provide: LOCALE_ID, useValue: 'es'}],
   bootstrap: [AppComponent]

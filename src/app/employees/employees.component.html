@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin-top: 4%">
   <div class="row">
     <div class="col"></div>
     <h4 class="display-5 col">Listado de empleados</h4>
@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <select [(ngModel)]="selectedCompany" placeholder="Filtrar por empresa" (change)="filterByCompany($event.target.value)">
+      <select placeholder="Filtrar por empresa" (change)="filterByCompany($event.target.value)">
         <option *ngFor=" let company of companies" [value]="company.codigoEmpresa">
           {{ company.nombreEmpresa }}
         </option>
@@ -24,27 +24,44 @@
       <tr>
         <th scope="col">Empresa</th>
         <th scope="col">Empleado</th>
+        <th scope="col">Operario</th>
         <th scope="col">Nombre</th>
+        <th scope="col">Permiso</th>
         <th scope="col">Activo</th>
-        <td scope="col" colspan=2>Acciones</td>
+        <td scope="col" colspan=3>Acciones</td>
 
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let employee of filteredEmployees | filterByName: 'nombreEmpleado' : searchText" class="font-weight-light">
+      <tr *ngFor="let employee of filteredEmployees | filterByName: 'nombreEmpleado' : searchText"
+        class="font-weight-light">
         <td>
           <span class="badge badge-info">{{employee.codigoEmpresa == null ? 'Nueva' : employee.codigoEmpresa}}</span>
           {{employee.nombreEmpresa}}
         </td>
+
         <td>{{employee.codigoEmpleado}}</td>
+
+        <td><span [class]="employee.codigoOperario != 0 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-secondary'">
+            {{employee.codigoOperario != 0 ? 'Sí' : 'No'}}</span>
+        </td>
+
         <td class="text-capitalize">{{employee.nombreEmpleado}}</td>
-        <td>{{employee.activo == true ? 'Sí' : 'No'}}</td>
-        <td><a class="badge badge-info" [routerLink]="['/employees']"
-            (click)="toggleActive(employee)">{{ employee.activo == true ? 'desactivar' : 'activar' }}</a>
+
+        <td [class]="getBadgeType(employee.permisos)">{{employee.permisos}}</td>
+
+        <td><span [class]="employee.activo == true ? 'badge badge-pill badge-success' : 'badge badge-pill
+            badge-dark'">{{employee.activo == true ? 'Sí' : 'No'}}
+          </span>
         </td>
-        <td><a class="badge badge-primary" [routerLink]="['/employee', employee.codigoEmpleado]">Editar</a></td>
-        <td><a class="badge badge-danger" [routerLink]="['/employees']" (click)="deleteEmployee(employee)">Eliminar</a>
+
+        <td><a [routerLink]="['/employees']"
+            (click)="toggleActive(employee)"><img title="Activar/desactivar" style="width: 16px;" src="../../assets/pwrOnOff.png"/></a>
         </td>
+
+        <td><a [routerLink]="['/employee', employee.codigoEmpleado]"><img title="Editar" style="width: 16px;" src="../../assets/editBtn.png"/></a></td>
+
+        <td><a [routerLink]="['/employees']" (click)="deleteEmployee(employee)"><img title="Eliminar" style="width: 16px;" src="../../assets/deleteBtn.png"/></a></td>
       </tr>
     </tbody>
   </table>

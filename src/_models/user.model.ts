@@ -1,10 +1,12 @@
 export class Usuario {
   codigoEmpresa: number;
   nombreEmpresa: string;
-  codigoEmpleado: number;
+  codigoEmpleado: string;
   nombreEmpleado: string;
+  codigoOperario: number;
   recuerdame: boolean;
   caducidad: Date;
   password: string;
   permisos: string;
+  activo: number;
 }

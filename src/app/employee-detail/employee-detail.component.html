@@ -1,31 +1,42 @@
-<div class="container" style="margin-top: 1%">
+<div class="container" style="margin-top: 4%">
   <form #employeeForm name="employeeForm">
     <div class="jumbotron" style="width: 50%; margin: auto">
       <h3 class="display-4">{{ employee.nombreEmpleado }}</h3>
       <br />
-      <label class="w-100 text-muted">Código empleado: <span class="text-dark">{{employee.codigoEmpleado}}</span>
+      <label class="w-50 text-muted">Código empleado: <span class="text-dark">{{employee.codigoEmpleado}}</span>
       </label>
 
-      <label class="w-100 text-muted">Nombre <input type="text" #nombreEmpleado name="nombreEmpleado" class="text-dark"
+      <label class="w-50 text-muted">Nombre <input type="text" #nombreEmpleado name="nombreEmpleado" class="text-dark"
           (keydown)="dataChanged()" class="col" [(ngModel)]="employee.nombreEmpleado" />
       </label>
-      <label class="w-100 text-muted">D.N.I. <input type="text" class="col text-dark" name="nifDni"
+
+      <label class="w-50 text-muted">Empresa: <span class="text-dark">{{ employee.nombreEmpresa}}</span> </label>
+
+      <label class="w-50 text-muted">D.N.I. <input type="text" class="col text-dark" name="nifDni"
           (keydown)="dataChanged()" [(ngModel)]="employee.nifDni" />
       </label>
 
-      <label class="w-100 text-muted">Fecha alta: <span
-          class="text-dark">{{ employee.fechaAlta | date: 'dd-MM-yyyy'}}</span>
-      </label>
-      <label class="w-100 text-muted">Empresa: <span class="text-dark">{{ employee.nombreEmpresa}}</span> </label>
-      <label class="w-100 text-muted">Permisos: <span class="text-dark">{{ employee.permisos}}</span> </label>
-
-
-      <label class="w-100">Empleado {{ employee.activo ? 'activo':'inactivo'}}
-        <input #activo type="checkbox" checked="{{employee.activo ? 'checked' : ''}}"
-          (click)="dataChanged()" />
+      <label class="w-50 text-muted">Fecha alta:
+        <span class="text-dark">{{ employee.fechaAlta | date: 'dd-MM-yyyy'}}</span>
       </label>
 
-      <div class="btn-group">
+      <label class="w-50 text-muted">Permisos:
+        <select (change)="setPermission($event.target.value)" [value]="employee.permisos">
+          <option value="Administrador">Administrador</option>
+          <option value="Avanzado">Usr. avanzado</option>
+          <option value="Usuario">Usuario</option>
+        </select>
+      </label>
+
+      <label class="w-50">Empleado {{ employee.activo ? 'activo':'inactivo'}}
+        <input #activo type="checkbox" checked="{{employee.activo ? 'checked' : ''}}" (click)="dataChanged()" />
+      </label>
+
+      <label class="w-50">Operario
+        <input type="checkbox" disabled="true" checked="{{employee.codigoOperario != 0 ? 'checked' : ''}}" />
+      </label>
+
+      <div class="w-100 btn-group">
         <button type="button" class="btn {{!hasChanges ? 'btn-secondary' : 'btn-primary'}}" (click)="saveData(false)"
           style="text-align: center; margin: auto" (disabled)="employeeForm.dirty">Guardar</button>
         <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>

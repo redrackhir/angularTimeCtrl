@@ -16,6 +16,7 @@ export class NavBarComponent implements OnInit {
   userLoggedName: string;
   userLoggedPermission = '';
   version = 'V1.1';
+  dbUse: string;
   // tslint:disable-next-line: max-line-length
   about = {
     title: 'Fichador web',
@@ -48,6 +49,8 @@ export class NavBarComponent implements OnInit {
           if (!this.loginService.isAdmin()) {
             this.debug('You don\'t have access to security area. Redirect to home...');
             this.router.navigateByUrl('/');
+          } else {
+            this.dbUse = this.loginService.getDbUse();
           }
         }
       }

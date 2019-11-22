@@ -18,7 +18,7 @@ export class RptTimerComponent implements OnInit {
   filterYear = 0;
   filterText = '';
   private idEmpresa: number;
-  private idEmpleado: number;
+  private idEmpleado: string;
 
   constructor(private loginService: LoginService, private router: Router, private clokinService: ClockinService) { }
 
@@ -26,7 +26,7 @@ export class RptTimerComponent implements OnInit {
     if (!this.loginService.isUserLogged) { this.router.navigateByUrl('/'); }
     this.idEmpresa = this.loginService.getEmployee().codigoEmpresa;
     this.idEmpleado = this.loginService.getEmployee().codigoEmpleado;
-    this.filterWeek = this.getWeekNumber(new Date()) - 1;
+    this.filterWeek = this.ISO8601_week_no(new Date()); // this.getWeekNumber(new Date());
     this.filterText = 'Semana en curso';
     this.getClockins();
   }
@@ -40,7 +40,7 @@ export class RptTimerComponent implements OnInit {
 
   filterByCurrentWeek(): void {
     const d = new Date();
-    this.filterWeek = this.getWeekNumber(d) - 1;
+    this.filterWeek = this.ISO8601_week_no(d); // this.getWeekNumber(d);
     this.filterMonth = 0;
     this.filterYear = 0;
     this.filterText = 'Semana en curso';
@@ -67,7 +67,7 @@ export class RptTimerComponent implements OnInit {
     let sum = 0;
     // tslint:disable-next-line: prefer-const
     if (!this.clockins) { return 0; }
-    for (let clockin of this.clockins) {
+    for (const clockin of this.clockins) {
       sum += parseFloat(clockin.horas.toString());
     }
     return sum;
@@ -88,11 +88,23 @@ export class RptTimerComponent implements OnInit {
     // Make Sunday's day number 7
     d.setDate(d.getDate() + 4 - (d.getDay() || 7));
     // Get first day of year
-    let yearStart = new Date(d.getFullYear(), 0, 1);
+    const yearStart = new Date(d.getFullYear(), 0, 1);
     // Calculate full weeks to nearest Thursday
-    let weekNo = Math.ceil((((d.valueOf() - yearStart.valueOf()) / 86400000) + 1) / 7);
+    const weekNo = Math.ceil((((d.valueOf() - yearStart.valueOf()) / 86400000) + 1) / 7);
     // Return array of year and week number
     return weekNo;
+  }
+
+  private ISO8601_week_no(dt) {
+    const tdt = new Date(dt.valueOf());
+    const dayn = (dt.getDay() + 6) % 7;
+    tdt.setDate(tdt.getDate() - dayn + 3);
+    const firstThursday = tdt.valueOf();
+    tdt.setMonth(0, 1);
+    if (tdt.getDay() !== 4) {
+      tdt.setMonth(0, 1 + ((4 - tdt.getDay()) + 7) % 7);
+    }
+    return 1 + Math.ceil((firstThursday - tdt.valueOf()) / 604800000);
   }
 
   debug(msg: string) {

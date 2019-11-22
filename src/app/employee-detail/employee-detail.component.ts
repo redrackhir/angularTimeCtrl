@@ -47,8 +47,13 @@ export class EmployeeDetailComponent implements OnInit {
 
   dataChanged(): void {
     this.hasChanges = true;
-    this.debug('hasChanges = ' + this.hasChanges);
+    this.debug('Data changed = ' + this.hasChanges);
     this.debug('employee = ' + JSON.stringify(this.employee));
+  }
+
+  setPermission(permiso: string) {
+    this.employee.permisos = permiso;
+    this.dataChanged();
   }
 
   saveData(doExit: boolean): void {

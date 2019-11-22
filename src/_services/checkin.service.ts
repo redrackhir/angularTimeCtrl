@@ -29,7 +29,15 @@ export class CheckinService {
     return this.http.get<Checkin[]>(`${this.PHP_API_SERVER}/api/readCheckins.php`);
   }
 
-  checkin(companyId: number, employeeId: number, dateAndTime: string, coords: any) {
+  readFilteredCheckins(companyId: number, employeeId: string, dateAndTime: string): Observable<Checkin[]> {
+    return this.http.post<Checkin[]>(`${this.PHP_API_SERVER}/api/readFilteredCheckins.php`, {
+      companyId,
+      employeeId,
+      dateAndTime
+    });
+  }
+
+  checkin(companyId: number, employeeId: string, dateAndTime: string, coords: any) {
     // event.preventDefault();
     // tslint:disable-next-line: prefer-const
     // this.debug(`registering ${employeeId}, ${dateAndTime}`);
@@ -38,6 +46,12 @@ export class CheckinService {
       employeeId,
       dateAndTime,
       coords
+    });
+  }
+
+  deleteCheckin(uid: number) {
+    return this.http.post(`${this.PHP_API_SERVER}/api/deleteCheckin.php`, {
+      uid
     });
   }
 

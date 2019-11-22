@@ -86,12 +86,11 @@ export class EmployeeService {
   }
 
   /** DELETE: delete the Employee from the server */
-  deleteEmployee(employee: Employee | number): Observable<Employee> {
-    const id = typeof employee === 'number' ? employee : employee.codigoEmpleado;
-    const url = `${this.PHP_API_SERVER}/api/deleteEmployee.php?id=${id}`;
+  deleteEmployee(employeeId: string, companyId: number): Observable<Employee> {
+    const url = `${this.PHP_API_SERVER}/api/deleteEmployee.php?idCompany=${companyId}&idEmployee=${employeeId}`;
 
     return this.http.delete<Employee>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted Employee id=${id}`, 'success')),
+      tap(_ => this.log(`deleted Employee id=${employeeId}`, 'success')),
       catchError(this.handleError<Employee>('deleteEmployee'))
     );
   }
@@ -119,7 +118,7 @@ export class EmployeeService {
     };
   }
 
-  /** Log a HeroService message with the MessageService */
+  /** Log a EmployeeService message with the MessageService */
   private log(message: string, alertType: string) {
     this.messageService.add(`EmployeeService: ${message}`, alertType);
   }

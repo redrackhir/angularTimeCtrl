@@ -61,6 +61,15 @@ export class EmployeesComponent implements OnInit {
     this.router.navigateByUrl('/employee' + id); // :id=' + id);
   }
 
+  getBadgeType(permiso: string): string {
+    let badType = 'light';
+    if (permiso.toLowerCase().includes('usuario')) { badType = 'secondary'; }
+    if (permiso.toLowerCase().includes('avanzado')) { badType = 'dark'; }
+    if (permiso.toLowerCase().includes('admin')) { badType = 'warning'; }
+    // this.debug(`permiso: ${permiso} retVal = ${badType}`);
+    return 'badge badge-pill badge-' + badType;
+  }
+
   filterByCompany(codEmpresa: number) {
     this.filteredEmployees = this.employees.filter(employee => employee.codigoEmpresa === codEmpresa);
   }
@@ -92,7 +101,7 @@ export class EmployeesComponent implements OnInit {
 
   public deleteEmployee(employee: Employee) {
     // TODO: Ventana modal con confirmación de eliminado
-    this.employeeService.deleteEmployee(employee).subscribe();
+    this.employeeService.deleteEmployee(employee.codigoEmpleado, employee.codigoEmpresa).subscribe();
     this.getEmployees();
   }
 
