@@ -1,0 +1,10 @@
+.table {
+  font-family: 'Consolas', 'Courier New', Courier, monospace;
+  font-size: small;
+  line-height: 1;
+}
+
+.table-hover tbody tr:hover {
+  color: #212529;
+  background-color: rgba(115, 199, 214, 0.452);
+}

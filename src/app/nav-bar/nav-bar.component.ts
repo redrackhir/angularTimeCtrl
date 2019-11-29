@@ -15,14 +15,13 @@ export class NavBarComponent implements OnInit {
   isAdmin: boolean;
   userLoggedName: string;
   userLoggedPermission = '';
-  version = 'V1.1';
   dbUse: string;
   // tslint:disable-next-line: max-line-length
   about = {
     title: 'Fichador web',
     body: '<h5>Fichador web</h5>Dpto. programación<br>Más información en <a href=\'http://www.pcserveis.com\'>www.pcserveis.com</a>',
     version: '1.2',
-    release: '1'
+    release: '2'
   };
   collapseClass = 'display: none';
 
@@ -30,10 +29,12 @@ export class NavBarComponent implements OnInit {
     this.router.events.forEach((event) => {
       if (event instanceof NavigationStart) {
         this.getLogged();
+
         this.debug('route event = ' + event);
-        this.debug('Company logged? ' + this.loginService.isCompanyLogged());
+        // this.debug('Company logged? ' + this.loginService.isCompanyLogged());
         this.debug('User logged? ' + this.loginService.isUserLogged());
         this.debug('User isAdmin ' + this.loginService.isAdmin());
+
         if (!this.loginService.isCompanyLogged() && event.url != '/company-login') {
           this.debug('Company not logged. Redirect to login company...');
           this.router.navigateByUrl('/company-login');
@@ -51,6 +52,7 @@ export class NavBarComponent implements OnInit {
             this.debug('You don\'t have access to security area. Redirect to home...');
             this.router.navigateByUrl('/');
           } else {
+            this.debug(`loading ${event.url}...`);
             this.dbUse = this.loginService.getDbUse();
           }
         }

@@ -9,7 +9,7 @@
           <h5 class="card-title">{{ userLoggedName }}</h5>
           <p class="card-text">{{ userLoggedCompany }}</p>
           <p *ngIf="lastClockin" class="card-text">Última fichada <b>{{ lastClockin[0] }}</b> a las <b>{{ lastClockin[1] }}</b></p>
-          <a routerLink="/checkin" class="btn btn-primary">Fichar</a>&nbsp;&nbsp;
+          <a *ngIf="userLoggedName != 'Admin'" routerLink="/checkin" class="btn btn-primary">Fichar</a>&nbsp;&nbsp;
           <a routerLink="/" (click)="logout()" class="btn btn-primary">Salir</a>
         </div>
       </div>

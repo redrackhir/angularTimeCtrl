@@ -14,10 +14,10 @@
         </a>
       </li>
       <li class="nav-item">
-        <a *ngIf="isUserLogged"
-          [routerLink]="['/dashboard']" data-toggle="collapse" data-target=".navbar-collapse.show">
-          <a class="nav-link btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}" [routerLink]="['/dashboard']"
-          style="color:ghostwhite">
+        <a *ngIf="isUserLogged" [routerLink]="['/dashboard']" data-toggle="collapse"
+          data-target=".navbar-collapse.show">
+          <a class="nav-link btn my-2 my-sm-0 {{ userLoggedPermission == 'Administrador' ? 'btn-warning' : 'btn-info' }}"
+            [routerLink]="['/dashboard']" style="color:ghostwhite">
             {{ userLoggedName }}
           </a>
         </a>
@@ -31,20 +31,25 @@
         <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">Consultar</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
-          <button class="dropdown-item" type="button" [routerLink]="['/rpt-timer']" routerLinkActive="router-link-active" >Horas acumuladas</button>
+          <button class="dropdown-item" type="button" [routerLink]="['/rpt-timer']"
+            routerLinkActive="router-link-active" data-toggle="collapse" data-target=".navbar-collapse.show">Horas
+            acumuladas</button>
         </div>
       </li>
       <li class="nav-item">
-        <a *ngIf="isUserLogged" routerLink="/" class="nav-link" (click)="logout()">Salir</a>
+        <a *ngIf="isUserLogged" routerLink="/" class="nav-link" (click)="logout()" data-toggle="collapse"
+          data-target=".navbar-collapse.show">Salir</a>
       </li>
 
       <li *ngIf="isAdmin" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle btn btn-primary" href="http://example.com" id="dropdown01"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión</a>
+          data-toggle="dropdown" data-target="dropdown01" aria-haspopup="true" aria-expanded="false">Gestión</a>
         <div class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" routerLink="/companies">Empresas</a>
           <a class="dropdown-item" routerLink="/employees">Empleados</a>
           <a class="dropdown-item" routerLink="/edit-checkins">Fichadas</a>
+          <a class="dropdown-item" routerLink="/rpt-employees-active">Empleados activos</a>
+          <a class="dropdown-item" routerLink="/rpt-companies-invoice">Empresas a facturar</a>
         </div>
       </li>
 

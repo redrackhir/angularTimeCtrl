@@ -11,6 +11,9 @@ import { EmployeesComponent } from './employees/employees.component';
 import { EmployeeDetailComponent } from './employee-detail/employee-detail.component';
 import { RptTimerComponent } from './rpt-timer/rpt-timer.component';
 import { EditCheckinsComponent } from './edit-checkins/edit-checkins.component';
+import { RptEmployeesActiveComponent } from './rpt-employees-active/rpt-employees-active.component';
+import { HistoryDetailComponent } from './history-detail/history-detail.component';
+import { RptCompaniesInvoiceComponent } from './rpt-companies-invoice/rpt-companies-invoice.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,8 +25,11 @@ const routes: Routes = [
   { path: 'company', component: CompanyDetailComponent },
   { path: 'company/:id', component: CompanyDetailComponent },
   { path: 'employees', component: EmployeesComponent },
-  { path: 'employee/:id', component: EmployeeDetailComponent },
+  { path: 'employee/:compId/:emplId', component: EmployeeDetailComponent },
+  { path: 'history/:compId/:empId', component: HistoryDetailComponent },
   { path: 'rpt-timer', component: RptTimerComponent },
+  { path: 'rpt-employees-active', component: RptEmployeesActiveComponent },
+  { path: 'rpt-companies-invoice', component: RptCompaniesInvoiceComponent },
   { path: 'edit-checkins', component: EditCheckinsComponent },
   { path: '', component: AppComponent },
   { path: '**', component: AppComponent }

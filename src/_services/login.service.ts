@@ -66,7 +66,7 @@ export class LoginService {
     } else {
       this.isUserLoggedIn = false;
     }
-    this.debug('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
+    // this.debug('login.service: loadUser() = ' + JSON.stringify(this.userLogged));
   }
 
   private loadCompany() {
@@ -77,7 +77,7 @@ export class LoginService {
       // this.debug('login.service: loadCompany() = null!');
       this.isCompanyLoggedIn = false;
     }
-    this.debug('login.service: loadCompany() = ' + JSON.stringify(this.companyLogged));
+    // this.debug('login.service: loadCompany() = ' + JSON.stringify(this.companyLogged));
   }
 
   private removeUser() {
@@ -98,11 +98,11 @@ export class LoginService {
     if (this.userLogged == null) { return 0; }
     if (this.userLogged.recuerdame) { return 0; }
     const expireDate = this.userLogged.caducidad;
-    this.debug(`Expire time ${expireDate}`);
+    // this.debug(`Expire time ${expireDate}`);
     if (new Date(expireDate).getTime() > new Date().getTime()) {
-      this.debug(`Remain ${(new Date(expireDate).getTime() - new Date().getTime())} miliseconds to expire`);
+      // (`Remain ${(new Date(expireDate).getTime() - new Date().getTime())} miliseconds to expire`);
     } else {
-      this.debug(`User expired time`);
+      // this.debug(`User expired time`);
       this.logout();
     }
   }
@@ -146,7 +146,7 @@ export class LoginService {
 
   getCanCheck() {
     // El usuario podrá fichar siempre que esté activado Y no sea un operario de taller
-    this.debug(`canCheck (${this.userLogged.Operario} && ${this.userLogged.activo}) = ${this.userLogged.Operario == 0 && this.userLogged.activo != 0}`);
+    // this.debug(`canCheck (${this.userLogged.Operario} && ${this.userLogged.activo}) = ${this.userLogged.Operario == 0 && this.userLogged.activo != 0}`);
     return this.userLogged.Operario == 0 && this.userLogged.activo != 0;
   }
 

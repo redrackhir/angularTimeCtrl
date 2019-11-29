@@ -1,0 +1,33 @@
+<div class="container shadow p-3 mb-5 bg-light rounded" style="margin-top: 4%">
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <h4 class="col" style="text-align: center;">Informe de gestión</h4>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <label class="col" style="text-align: center;">:: Nº de empleados a facturar por empresa ::</label>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let item of report">Empresa: [<i>{{item.codigoEmpresa}}</i>]
+      <b>{{item.nombreEmpresa}}</b> - Empleados a facturar: <b>{{item.empleados}}</b></li>
+  </ul>
+  <hr>
+  <div class="row">
+    <div class="col">
+      Fecha de informe: {{ today | date }}
+    </div>
+  </div>
+
+  <hr>
+  <div class="row">
+    <div class="col"></div>
+    <div class="w-25 btn-group">
+      <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>
+    </div>
+
+    <div class="col"></div>
+  </div>
+</div>

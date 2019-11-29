@@ -16,7 +16,8 @@ import { environment } from 'src/environments/environment';
 export class EmployeeDetailComponent implements OnInit {
   loggedUser: Usuario;
   empleado: string;
-  id: string;
+  companyId: number;
+  employeeId: string;
   employee: Employee = new Employee(-1, '', '');
   hasChanges = false;
 
@@ -24,8 +25,9 @@ export class EmployeeDetailComponent implements OnInit {
               private employeeService: EmployeeService) { }
 
   async ngOnInit() {
-    // get parameter of idEmployee from listCompanies
-    this.id = this.route.snapshot.paramMap.get('id');
+    // get parameters of employeeId & companyId from listCompanies
+    this.companyId = parseInt(this.route.snapshot.paramMap.get('compId'), 10);
+    this.employeeId = this.route.snapshot.paramMap.get('emplId');
 
     this.getEmployee();
 
@@ -38,7 +40,7 @@ export class EmployeeDetailComponent implements OnInit {
 
   getEmployee(): void {
     // Leer datos de la empresa
-    this.employeeService.getEmployee(this.id).subscribe(response => this.employee = response);
+    this.employeeService.getEmployee(this.companyId, this.employeeId).subscribe(response => this.employee = response);
     this.debug(`employee-detail|employee = ${JSON.stringify(this.employee)}`);
 
     /* this.debug('result = ' + JSON.stringify(this.employee));
@@ -49,6 +51,11 @@ export class EmployeeDetailComponent implements OnInit {
     this.hasChanges = true;
     this.debug('Data changed = ' + this.hasChanges);
     this.debug('employee = ' + JSON.stringify(this.employee));
+  }
+
+  toggleFacturar(): void {
+    this.employee.facturar = !this.employee.facturar;
+    this.dataChanged();
   }
 
   setPermission(permiso: string) {

@@ -14,7 +14,7 @@ import { MessageService } from './message.service';
 export class CompanyService {
 
   companies: Company[];
-  newCompany: Company;
+  currentCompany: Company;
 
   private PHP_API_SERVER: string;
   httpOptions = {
@@ -32,8 +32,7 @@ export class CompanyService {
   getCompaniesList(): Observable<Company[]> {
     const url = `${this.PHP_API_SERVER}/api/readCompanies.php`;
     this.debug(`calling ${url}...`);
-    return this.http.get<Company[]>(this.PHP_API_SERVER + '/api/readCompanies.php')
-      .pipe(
+    return this.http.get<Company[]>(url).pipe(
         tap(),
         catchError(this.handleError<Company[]>('getCompaniesList', []))
       );
@@ -46,6 +45,15 @@ export class CompanyService {
     return this.http.get<Company>(url).pipe(
       tap(_ => this.log(`Editar empresa [${id}]`, 'success')),
       catchError(this.handleError<Company>(`getCompany id=${id}`))
+    );
+  }
+
+  getInvoicingReport(): Observable<any> {
+    const url = `${this.PHP_API_SERVER}/api/getCompsInvoice.php`;
+    this.debug(`calling ${url}...`);
+    return this.http.get<any>(url).pipe(
+      tap(_ => this.log(`getCompsInvoice`, 'success')),
+      catchError(this.handleError<any>(`getCompsInvoice`))
     );
   }
 

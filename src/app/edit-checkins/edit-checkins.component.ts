@@ -20,17 +20,22 @@ export class EditCheckinsComponent implements OnInit {
   companyId: number;
   employeeId: string;
   dateAndTime: string;
+  loading = false;
 
   constructor(private router: Router, private checkinService: CheckinService, private companyService: CompanyService) { }
 
   ngOnInit() {
-    this.getCheckins();
     this.getCompanies();
+    // this.getCheckins();
   }
 
   getCheckins(): void {
     // Leer datos empresas
-    this.checkinService.readCheckins().subscribe(response => this.checkins = response);
+    this.loading = true;
+    this.checkinService.readCheckins().subscribe(response => {
+      this.checkins = response,
+        this.loading = false;
+    });
   }
 
   refreshFilter(): void {
@@ -40,7 +45,11 @@ export class EditCheckinsComponent implements OnInit {
 
   getCompanies(): void {
     // Leer datos empresas
-    this.companyService.getCompaniesList().subscribe(response => this.companies = response);
+    this.loading = true;
+    this.companyService.getCompaniesList().subscribe(response => {
+      this.companies = response,
+        this.loading = false;
+    });
   }
 
   companyIdChanged_Event(companyId: number) {

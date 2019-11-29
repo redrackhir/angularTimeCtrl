@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 import { MessageService } from './message.service';
+import { Movement } from 'src/_models/movement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,23 +30,47 @@ export class EmployeeService {
     }
   }
 
+  // Lista de empleados
   getEmployeesList(): Observable<Employee[]> {
     const url = `${this.PHP_API_SERVER}/api/readEmployees.php`;
     this.debug(`calling ${url}...`);
-    return this.http.get<Employee[]>(this.PHP_API_SERVER + '/api/readEmployees.php')
+    return this.http.get<Employee[]>(url)
       .pipe(
         tap(),
         catchError(this.handleError<Employee[]>('getEmployeesList', []))
       );
   }
 
+  // Lista de empleados activos (para facturar)
+  getEmployeesListActive(): Observable<Employee[]> {
+    const url = `${this.PHP_API_SERVER}/api/readEmployeesActive.php`;
+    this.debug(`calling ${url}...`);
+    return this.http.get<Employee[]>(url)
+      .pipe(
+        tap(),
+        catchError(this.handleError<Employee[]>('getEmployeesList', []))
+      );
+  }
+
+  // Lista de movimientos altas/bajas empleado por codEmpresa y codEmpleado
+  getMovementsList(companyId: number, employeeId: string): Observable<Movement[]> {
+    const url = `${this.PHP_API_SERVER}/api/readHistories.php?companyId=${companyId}&employeeId=${employeeId}`;
+    this.debug(`calling ${url}...`);
+    return this.http.get<Movement[]>(url)
+      .pipe(
+        tap(),
+        catchError(this.handleError<Movement[]>('getMovementsList', []))
+      );
+  }
+
+
   /** GET Employee by id. Will 404 if id not found */
-  getEmployee(id: string): Observable<Employee> {
-    const url = `${this.PHP_API_SERVER}/api/getEmployee.php?id=${id}`;
+  getEmployee(companyId: number, employeeId: string): Observable<Employee> {
+    const url = `${this.PHP_API_SERVER}/api/getEmployee.php?compId=${companyId}&emplId=${employeeId}`;
     this.debug(`calling ${url}...`);
     return this.http.get<Employee>(url).pipe(
-      tap(_ => this.log(`Cargado empleado con id: ${id}`, 'success')),
-      catchError(this.handleError<Employee>(`getEmployee id=${id}`))
+      tap(_ => this.log(`Cargado empleado id: ${employeeId}`, 'success')),
+      catchError(this.handleError<Employee>(`getEmployee emplId=${employeeId} compId=${companyId}`))
     );
   }
 

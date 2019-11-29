@@ -28,6 +28,7 @@
         <th scope="col">Nombre</th>
         <th scope="col">Permiso</th>
         <th scope="col">Activo</th>
+        <th scope="col">Facturar</th>
         <td scope="col" colspan=3>Acciones</td>
 
       </tr>
@@ -42,7 +43,8 @@
 
         <td>{{employee.codigoEmpleado}}</td>
 
-        <td><span [class]="employee.Operario != 0 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-secondary'">
+        <td><span
+            [class]="employee.Operario != 0 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-secondary'">
             {{employee.Operario != 0 ? 'Sí' : 'No'}}</span>
         </td>
 
@@ -51,17 +53,24 @@
         <td [class]="getBadgeType(employee.permisos)">{{employee.permisos}}</td>
 
         <td><span [class]="employee.activo == true ? 'badge badge-pill badge-success' : 'badge badge-pill
-            badge-dark'">{{employee.activo == true ? 'Sí' : 'No'}}
+            badge-dark'" (click)="toggleActive(employee)">{{employee.activo == true ? 'Sí' : 'No'}}
           </span>
         </td>
 
-        <td><a [routerLink]="['/employees']"
-            (click)="toggleActive(employee)"><img title="Activar/desactivar" style="width: 16px;" src="../../assets/pwrOnOff.png"/></a>
+        <td><span [class]="employee.facturar == true ? 'badge badge-pill badge-success' : 'badge badge-pill
+            badge-dark'" (click)="toggleFacturar(employee)">{{employee.facturar == true ? 'Sí' : 'No'}}
+          </span>
         </td>
 
-        <td><a [routerLink]="['/employee', employee.codigoEmpleado]"><img title="Editar" style="width: 16px;" src="../../assets/editBtn.png"/></a></td>
+        <td><a [routerLink]="['/employees']" (click)="toggleActive(employee)"><img title="Activar/desactivar"
+              style="width: 16px;" src="../../assets/pwrOnOff.png" /></a>
+        </td>
 
-        <td><a [routerLink]="['/employees']" (click)="deleteEmployee(employee)"><img title="Eliminar" style="width: 16px;" src="../../assets/deleteBtn.png"/></a></td>
+        <td><a [routerLink]="['/employee', employee.codigoEmpresa, employee.codigoEmpleado]"><img title="Editar"
+              style="width: 16px;" src="../../assets/editBtn.png" /></a></td>
+
+        <td><a [routerLink]="['/employees']" (click)="deleteEmployee(employee)"><img title="Eliminar"
+              style="width: 16px;" src="../../assets/deleteBtn.png" /></a></td>
       </tr>
     </tbody>
   </table>
@@ -74,10 +83,12 @@
     <input #employeeName placeholder="Nombre empleado" />
     <input #nifDniEmployee placeholder="Dni" />
     <!-- (click) passes input value to add() and then clears the input -->
+    <!--
     <button
       (click)="add(companyCode.value, employeeName.value, nifDniEmployee.value); companyCode.value=''; employeeName.value=''; nifDniEmployee.value = ''">
       añadir empleado nuevo
     </button>
+    -->
   </div>
   <div class="col"></div>
 </div>

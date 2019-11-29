@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" style="margin-top: 4%">
   <div class="row">&nbsp;</div>
   <div class="row">
     <div class="col"></div>
@@ -42,9 +42,7 @@
       </tr>
       -->
       <tr>
-        <td>
-          Filtros ->
-        </td>
+        <td>Filtros</td>
         <td>
           <select placeholder="Filtrar por empresa" (change)="companyIdChanged_Event($event.target.value)">
             <option value="-1">Todas</option>
@@ -54,27 +52,36 @@
           </select>
         </td>
         <td>
-          <input type="text" placeholder="filtrar por Cód. empleado..." (change)="employeeIdChanged_Event($event.target.value)"/>
+          <input type="text" placeholder="filtrar por Cód. empleado..."
+            (change)="employeeIdChanged_Event($event.target.value)" />
         </td>
         <td>
-          <input type="text" placeholder="filtrar por Fecha..." (change)="dateAndTimeChanged_Event($event.target.value)" />
+          <input type="date" placeholder="filtrar por Fecha..."
+            (change)="dateAndTimeChanged_Event($event.target.value)" />
         </td>
         <td>
           <button class="btn btn-primary" (click)="refreshFilter()">Filtrar</button>
         </td>>
       </tr>
-        <tr *ngFor="let checkin of checkins" class="font-weight-light">
-          <td><span class="badge badge-info">{{ checkin.idFichada }}</span></td>
-          <td><input type="text" maxlength="5" [(value)]="checkin.codigoEmpresa" /></td>
-          <td><input type="text" maxlength="25" [(value)]="checkin.codigoEmpleado" /></td>
-          <td><input type="text" maxlength="20" [(value)]="checkin.fechaHora" />
-          </td>
-          <td><input type="text" maxlength="25" [(value)]="checkin.coordenadas" /></td>
-          <td><a class="badge badge-primary" (click)="updateCheckin(checkin)">Actualizar</a></td>
-          <td><a class="badge badge-danger" [routerLink]="['/checkins']" (click)="deleteCheckin(checkin)">Eliminar</a>
-        </tr>
+      <tr *ngFor="let checkin of checkins" class="font-weight-light">
+        <td><span class="badge badge-info">{{ checkin.idFichada }}</span></td>
+        <td><input type="text" maxlength="5" [(value)]="checkin.codigoEmpresa" /></td>
+        <td><input type="text" maxlength="25" [(value)]="checkin.codigoEmpleado" /></td>
+        <td><input type="text" maxlength="20" [(value)]="checkin.fechaHora" />
+        </td>
+        <td><input type="text" maxlength="25" [(value)]="checkin.coordenadas" /></td>
+        <td><a class="badge badge-primary" (click)="updateCheckin(checkin)">Actualizar</a></td>
+        <td><a class="badge badge-danger" [routerLink]="['/checkins']" (click)="deleteCheckin(checkin)">Eliminar</a>
+      </tr>
     </tbody>
   </table>
+
+  <div class="row">
+    <div class="col" *ngIf="loading" class="spinner-border" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
   <div style="width: 80%; margin: auto">
     <label>Seleccione empresa&nbsp;
       <select #checkinCode aria-placeholder="Seleccione empresa">

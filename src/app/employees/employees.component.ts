@@ -16,9 +16,12 @@ export class EmployeesComponent implements OnInit {
 
   public searchText = '';
   loggedUser: Usuario;
-  empleado: any;
+  currentEmployee: Employee;
+  empleado: string;
+  public employee: Employee;
   employees: Employee[];
   companies: Company[];
+  selectedCompany: Company;
   filteredEmployees: Employee[];
 
   constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService,
@@ -37,18 +40,18 @@ export class EmployeesComponent implements OnInit {
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
     // this.checkinService.setLastTransacc(false);
     // this.debug(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
-
-    // this.empresa = 'Empresa ' + this.loggedUser.nombreEmpresa;
     this.empleado = this.loggedUser.nombreEmpleado;
     this.getEmployees();
     this.getCompanies();
+    // this.filterByCompany(this.selectedCompany.codigoEmpresa || 0);
     // this.debug('response 3: ' + JSON.stringify(this.data));
   }
 
   getEmployees(): void {
     // Leer datos empresas
+    this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response, error => this.debug(`error ${error}`));
     this.employeeService.getEmployeesList().subscribe(response => this.employees = response);
-    this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response);
+    // this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response);
   }
 
   getCompanies(): void {
@@ -74,6 +77,7 @@ export class EmployeesComponent implements OnInit {
     this.filteredEmployees = this.employees.filter(employee => employee.codigoEmpresa === codEmpresa);
   }
 
+  /*
   add(codEmpresa: number, nombreEmpleado: string, nifDni: string): void {
     nombreEmpleado = nombreEmpleado.trim();
     nifDni = nifDni.trim();
@@ -92,6 +96,7 @@ export class EmployeesComponent implements OnInit {
         this.debug('new employee added: ' + JSON.stringify(employee));
       });
   }
+  */
 
   public toggleActive(employee: Employee) {
     // const employee = this.employees[this.arrayObjectIndexOf(this.employees, id, 'codigoEmpleado')];
@@ -99,18 +104,16 @@ export class EmployeesComponent implements OnInit {
     this.employeeService.updateEmployee(employee).subscribe();
   }
 
+  public toggleFacturar(employee: Employee) {
+    // const employee = this.employees[this.arrayObjectIndexOf(this.employees, id, 'codigoEmpleado')];
+    employee.facturar = !employee.facturar;
+    this.employeeService.updateEmployee(employee).subscribe();
+  }
+
   public deleteEmployee(employee: Employee) {
     // TODO: Ventana modal con confirmación de eliminado
     this.employeeService.deleteEmployee(employee.codigoEmpleado, employee.codigoEmpresa).subscribe();
     this.getEmployees();
-  }
-
-  arrayObjectIndexOf(myArray, searchTerm, property) {
-    for (let i = 0, len = myArray.length; i < len; i++) {
-      // this.debug('myArray[i][property] = ' + myArray[i][property]);
-      // tslint:disable-next-line: triple-equals
-      if (myArray[i][property] == searchTerm) { return i; }
-    }
   }
 
   debug(msg: string) {

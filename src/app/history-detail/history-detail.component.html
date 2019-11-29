@@ -1,0 +1,53 @@
+<div class="container" style="margin-top: 4%">
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <h4 class="col" style="text-align: center;">Listado de empleados</h4>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <label class="col" style="text-align: center;">:: Histórico de Altas/Bajas en PCsTime ::</label>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <label class="col" style="text-align: center;">
+      Empresa: {{ histories[0].nombreEmpresa }} &nbsp;&nbsp;&nbsp; Empleado: {{ histories[0].nombreEmpleado }}
+    </label>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <table class="table table-striped table-hover table-sm" style="margin: auto">
+    <thead class="btn-primary">
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Tipo mov.</th>
+        <th scope="col">Fecha movimiento</th>
+        <th scope="col">Activo</th>
+        <td scope="col" colspan=3>Acciones</td>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let mov of histories" class="font-weight-light">
+        <td>{{mov.idHistorial}}</td>
+
+        <td>{{mov.tipoMovimiento == 'A' ? 'Alta' : 'Baja'}}</td>
+
+        <td>{{mov.fechaMovimiento | date:'dd/MM/yyyy - HH:mm:ss' }}</td>
+
+        <td>{{mov.statusActivo}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+  <div class="row">
+    <div class="col"></div>
+    <div class="w-25 btn-group">
+      <button type="button" class="btn btn-success" onclick="window.history.back()">Volver</button>
+    </div>
+
+    <div class="col"></div>
+  </div>
+</div>

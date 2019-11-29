@@ -48,7 +48,11 @@ export class CompanyLoginComponent implements OnInit {
           // this.companyLogged.codigoEmpresa = resp['codigoEmpresa'];
           this.saveCompany(this.companyLogged);
           this.debug(`company & isCompanyLoggedIn = ${JSON.stringify(this.companyLogged)} // ${this.isCompanyLoggedIn}`);
-          this.router.navigateByUrl('/login');
+          if (this.companyLogged.nombreEmpresa.toLowerCase() == 'admin') {
+            this.router.navigateByUrl('/dashboard');
+          } else {
+            this.router.navigateByUrl('/login');
+          }
           this.loading = false;
         } else {
           // tslint:disable-next-line: max-line-length
