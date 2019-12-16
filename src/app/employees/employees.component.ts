@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { LoginService, Usuario } from 'src/_services';
 import { EmployeeService } from 'src/_services/employee.service';
 import { CompanyService } from 'src/_services/company.service';
@@ -23,16 +23,10 @@ export class EmployeesComponent implements OnInit {
   companies: Company[];
   selectedCompany: Company;
   filteredEmployees: Employee[];
+  companyId: number;
 
-  constructor(private router: Router, private loginService: LoginService, private employeeService: EmployeeService,
-              private companyService: CompanyService) {
-    this.router.events.forEach((event) => {
-      // this.debug('route event...' + event);
-      if (event instanceof NavigationEnd && event.url == '/employees') {
-        this.ngOnInit();
-        // this.debug('reloading data...' + event);
-      }
-    });
+  constructor(private route: ActivatedRoute, private router: Router, private loginService: LoginService,
+    private employeeService: EmployeeService, private companyService: CompanyService) {
   }
 
   async ngOnInit() {
@@ -40,6 +34,9 @@ export class EmployeesComponent implements OnInit {
     if (this.loggedUser === undefined) { this.router.navigateByUrl('/'); return; }
     // this.checkinService.setLastTransacc(false);
     // this.debug(`this.loggedUser = ${JSON.stringify(this.loggedUser)}`);
+    // get parameters from url name
+    this.companyId = parseInt(this.route.snapshot.paramMap.get('compId'), 10);
+    this.debug(`compId = ${this.companyId}`);
     this.empleado = this.loggedUser.nombreEmpleado;
     this.getEmployees();
     this.getCompanies();
@@ -49,8 +46,13 @@ export class EmployeesComponent implements OnInit {
 
   getEmployees(): void {
     // Leer datos empresas
-    this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response, error => this.debug(`error ${error}`));
-    this.employeeService.getEmployeesList().subscribe(response => this.employees = response);
+    // tslint:disable-next-line: max-line-length
+    // this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response, error => this.debug(`error ${error}`));
+    this.employeeService.getEmployeesList().subscribe(response => {
+      this.employees = response,
+        this.filterByCompany(this.companyId);
+    }
+    );
     // this.employeeService.getEmployeesList().subscribe(response => this.filteredEmployees = response);
   }
 
@@ -74,29 +76,11 @@ export class EmployeesComponent implements OnInit {
   }
 
   filterByCompany(codEmpresa: number) {
-    this.filteredEmployees = this.employees.filter(employee => employee.codigoEmpresa === codEmpresa);
+    if (codEmpresa == 0) { return; }
+    this.debug(`filtering by: ${codEmpresa}`);
+    this.debug(`employees: ${this.employees.length}`);
+    this.filteredEmployees = this.employees.filter(employee => employee.codigoEmpresa == codEmpresa);
   }
-
-  /*
-  add(codEmpresa: number, nombreEmpleado: string, nifDni: string): void {
-    nombreEmpleado = nombreEmpleado.trim();
-    nifDni = nifDni.trim();
-
-    if (!nombreEmpleado || !nifDni) { return; }
-
-    const employee = new Employee(codEmpresa, nombreEmpleado, nifDni);
-    employee.nombreEmpresa = '¡Nuevo!';
-
-    this.debug('Employee = ' + JSON.stringify(employee));
-
-    this.employeeService.addEmployee(employee)
-      // tslint:disable-next-line: no-shadowed-variable
-      .subscribe(employee => {
-        this.employees.push(employee);
-        this.debug('new employee added: ' + JSON.stringify(employee));
-      });
-  }
-  */
 
   public toggleActive(employee: Employee) {
     // const employee = this.employees[this.arrayObjectIndexOf(this.employees, id, 'codigoEmpleado')];

@@ -17,6 +17,7 @@ export class EditCheckinsComponent implements OnInit {
   checkins: Checkin[];
   filteredCheckins: Checkin[];
   companies: Company[];
+  selectedCompany: Company;
   companyId: number;
   employeeId: string;
   dateAndTime: string;
@@ -29,31 +30,39 @@ export class EditCheckinsComponent implements OnInit {
     // this.getCheckins();
   }
 
-  getCheckins(): void {
-    // Leer datos empresas
-    this.loading = true;
-    this.checkinService.readCheckins().subscribe(response => {
-      this.checkins = response,
-        this.loading = false;
-    });
-  }
+  // getCheckins(): void {
+  //   // Leer datos empresas
+  //   this.loading = true;
+  //   this.checkinService.readFilteredCheckins().subscribe(response => {
+  //     this.checkins = response,
+  //       this.loading = false;
+  //   });
+  // }
 
-  refreshFilter(): void {
-    this.checkinService.readFilteredCheckins(this.companyId, this.employeeId, this.dateAndTime)
-      .subscribe(response => this.checkins = response);
+  applyFilter(): void {
+    this.loading = true;
+    this.checkinService.readFilteredCheckins(this.selectedCompany.codigoEmpresa, this.employeeId, this.dateAndTime)
+      .subscribe(response => {
+        this.checkins = response, this.loading = false;
+      });
   }
 
   getCompanies(): void {
     // Leer datos empresas
     this.loading = true;
     this.companyService.getCompaniesList().subscribe(response => {
-      this.companies = response,
-        this.loading = false;
+      this.companies = response, this.loading = false, this.selectedCompany = response[0]
+      , this.debug(`selectedCompany = ` + JSON.stringify(this.selectedCompany));
     });
   }
 
-  companyIdChanged_Event(companyId: number) {
-    this.companyId = companyId;
+  companyIdChanged_Event(idCompany: number) {
+    this.selectedCompany = this.getCompanyById(idCompany);
+    this.debug(`selectedCompany = ` + JSON.stringify(this.selectedCompany));
+  }
+
+  getCompanyById(id: number) {
+    return this.companies.find(co => co.codigoEmpresa === id);
   }
 
   employeeIdChanged_Event(employeeId: string) {
@@ -72,13 +81,14 @@ export class EditCheckinsComponent implements OnInit {
   }
 
   updateCheckin(checkin: Checkin): void {
-    alert(JSON.stringify(checkin));
+    this.debug(`checkin = ${JSON.stringify(checkin)}`);
+    this.checkinService.updateCheckin(checkin);
   }
 
   public deleteCheckin(checkin: Checkin) {
     // TODO: Ventana modal con confirmación de eliminado
     this.checkinService.deleteCheckin(checkin.idFichada).subscribe();
-    this.getCheckins();
+    // this.getCheckins();
   }
 
   arrayObjectIndexOf(myArray, searchTerm, property) {

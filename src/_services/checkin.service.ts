@@ -67,53 +67,11 @@ export class CheckinService {
     this.lastTransac = value;
   }
 
-  /* loadUser() {
-    this.userLogged = JSON.parse(localStorage.getItem('user'));
-    if (this.userLogged.NombreEmpleado != null) {
-      this.isUserLoggedIn = true;
-    } else {
-      this.isUserLoggedIn =false;
-    }
+
+  updateCheckin(checkin: Checkin) {
+    return this.http.put<Checkin>(`${this.PHP_API_SERVER}/api/updateCheckin.php`, checkin);
   }
 
-  removeUser() {
-    localStorage.removeItem('user');
-  }
-
-  isUserLogged(): boolean {
-    return this.isUserLoggedIn; */
-  /*
-  return new Promise<boolean>(resolve => {
-    if (localStorage.getItem('user') != null) {
-      // this.debug('checkin.service: isUserLogged = ' + true);
-      return true;
-    } else {
-      return false;
-    }
-  });
-}
- */
-
-  /* getUserName() {
-    // this.debug(`checkin.service: userLogged = ${JSON.stringify(this.userLogged)}`);
-    return this.userLogged.NombreEmpleado; */
-  /*
-  return new Promise<string>(resolve => {
-    if (this.isUserLogged()) {
-      const userName = JSON.parse(localStorage.getItem('user'))['NombreEmpleado'];
-      // this.debug('checkin.service: getUserName = ' + userName);
-      return userName;
-    } else {
-      return null;
-    }
-  })
-}
- */
-
-  /* updateUser(user: User) {
-    return this.http.put<User>(`${this.PHP_API_SERVER}/api/update.php`, user);
-  }
- */
   /*   logout() {
       // remove user from local storage to log user out
       this.removeUser();

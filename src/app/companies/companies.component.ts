@@ -85,6 +85,10 @@ export class CompaniesComponent implements OnInit {
     this.companyService.updateCompany(company).subscribe();
   }
 
+  public viewEmployees(id: number): void {
+    this.router.navigateByUrl('/employees/' + id);
+  }
+
   public deleteCompany() {
     // TODO: Ventana modal con confirmación de eliminado
     const company = this.currentCompany;

@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'companies', component: CompaniesComponent },
   { path: 'company', component: CompanyDetailComponent },
   { path: 'company/:id', component: CompanyDetailComponent },
-  { path: 'employees', component: EmployeesComponent },
+  { path: 'employees/:compId', component: EmployeesComponent },
   { path: 'employee/:compId/:emplId', component: EmployeeDetailComponent },
   { path: 'history/:compId/:empId', component: HistoryDetailComponent },
   { path: 'rpt-timer', component: RptTimerComponent },

@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
   getLastClockin() {
     this.debug(`this.getLastClockin(${this.userLogged.codigoEmpleado})`);
 
-    this.clockinService.getLastClockin(this.userLogged.codigoEmpleado)
+    this.clockinService.getLastClockin(this.userLogged.codigoEmpresa, this.userLogged.codigoEmpleado)
       .subscribe(response => this.userLoggedLastClockin = response, _ => this.debug('Error leyendo datos...')
         , () => this.lastClockin = this.humanize(this.userLoggedLastClockin['last']));
     this.debug('this.userLoggedLastClockin = ' + this.userLoggedLastClockin);

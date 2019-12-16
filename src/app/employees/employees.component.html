@@ -7,11 +7,12 @@
   <div class="row">
     <div class="col">
       <select placeholder="Filtrar por empresa" (change)="filterByCompany($event.target.value)">
+        <option value="0">Seleccione empresa...</option>
         <option *ngFor=" let company of companies" [value]="company.codigoEmpresa">
           {{ company.nombreEmpresa }}
         </option>
       </select>
-      <button class="btn btn-sm btn-info" (click)="getEmployees()">refresh</button>
+
     </div>
     <div class=" col">
       <input type="text" class="col" style="margin: auto" [(ngModel)]="searchText" placeholder="buscar por nombre...">
@@ -53,27 +54,34 @@
         <td [class]="getBadgeType(employee.permisos)">{{employee.permisos}}</td>
 
         <td><span [class]="employee.activo == true ? 'badge badge-pill badge-success' : 'badge badge-pill
-            badge-dark'" (click)="toggleActive(employee)">{{employee.activo == true ? 'Sí' : 'No'}}
+            badge-dark'" (click)="toggleActive(employee)"><span
+              class="cursor-pointer">{{employee.activo == true ? 'Sí' : 'No'}}</span>
           </span>
         </td>
-
         <td><span [class]="employee.facturar == true ? 'badge badge-pill badge-success' : 'badge badge-pill
-            badge-dark'" (click)="toggleFacturar(employee)">{{employee.facturar == true ? 'Sí' : 'No'}}
+            badge-dark'" (click)="toggleFacturar(employee)"><span
+              class="cursor-pointer">{{employee.facturar == true ? 'Sí' : 'No'}}</span>
           </span>
         </td>
 
-        <td><a [routerLink]="['/employees']" (click)="toggleActive(employee)"><img title="Activar/desactivar"
-              style="width: 16px;" src="../../assets/pwrOnOff.png" /></a>
+        <td><a [routerLink]="['/employees']" (click)="toggleActive(employee)"><i title="Des/Activar"
+              class="fas fa-power-off"></i></a>
         </td>
 
-        <td><a [routerLink]="['/employee', employee.codigoEmpresa, employee.codigoEmpleado]"><img title="Editar"
-              style="width: 16px;" src="../../assets/editBtn.png" /></a></td>
+        <td><a [routerLink]="['/employee', employee.codigoEmpresa, employee.codigoEmpleado]"><i title="Editar"
+              class="fas fa-user-edit"></i></a></td>
 
-        <td><a [routerLink]="['/employees']" (click)="deleteEmployee(employee)"><img title="Eliminar"
-              style="width: 16px;" src="../../assets/deleteBtn.png" /></a></td>
+        <td>
+          <a [routerLink]="['/employees']" (click)="deleteEmployee(employee)">
+            <span style="color:tomato">
+              <i title="Eliminar" class="fas fa-trash-alt"></i>
+            </span>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>
+  <!--
   <div style="width: 80%; margin: auto">
     <label>Seleccione empresa&nbsp;
       <select #companyCode aria-placeholder="Seleccione empresa">
@@ -82,13 +90,13 @@
     </label>
     <input #employeeName placeholder="Nombre empleado" />
     <input #nifDniEmployee placeholder="Dni" />
-    <!-- (click) passes input value to add() and then clears the input -->
-    <!--
+
+
     <button
       (click)="add(companyCode.value, employeeName.value, nifDniEmployee.value); companyCode.value=''; employeeName.value=''; nifDniEmployee.value = ''">
       añadir empleado nuevo
     </button>
-    -->
-  </div>
+</div> -->
+
   <div class="col"></div>
 </div>

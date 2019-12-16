@@ -27,14 +27,24 @@
         <td>{{company.nombreEmpresa}}</td>
         <td>{{company.cifDni}}</td>
         <td>{{company.fechaAlta | date:'dd/MM/yyyy' }}</td>
-        <td [class]="getBool(company.activa) ? 'badge badge-success' : 'badge badge-danger'">{{getBool(company.activa) ? 'Sí' : 'No'}}</td>
+        <td [class]="getBool(company.activa) ? 'badge badge-success' : 'badge badge-danger'">
+          {{getBool(company.activa) ? 'Sí' : 'No'}}</td>
         <td class="text-center">
-          <a (click)="toggleActive(company.codigoEmpresa)"><img title="Activar/desactivar"
-            style="width: 16px;" src="../../assets/pwrOnOff.png" /></a>&nbsp;
-          <a [routerLink]="['/company', company.codigoEmpresa]"><img title="Editar" style="width: 16px;"
-            src="../../assets/editBtn.png" /></a>&nbsp;
+          <a (click)="toggleActive(company.codigoEmpresa)">
+            <i title="Des/Activar" class="fas fa-power-off"></i>
+          </a>&nbsp;
+          <a (click)="viewEmployees(company.codigoEmpresa)">
+            <i title="Empleados" class="fas fa-users"></i>
+          </a>&nbsp;
+          <a [routerLink]="['/company', company.codigoEmpresa]">
+            <i title="Editar" class="fas fa-industry"></i>
+          </a>&nbsp;
           <a [routerLink]="['/companies']" data-toggle="modal" data-target="#deleteCompany"
-            (click)="setCurrentCompany(company)"><img title="Eliminar" style="width: 16px;" src="../../assets/deleteBtn.png" /></a>
+            (click)="setCurrentCompany(company)">
+            <span style="color: tomato;" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </span>
+          </a>
         </td>
       </tr>
     </tbody>

@@ -41,8 +41,8 @@ export class ClockinService {
       );
   }
 
-  getLastClockin(idEmpleado: string): Observable<any> {
-    const url = `${this.PHP_API_SERVER}/api/getLastClockin.php?id=${idEmpleado}`;
+  getLastClockin(idEmpresa: number, idEmpleado: string): Observable<any> {
+    const url = `${this.PHP_API_SERVER}/api/getLastClockin.php?companyId=${idEmpresa}&employeeId=${idEmpleado}`;
     return this.http.get<any>(url)
       .pipe(
         tap(),
